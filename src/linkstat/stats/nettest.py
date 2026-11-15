@@ -126,6 +126,57 @@ def a_units(fa: pd.DataFrame, fb: pd.DataFrame, d: int) -> pd.DataFrame:
     ).reset_index(drop=True)
 
 
+def expected_events(A, R, w):
+    """Observed and null-expected A events within w (a B call within w of the side): O counts the A sides with an
+    event at t <= w; E is the log-rank expectation, the sum over anchor event times t <= w of the anchors' weighted
+    hazard times the number of A sides still at risk (t_A >= t). Unweighted counts, for the minimum-event rule."""
+    ta, ea = A["t"], A["e"]
+    o = int(np.sum((ea == 1) & (ta <= w)))
+    tr, er, wr = R["t"], R["e"], R["w"]
+    k = np.lexsort((-er, tr))
+    tr, er, wr = tr[k], er[k], wr[k]
+    at_risk = wr[::-1].cumsum()[::-1]
+    use = (er == 1) & (tr <= w)
+    ta_sorted = np.sort(ta)
+    y_a = ta_sorted.size - np.searchsorted(ta_sorted, tr[use], side="left")
+    return o, float(np.sum(wr[use] / at_risk[use] * y_a))
+
+
+def sign_flip(pv: np.ndarray, n_flip: int, rng, alpha: float = 0.05, chunk: int = 1000):
+    """Randomization test and interval from jackknife pseudo-values (one per host or cluster).
+    H0: value = delta. Statistic |sum(pv - delta)|; null distribution from random signs per unit. It is exact if
+    the units' deviations are independent and symmetric, whatever the unit sizes: a dominant unit's sign carries no
+    evidence, so the test rests on the other units. A t reference on G_eff - 1 over-rejects when a few hosts carry
+    the jackknife variance (P2 step 2.7, run 4: SE coefficient of variation 0.6-0.8 across datasets).
+    Returns (p at delta = 0, lower, upper): the interval is {delta: p(delta) > alpha}, found by bisection."""
+    pv = pv[np.isfinite(pv)]
+    g = pv.size
+    if g < 3:
+        return np.nan, np.nan, np.nan
+    a, r = np.empty(n_flip), np.empty(n_flip)
+    for i in range(0, n_flip, chunk):
+        e = rng.integers(0, 2, size=(min(chunk, n_flip - i), g)).astype(np.float64) * 2 - 1
+        a[i : i + e.shape[0]], r[i : i + e.shape[0]] = e @ pv, e.sum(1)
+    tot = pv.sum()
+
+    def p_at(d):
+        s = abs(tot - g * d)
+        return (1 + np.sum(np.abs(a - d * r) >= s * (1 - 1e-12))) / (n_flip + 1)
+
+    centre = tot / g
+    spread = float(np.sqrt(np.sum((pv - centre) ** 2) / (g * (g - 1)))) or 1e-9
+    bounds = []
+    for sgn in (-1, 1):
+        inner, outer = centre, centre + sgn * 4 * spread
+        while p_at(outer) > alpha and abs(outer - centre) < 1e3 * spread:
+            outer = centre + 2 * (outer - centre)
+        for _ in range(40):
+            mid = (inner + outer) / 2
+            inner, outer = (mid, outer) if p_at(mid) > alpha else (inner, mid)
+        bounds.append((inner + outer) / 2)
+    return float(p_at(0.0)), float(bounds[0]), float(bounds[1])
+
+
 def net_linked_test(
     lengths: pd.DataFrame,
     fa: pd.DataFrame,
@@ -138,6 +189,9 @@ def net_linked_test(
     min_sides: int = 30,
     units_d: int | None = 1000,
     jackknife: bool = True,
+    n_flip: int = 4999,
+    min_events: float = 10.0,
+    dense_cover: float = 0.1,
 ) -> dict:
     """lengths: molecule_id, length; fa, fb: molecule_id, start, end[, scov]; strata / clusters: one label per
     molecule (lengths order). Returns estimates, bootstrap SE, 95% intervals and two-sided p values."""
@@ -200,7 +254,19 @@ def net_linked_test(
     )
     df = max(g_eff - 1, 1.0) if np.isfinite(g_eff) else 1.0
     q = float(stats.t.ppf(0.975, df))
+    o_w, e_w = expected_events(A, R, w)
+    m_r = np.average(has_b[R["read"]], weights=R["w"]) if R["w"].size else np.nan
+    out.update(
+        net_w_events=o_w,
+        net_w_expected=e_w,
+        net_mol_events=int(has_b[A["read"]].sum()),
+        net_mol_expected=float(A["t"].size * m_r),
+    )
+    frng = np.random.default_rng(seed + 3)
     for name, est, bs, js in (("net_w", est_w, bw, jw), ("net_mol", est_m, bm, jm)):
+        jo = js[np.isfinite(js)]
+        pv = jo.size * est - (jo.size - 1) * jo if jo.size > 2 and np.isfinite(est) else np.array([])
+        out[f"{name}_p_flip"], out[f"{name}_flo"], out[f"{name}_fhi"] = sign_flip(pv, n_flip, frng)
         ok = bs[np.isfinite(bs)]
         se_boot = float(np.std(ok, ddof=1)) if ok.size > 2 else np.nan
         jo = js[np.isfinite(js)]
@@ -224,11 +290,14 @@ def net_linked_test(
     carriers = np.unique(rid[(cls == "A") | (cls == "B")])
     called = float(np.sum((en - st)[(cls == "A") | (cls == "B")]))
     out["call_cover_carriers"] = called / float(ln[carriers].sum()) if carriers.size else np.nan
+    out["call_cover_all"] = called / float(ln.sum()) if ln.size else np.nan
     flags = []
-    if out["call_cover_carriers"] > 0.2:
-        flags.append("dense classes (> 20% of carrier bases called; read-level net biased upward, P2 step 2.4)")
+    if out["call_cover_all"] > dense_cover:
+        flags.append(f"dense classes (> {dense_cover:g} of all bases called; read-level net biased upward)")
     if units.size < 30:
         flags.append("few units")
+    if not e_w >= min_events:
+        flags.append(f"few events (expected A events within w {e_w:.1f} < {min_events:g})")
     if out["sides_w"] < min_sides:
         flags.append("sides < 30")
     if strata is None:

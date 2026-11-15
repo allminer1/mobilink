@@ -18,6 +18,10 @@ Options for P2 (all off by default; with the defaults the random-number order an
   a_islands       A genes also in islands (cassettes; count ~ Poisson(a_islands), size 1 + Geometric(p_a_island),
                   gaps ~ Exp(island_gap)), placed after B and before the single A genes;
   density_sigma   host heterogeneity: per-genome log-normal multiplier (mean 1) on all gene counts, shared by A and B;
+  density_cap     clip that multiplier at +- density_cap x density_sigma on the log scale (after the draw, so the
+                  random-number order is unchanged). Without it, 2,000 genomes reach about 30x the base density, and
+                  in genomes that crowded, non-overlapping placement packs A genes against B genes (a hard-core
+                  contact effect: association under no linkage; P2 step 2.7, probes v4-v5);
   plasmids        replicons per genome (Poisson), lengths uniform in plasmid_length, abundance = host abundance x
                   plasmid_copy, gene density plasmid_density x the chromosome's per base; reads from a plasmid carry
                   the host as `genome` (stratum) and the replicon in `replicon`;
@@ -223,6 +227,7 @@ def simulate(
     plasmid_length=(20_000, 150_000),
     plasmid_copy=5.0,
     plasmid_density=4.0,
+    density_cap=None,
     return_replicons=False,
     return_positions=False,
     truth_stratified=False,
@@ -235,6 +240,9 @@ def simulate(
     glens = rng.integers(int(genome_length[0]), int(genome_length[1]) + 1, n_genomes)
     ab = rng.lognormal(0, abundance_sigma, n_genomes)
     mult = rng.lognormal(-(density_sigma**2) / 2, density_sigma, n_genomes) if density_sigma > 0 else np.ones(n_genomes)
+    if density_cap is not None and density_sigma > 0:
+        c = -(density_sigma**2) / 2
+        mult = np.clip(mult, np.exp(c - density_cap * density_sigma), np.exp(c + density_cap * density_sigma))
 
     def genome(glen, scale, k):
         return make_genome(

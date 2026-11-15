@@ -62,3 +62,30 @@ def test_host_strata_remove_host_covariation_under_no_linkage():
 def test_without_strata_the_flag_is_set():
     r = _test(_sim(50, linked=0.0, n_genomes=40, bases=1.5e8), strata=False, n_boot=20)
     assert "no host strata" in r["flags"] and r["unit"] == "molecules"
+
+
+def test_sign_flip_is_calibrated_and_conservative_with_a_dominant_unit():
+    from linkstat.stats.nettest import sign_flip
+
+    rng = np.random.default_rng(5)
+    p = [sign_flip(rng.normal(0, 1, 40), 999, rng)[0] for _ in range(300)]
+    assert 0.02 < np.mean(np.array(p) <= 0.05) < 0.09
+    pv = rng.normal(0, 1, 40)
+    p0, lo, hi = sign_flip(pv, 1999, rng)
+    assert lo < pv.mean() < hi
+    assert sign_flip(pv + 3.0, 1999, rng)[0] < 0.001
+    # one dominant unit: its sign carries no evidence, so the size stays nominal (a t on G_eff - 1 over-rejects)
+    p = [sign_flip(np.r_[50.0 * rng.choice([-1, 1]), rng.normal(0, 0.1, 30)], 499, rng)[0] for _ in range(300)]
+    assert np.mean(np.array(p) <= 0.05) < 0.09
+
+
+def test_expected_events_match_observed_under_no_linkage():
+    from linkstat.stats.nettest import expected_events
+
+    rng = np.random.default_rng(6)
+
+    def side(n):
+        return dict(t=rng.exponential(20_000, n), e=(rng.random(n) < 0.5).astype(int), w=np.ones(n))
+
+    o, e = expected_events(side(4000), side(20_000), 2000)
+    assert abs(o - e) < 4 * np.sqrt(e), (o, e)
