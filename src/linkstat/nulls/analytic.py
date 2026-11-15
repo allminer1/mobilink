@@ -37,12 +37,10 @@ from ..stats import conditional as cond
 from ..stats import poisson_binomial as pb
 
 
-def exposure(lengths, feat_len, min_frac: float = 0.8, weights=None) -> np.ndarray:
-    """x(L) = sum_k pi_k (L - c a_k)+ with c = 2 min_frac - 1 and pi = weights / sum(weights) (equal by default).
-    feat_len may be a scalar (one length)."""
+def exposure_c(lengths, feat_len, c: float, weights=None) -> np.ndarray:
+    """sum_k pi_k (L - c a_k)+ for an arbitrary constant c (pi = weights / sum(weights), equal by default)."""
     L = np.asarray(lengths, dtype=float)
     a = np.atleast_1d(np.asarray(feat_len, dtype=float))
-    c = 2 * min_frac - 1
     pi = np.full(a.size, 1 / a.size) if weights is None else np.asarray(weights, float) / np.sum(weights)
     ca = c * a
     o = np.argsort(ca)
@@ -51,6 +49,49 @@ def exposure(lengths, feat_len, min_frac: float = 0.8, weights=None) -> np.ndarr
     cwa = np.concatenate(([0.0], np.cumsum(pi * ca)))  # weighted sum of the k smallest c*a
     k = np.searchsorted(ca, L, "left")  # c a_k < L contribute
     return L * cw[k] - cwa[k]
+
+
+def exposure(lengths, feat_len, min_frac: float = 0.8, weights=None) -> np.ndarray:
+    """x(L) = sum_k pi_k (L - c a_k)+ with c = 2 min_frac - 1 and pi = weights / sum(weights) (equal by default).
+    feat_len may be a scalar (one length)."""
+    return exposure_c(lengths, feat_len, 2 * min_frac - 1, weights)
+
+
+def excluded_volume_exposure(lengths, molecule_ids, b_features, len_a, min_frac: float = 0.8) -> np.ndarray:
+    """A's exposure on each molecule given where the B calls lie (genes cannot overlap).
+    The molecule is split into the free gaps left by the (merged) B calls. An A call must fit in one gap:
+      gap between two B calls          (g - a)+          (whole, cannot overlap B on either side)
+      gap between a molecule end and B (g - f a)+        (may run past the molecule end by up to (1 - f) a)
+      molecule without B               (L - (2f - 1) a)+ (as the length-only exposure)
+    summed over the gaps and averaged over the A call-length distribution."""
+    L = np.asarray(lengths, dtype=float)
+    ids = pd.Index(molecule_ids)
+    x = exposure_c(L, len_a, 2 * min_frac - 1)
+    if len(b_features) == 0:
+        return x
+    f = b_features[["molecule_id", "start", "end"]].copy()
+    f["m"] = ids.get_indexer(f.molecule_id)
+    if (f.m < 0).any():
+        raise ValueError("B features name molecules missing from the lengths table")
+    f = f.sort_values(["m", "start"], kind="stable")
+    m, s, e = f.m.to_numpy(), f.start.to_numpy(float), f.end.to_numpy(float)
+    first = np.r_[True, m[1:] != m[:-1]]
+    run_end = e.copy()
+    for i in range(1, e.size):  # running end within each molecule (merges overlapping calls)
+        if not first[i]:
+            run_end[i] = max(run_end[i - 1], e[i])
+    last = np.r_[m[1:] != m[:-1], True]
+    prev_end = np.r_[0.0, run_end[:-1]]
+    interior = np.clip(s - prev_end, 0, None)[~first]  # gaps between consecutive (merged) calls
+    interior_m = m[~first]
+    head = s[first]  # gap from the molecule start to the first call
+    tail = L[m[last]] - run_end[last]  # gap from the last call to the molecule end
+    with_b = m[first]
+    xb = np.zeros(L.size)
+    np.add.at(xb, interior_m, exposure_c(interior, len_a, 1.0))
+    np.add.at(xb, with_b, exposure_c(head, len_a, min_frac) + exposure_c(np.clip(tail, 0, None), len_a, min_frac))
+    x[with_b] = xb[with_b]
+    return x
 
 
 def fit_density(x, n_pos: int) -> float:
@@ -142,7 +183,7 @@ def cooccurrence_test(
     method: str = "auto",
     test: str = "saddlepoint",
     tost_bound: float = 1.25,
-    occupied_b=None,
+    exposure_a=None,
 ) -> CooccurrenceResult:
     """Molecule-level co-occurrence of classes A and B against the exposure null.
     lengths: per molecule; has_a, has_b: boolean per molecule; len_a, len_b: call lengths of each class (arrays).
@@ -151,10 +192,10 @@ def cooccurrence_test(
     test: "saddlepoint" (default; conditional on the margins, linkstat.stats.conditional) or "normal" (delta-method
     conditional variance, normal approximation with continuity correction). method: for the unconditional
     Poisson-binomial p values. tost_bound: equivalence bound r for TOST on O/E (registered 1.25; None skips it).
-    occupied_b: bases covered by B calls on each molecule (linkstat.features.covered_bases). If given, the
+    exposure_a: A's exposure on each molecule given where B lies (excluded_volume_exposure). If given, the
     excluded-volume correction is applied: genes cannot overlap, so A can only lie in the room B leaves. The null
-    then conditions on where B lies: A's exposure on molecule i is x_A(L_i - occupied_i), lambda_A is fitted on it,
-    b_i = 1 for molecules with B and 0 otherwise, and the test conditions on the A margin (per stratum).
+    then conditions on where B lies: lambda_A is fitted on exposure_a, b_i = 1 for molecules with B and 0
+    otherwise, and the test conditions on the A margin (per stratum).
     Without it (the registered length-only null), O/E is biased low whenever B calls take up a noticeable part of
     the molecules that carry them (P1 step 1.15 feasibility check)."""
     from ..stats import equivalence
@@ -175,9 +216,8 @@ def cooccurrence_test(
     a, b = np.zeros(lengths.size), np.zeros(lengths.size)
     lam_a, lam_b = np.zeros(S), np.zeros(S)
     var_c = 0.0
-    if occupied_b is not None:
-        free = np.clip(lengths - np.asarray(occupied_b, float), 0, None)
-        xa = exposure(free, np.mean(len_a), 1.0) if mode == "mean" else exposure(free, len_a, min_frac)
+    if exposure_a is not None:
+        xa = np.asarray(exposure_a, float)
         b = has_b.astype(float)
         lam_b[:] = np.nan
         for s in range(S):
@@ -246,7 +286,7 @@ def cooccurrence_test(
         lambda_A=float(lam_a[0]) if S == 1 else np.nan,
         lambda_B=float(lam_b[0]) if S == 1 else np.nan,
         exposure_mode=mode,
-        excluded_volume=occupied_b is not None,
+        excluded_volume=exposure_a is not None,
         min_frac=min_frac,
         test=test,
     )

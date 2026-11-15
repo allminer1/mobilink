@@ -178,6 +178,7 @@ def simulate(
     return_loci=False,
     genome_length=(2_000_000, 6_000_000),
     abundance_sigma=1.0,
+    return_genomes=False,
 ):
     """Returns (reads, truth[, loci]); reads = (lengths, rid, start, end, cls) with cls in {"ARG", "MGE"} and
     truth[(mode, w)] = dict(F_A, F_rnd, net). genome_length (min, max) and abundance_sigma (log-normal sigma) default
@@ -236,7 +237,7 @@ def simulate(
     n_reads = int(total_bases / read_lengths.mean())
     gr = rr.choice(n_genomes, n_reads, p=p_g)
     rl = rr.choice(read_lengths, n_reads)
-    lengths, rid, st, en, cl, loc = [], [], [], [], [], []
+    lengths, rid, st, en, cl, loc, gen = [], [], [], [], [], [], []
     base = 0
     for k, (A, B) in enumerate(genomes):
         L = np.minimum(rl[gr == k], glens[k] - 1)
@@ -285,6 +286,7 @@ def simulate(
                 cl.append(np.full(r_idx.size, name))
                 loc.append(k * 1_000_000 + off + j[ok])
         lengths.append(L)
+        gen.append(np.full(L.size, k, dtype=np.int64))
         base += L.size
     reads = (
         np.concatenate(lengths).astype(np.int64),
@@ -293,14 +295,17 @@ def simulate(
         np.concatenate(en).astype(np.int64),
         np.concatenate(cl),
     )
+    out = (reads, truth)
     if return_loci:
-        return reads, truth, np.concatenate(loc).astype(np.int64)
-    return reads, truth
+        out += (np.concatenate(loc).astype(np.int64),)
+    if return_genomes:
+        out += (np.concatenate(gen),)
+    return out
 
 
 @dataclass
 class Simulated:
-    lengths: pd.DataFrame  # molecule_id, length
+    lengths: pd.DataFrame  # molecule_id, length, genome (source genome of the read)
     features: pd.DataFrame  # molecule_id, start, end, class, scov, locus
     truth: pd.DataFrame  # mode, w, F_A, F_rnd, net
 
@@ -309,8 +314,8 @@ def simulate_tables(read_lengths, a_len, b_len, a_class="ARG", b_class="MGE", **
     """simulate() as the two input tables plus a truth table. The tables do not carry the genes' full lengths, so a
     call touching a read end gets scov = 90 (as a partial alignment would; see stats.netlinked.cut_mask) and every
     other call scov = 100."""
-    reads, truth, loci = simulate(
-        np.asarray(read_lengths), np.asarray(a_len), np.asarray(b_len), return_loci=True, **kw
+    reads, truth, loci, genome = simulate(
+        np.asarray(read_lengths), np.asarray(a_len), np.asarray(b_len), return_loci=True, return_genomes=True, **kw
     )
     ln, rid, st, en, cl = reads
     ids = np.array([f"sim{i}" for i in range(ln.size)])
@@ -326,4 +331,4 @@ def simulate_tables(read_lengths, a_len, b_len, a_class="ARG", b_class="MGE", **
         }
     )
     tr = pd.DataFrame([dict(mode=m, w=w, **v) for (m, w), v in truth.items()])
-    return Simulated(pd.DataFrame({"molecule_id": ids, "length": ln}), feat, tr)
+    return Simulated(pd.DataFrame({"molecule_id": ids, "length": ln, "genome": genome}), feat, tr)
