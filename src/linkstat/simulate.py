@@ -176,13 +176,16 @@ def simulate(
     min_frac=None,
     read_seed=None,
     return_loci=False,
+    genome_length=(2_000_000, 6_000_000),
+    abundance_sigma=1.0,
 ):
     """Returns (reads, truth[, loci]); reads = (lengths, rid, start, end, cls) with cls in {"ARG", "MGE"} and
-    truth[(mode, w)] = dict(F_A, F_rnd, net)."""
+    truth[(mode, w)] = dict(F_A, F_rnd, net). genome_length (min, max) and abundance_sigma (log-normal sigma) default
+    to the step 1.2 community; (L, L) and 0 give equal genomes (the random-number order is the same either way)."""
     rng = np.random.default_rng(seed)
     a_median = float(np.median(a_len))
-    glens = rng.integers(2_000_000, 6_000_001, n_genomes)
-    ab = rng.lognormal(0, 1.0, n_genomes)
+    glens = rng.integers(int(genome_length[0]), int(genome_length[1]) + 1, n_genomes)
+    ab = rng.lognormal(0, abundance_sigma, n_genomes)
     genomes = [
         make_genome(
             rng,
