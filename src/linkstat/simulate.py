@@ -22,7 +22,9 @@ Options for P2 (all off by default; with the defaults the random-number order an
                   plasmid_copy, gene density plasmid_density x the chromosome's per base; reads from a plasmid carry
                   the host as `genome` (stratum) and the replicon in `replicon`;
   chimera_rate    (simulate_tables) share of molecules joined from two reads (molecule ids and genome of the first;
-                  column `chimera`).
+                  column `chimera`);
+  truth_stratified  also net_strat: anchors per replicon in proportion to its abundance-weighted A genes, anchors
+                  touching a B gene redrawn (the definition of the net linked test, amendment 04 draft v2).
 
 Port of scripts/P1_02_simulate.py (P1 step 1.2); the random-number order is unchanged, so a seed gives the same data.
 """
@@ -223,6 +225,7 @@ def simulate(
     plasmid_density=4.0,
     return_replicons=False,
     return_positions=False,
+    truth_stratified=False,
 ):
     """Returns (reads, truth[, loci]); reads = (lengths, rid, start, end, cls) with cls in {"ARG", "MGE"} and
     truth[(mode, w)] = dict(F_A, F_rnd, net). genome_length (min, max) and abundance_sigma (log-normal sigma) default
@@ -294,6 +297,95 @@ def simulate(
             ).sum()
             fr /= 2 * wr.sum()
             truth[(mode, w)] = dict(F_A=fa, F_rnd=fr, net=1 - (1 - fa) / (1 - fr))
+    if truth_stratified:  # own random stream: the default output is unchanged
+        rt = np.random.default_rng(seed + 5_555_555)
+        n_a_k = np.array([len(A) for A, _ in genomes], float)
+        share = ab * n_a_k / max((ab * n_a_k).sum(), 1e-300)
+        for mode in ("start", "end"):
+            dA = [side_distances(A, B, mode) for A, B in genomes]
+            per = []
+            for k, (_A, B) in enumerate(genomes):
+                n = int(round(n_truth_anchors * share[k]))
+                if n == 0:
+                    continue
+                got = []
+                for _ in range(50):
+                    g = rt.choice(a_len, 2 * n)
+                    s0 = (rt.random(2 * n) * (glens[k] - g)).astype(np.int64)
+                    R = np.column_stack([s0, s0 + g])
+                    if len(B):
+                        i = np.searchsorted(B[:, 0], R[:, 1], "left")
+                        touch = np.zeros(len(R), bool)
+                        for dd in (-2, -1, 0):
+                            kk = np.clip(i + dd, 0, len(B) - 1)
+                            touch |= (B[kk, 0] < R[:, 1]) & (B[kk, 1] > R[:, 0])
+                        R = R[~touch]
+                    got.append(R)
+                    if sum(map(len, got)) >= n:
+                        break
+                R = np.concatenate(got)[:n]
+                R = R[np.argsort(R[:, 0])]
+                per.append(side_distances(R, B, mode))
+            for w in windows:
+                fa = truth[(mode, w)]["F_A"]
+                hits = np.concatenate([np.r_[r <= w, lft <= w] for r, lft in per])
+                fr = float(hits.mean()) if hits.size else np.nan
+                truth[(mode, w)].update(F_rnd_strat=fr, net_strat=1 - (1 - fa) / (1 - fr))
+        # unit level (A genes within 1 kb with no B between form a unit; anchors drawn from the unit spans)
+        units = []
+        for A, B in genomes:
+            if len(A) == 0:
+                units.append(np.zeros((0, 2), np.int64))
+                continue
+            gap = A[1:, 0] - A[:-1, 1]
+            b_between = np.searchsorted(B[:, 0], A[1:, 0]) > np.searchsorted(B[:, 0], A[:-1, 1]) if len(B) else 0
+            new_u = np.r_[True, (gap > 1000) | b_between]
+            uid = np.cumsum(new_u) - 1
+            U = np.column_stack(
+                [
+                    np.minimum.reduceat(A[:, 0], np.flatnonzero(new_u)),
+                    np.maximum.reduceat(A[:, 1], np.flatnonzero(new_u)),
+                ]
+            )
+            units.append(U[np.argsort(U[:, 0])] if uid.size else U)
+        spans = np.concatenate([U[:, 1] - U[:, 0] for U in units]) if units else np.array([], int)
+        n_u = np.array([len(U) for U in units], float)
+        share_u = ab * n_u / max((ab * n_u).sum(), 1e-300)
+        wu = np.concatenate([np.full(len(U), ab[k]) for k, U in enumerate(units)])
+        for mode in ("start", "end"):
+            dU = [side_distances(U, B, mode) for U, (_A, B) in zip(units, genomes, strict=True)]
+            per = []
+            for k, (_A, B) in enumerate(genomes):
+                n = int(round(n_truth_anchors * share_u[k]))
+                if n == 0 or spans.size == 0:
+                    continue
+                got = []
+                for _ in range(50):
+                    g = rt.choice(spans, 2 * n)
+                    g = g[g < glens[k] - 1]
+                    s0 = (rt.random(g.size) * (glens[k] - g)).astype(np.int64)
+                    R = np.column_stack([s0, s0 + g])
+                    if len(B):
+                        i = np.searchsorted(B[:, 0], R[:, 1], "left")
+                        touch = np.zeros(len(R), bool)
+                        for dd in (-2, -1, 0):
+                            kk = np.clip(i + dd, 0, len(B) - 1)
+                            touch |= (B[kk, 0] < R[:, 1]) & (B[kk, 1] > R[:, 0])
+                        R = R[~touch]
+                    got.append(R)
+                    if sum(map(len, got)) >= n:
+                        break
+                R = np.concatenate(got)[:n]
+                R = R[np.argsort(R[:, 0])]
+                per.append(side_distances(R, B, mode))
+            for w in windows:
+                fu = (np.concatenate([(r <= w) for r, _ in dU]) * wu).sum() + (
+                    np.concatenate([(lft <= w) for _, lft in dU]) * wu
+                ).sum()
+                fu /= 2 * wu.sum()
+                hits = np.concatenate([np.r_[r <= w, lft <= w] for r, lft in per]) if per else np.array([])
+                fr = float(hits.mean()) if hits.size else np.nan
+                truth[(mode, w)].update(F_units=fu, F_rnd_units=fr, net_units=1 - (1 - fu) / (1 - fr))
     rr = rng if read_seed is None else np.random.default_rng(read_seed)
     n_reads = int(total_bases / read_lengths.mean())
     gr = rr.choice(n_rep, n_reads, p=p_g)
