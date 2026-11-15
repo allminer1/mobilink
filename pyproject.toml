@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "linkstat"  # working name; taken on PyPI by an unrelated tool, to be renamed before any release
-version = "0.0.1.dev0"
+version = "0.1.0.dev0"
 description = "Chance-corrected, read-length-robust co-localization of gene classes on long reads and contigs"
 readme = "README.md"
 license = "MIT"

@@ -232,5 +232,121 @@ def power(lengths_path, features_path, a_class, b_class, bases, w, net, deff, ta
     click.echo(f"bases for a net linked half-width of {target_halfwidth} at w = {w}: {g:.3g}")
 
 
+@main.command("test")
+@click.option(
+    "--lengths",
+    "lengths_path",
+    required=True,
+    type=click.Path(exists=True, dir_okay=False),
+    help="Lengths table (molecule_id or read_id, length[, stratum column]).",
+)
+@click.option(
+    "--features",
+    "features_path",
+    required=True,
+    type=click.Path(exists=True, dir_okay=False),
+    help="Feature table (molecule_id, start, end, class[, scov]).",
+)
+@click.option("--pairs", required=True, multiple=True, help="Class pairs A:B, e.g. --pairs ARG:MGE --pairs ARG:MRG.")
+@click.option("--strata-col", default=None, help="Column of the lengths table used as stratum (sample, taxon, ...).")
+@click.option("--w", default=2000, show_default=True, type=int, help="Window of the net linked fraction (bp).")
+@click.option("--boot", default=200, show_default=True, type=int, help="Bootstrap replicates (net linked fraction).")
+@click.option(
+    "--fragment",
+    "targets",
+    multiple=True,
+    type=int,
+    help="Also estimate the net linked fraction after random fragmentation to this N50 (repeatable).",
+)
+@click.option("--draws", default=5, show_default=True, type=int, help="Breakpoint draws per fragmentation target.")
+@click.option(
+    "--min-frac",
+    default=0.8,
+    show_default=True,
+    type=float,
+    help="Minimum fraction of a gene on the molecule for a call (exposure model).",
+)
+@click.option("--seed", default=20261114, show_default=True, type=int)
+@click.option("--out", "out_path", required=True, help="Result table (TSV); settings go to OUT.meta.json.")
+def test_cmd(lengths_path, features_path, pairs, strata_col, w, boot, targets, draws, min_frac, seed, out_path):
+    """Test whether class pairs share molecules more often than chance, and estimate how strongly they are linked."""
+    import hashlib
+    import json
+    from datetime import datetime, timezone
+
+    from .analysis import analyse_pairs
+    from .io import read_features, read_lengths, validate_features
+
+    ln = read_lengths(lengths_path)
+    f = read_features(features_path)
+    f = f[f.molecule_id.isin(ln.molecule_id)]
+    validate_features(f, ln)
+    if strata_col and strata_col not in ln.columns:
+        raise click.UsageError(f"--strata-col {strata_col!r} is not a column of the lengths table")
+    pair_list = []
+    for p in pairs:
+        a, sep, b = p.partition(":")
+        if not sep or not a or not b:
+            raise click.UsageError(f"pair {p!r} is not of the form A:B")
+        pair_list.append((a, b))
+    t = analyse_pairs(
+        ln,
+        f,
+        pair_list,
+        strata_col=strata_col,
+        w=w,
+        n_boot=boot,
+        targets=tuple(targets),
+        draws=draws,
+        seed=seed,
+        min_frac=min_frac,
+    )
+    t.to_csv(out_path, sep="\t", index=False)
+
+    def sha(path):
+        h = hashlib.sha256()
+        with open(path, "rb") as fh:
+            for chunk in iter(lambda: fh.read(1 << 20), b""):
+                h.update(chunk)
+        return h.hexdigest()
+
+    meta = dict(
+        linkstat=__version__,
+        created=datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        lengths=lengths_path,
+        lengths_sha256=sha(lengths_path),
+        features=features_path,
+        features_sha256=sha(features_path),
+        pairs=list(pairs),
+        strata_col=strata_col,
+        w=w,
+        boot=boot,
+        fragment=list(targets),
+        draws=draws,
+        min_frac=min_frac,
+        seed=seed,
+        null_model="N0-ev (excluded-volume corrected exposure null; registered length-only null reported)",
+        note="p values ignore reads that cover the same locus (pseudo-replication)",
+    )
+    with open(f"{out_path}.meta.json", "w") as fh:
+        json.dump(meta, fh, indent=2)
+    show = [
+        "class_a",
+        "class_b",
+        "observed",
+        "expected",
+        "oe_ratio",
+        "ci_low",
+        "ci_high",
+        "p",
+        "q",
+        "intact_net",
+        "intact_lo",
+        "intact_hi",
+        "flags",
+    ]
+    click.echo(t[[c for c in show if c in t]].to_string(index=False, float_format=lambda x: f"{x:.4g}"))
+
+
 if __name__ == "__main__":
     main()
