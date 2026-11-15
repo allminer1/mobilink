@@ -95,9 +95,19 @@ def mantel_haenszel(table: pd.DataFrame, alpha: float = 0.05):
 
 
 def binned_test(
-    lengths, has_a, has_b, strata=None, width: int = 1000, cap_quantile: float = 0.995, alpha: float = 0.05
+    lengths,
+    has_a,
+    has_b,
+    strata=None,
+    width: int = 1000,
+    cap_quantile: float = 0.995,
+    alpha: float = 0.05,
+    bin_by=None,
 ) -> BinnedResult:
-    cell = cells(length_bins(lengths, width, cap_quantile), strata)
+    # bin_by: the length used for the bins (default the molecule length). With bin_by = length - bases covered by B
+    # (linkstat.features.covered_bases), molecules in a cell have the same room for A, which removes the
+    # excluded-volume bias of length-only bins.
+    cell = cells(length_bins(lengths if bin_by is None else bin_by, width, cap_quantile), strata)
     t = cell_table(cell, has_a, has_b)
     obs = int(t.ab.sum())
     n, a, b = t.n.to_numpy(float), t.a.to_numpy(float), t.b.to_numpy(float)

@@ -121,6 +121,7 @@ class CooccurrenceResult:
     lambda_A: float  # NaN when several strata are fitted
     lambda_B: float
     exposure_mode: str
+    excluded_volume: bool
     min_frac: float
     test: str
 
@@ -141,6 +142,7 @@ def cooccurrence_test(
     method: str = "auto",
     test: str = "saddlepoint",
     tost_bound: float = 1.25,
+    occupied_b=None,
 ) -> CooccurrenceResult:
     """Molecule-level co-occurrence of classes A and B against the exposure null.
     lengths: per molecule; has_a, has_b: boolean per molecule; len_a, len_b: call lengths of each class (arrays).
@@ -148,7 +150,13 @@ def cooccurrence_test(
     E sums over strata and the test conditions on both margins in every stratum.
     test: "saddlepoint" (default; conditional on the margins, linkstat.stats.conditional) or "normal" (delta-method
     conditional variance, normal approximation with continuity correction). method: for the unconditional
-    Poisson-binomial p values. tost_bound: equivalence bound r for TOST on O/E (registered 1.25; None skips it)."""
+    Poisson-binomial p values. tost_bound: equivalence bound r for TOST on O/E (registered 1.25; None skips it).
+    occupied_b: bases covered by B calls on each molecule (linkstat.features.covered_bases). If given, the
+    excluded-volume correction is applied: genes cannot overlap, so A can only lie in the room B leaves. The null
+    then conditions on where B lies: A's exposure on molecule i is x_A(L_i - occupied_i), lambda_A is fitted on it,
+    b_i = 1 for molecules with B and 0 otherwise, and the test conditions on the A margin (per stratum).
+    Without it (the registered length-only null), O/E is biased low whenever B calls take up a noticeable part of
+    the molecules that carry them (P1 step 1.15 feasibility check)."""
     from ..stats import equivalence
 
     lengths = np.asarray(lengths)
@@ -167,11 +175,24 @@ def cooccurrence_test(
     a, b = np.zeros(lengths.size), np.zeros(lengths.size)
     lam_a, lam_b = np.zeros(S), np.zeros(S)
     var_c = 0.0
-    for s in range(S):
-        m = codes == s
-        lam_a[s], lam_b[s] = fit_density(xa[m], int(has_a[m].sum())), fit_density(xb[m], int(has_b[m].sum()))
-        a[m], b[m] = presence(xa[m], lam_a[s]), presence(xb[m], lam_b[s])
-        var_c += conditional_variance(xa[m], xb[m], lam_a[s], lam_b[s])
+    if occupied_b is not None:
+        free = np.clip(lengths - np.asarray(occupied_b, float), 0, None)
+        xa = exposure(free, np.mean(len_a), 1.0) if mode == "mean" else exposure(free, len_a, min_frac)
+        b = has_b.astype(float)
+        lam_b[:] = np.nan
+        for s in range(S):
+            m = codes == s
+            lam_a[s] = fit_density(xa[m], int(has_a[m].sum()))
+            a[m] = presence(xa[m], lam_a[s])
+            da = xa[m] * np.exp(-lam_a[s] * xa[m]) if np.isfinite(lam_a[s]) else np.zeros(int(m.sum()))
+            ca = np.sum(b[m] * da) / np.sum(da) if np.sum(da) > 0 else 0.0
+            var_c += float(np.sum(a[m] * (1 - a[m]) * (b[m] - ca) ** 2))
+    else:
+        for s in range(S):
+            m = codes == s
+            lam_a[s], lam_b[s] = fit_density(xa[m], int(has_a[m].sum())), fit_density(xb[m], int(has_b[m].sum()))
+            a[m], b[m] = presence(xa[m], lam_a[s]), presence(xb[m], lam_b[s])
+            var_c += conditional_variance(xa[m], xb[m], lam_a[s], lam_b[s])
     # a call on a molecule the model gives zero exposure (e.g. a short call on a short read in "mean" mode)
     a[has_a & (a == 0)] = 1e-12
     b[has_b & (b == 0)] = 1e-12
@@ -225,6 +246,7 @@ def cooccurrence_test(
         lambda_A=float(lam_a[0]) if S == 1 else np.nan,
         lambda_B=float(lam_b[0]) if S == 1 else np.nan,
         exposure_mode=mode,
+        excluded_volume=occupied_b is not None,
         min_frac=min_frac,
         test=test,
     )

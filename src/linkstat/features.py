@@ -94,3 +94,28 @@ def drop_same_orf(fa: pd.DataFrame, fb: pd.DataFrame, min_overlap: float = 0.5, 
     short = np.minimum(m.end_a - m.start_a, m.end_b - m.start_b)
     hit = m.loc[ov >= min_overlap * short]
     return fa.drop(index=hit.index_a.unique()), fb.drop(index=hit.index_b.unique()), int(hit.index_a.nunique())
+
+
+def covered_bases(features: pd.DataFrame, molecule_ids, id_col: str = "molecule_id") -> np.ndarray:
+    """Bases covered by the union of the given features on each molecule (0 for molecules without features), in the
+    order of `molecule_ids`. Used for the excluded-volume correction: features cannot overlap other genes, so a
+    molecule carrying B has less room for A."""
+    out = pd.Series(0.0, index=pd.Index(molecule_ids))
+    if len(features) == 0:
+        return out.to_numpy()
+    f = features[[id_col, "start", "end"]].sort_values([id_col, "start"], kind="stable")
+    mid = f[id_col].to_numpy()
+    s = f.start.to_numpy(np.int64)
+    e = f.end.to_numpy(np.int64)
+    new_mol = np.r_[True, mid[1:] != mid[:-1]]
+    # running maximum of end within each molecule, to merge overlapping intervals
+    run_end = e.copy()
+    for i in range(1, len(e)):
+        if not new_mol[i]:
+            run_end[i] = max(run_end[i - 1], e[i])
+    prev_end = np.r_[0, run_end[:-1]]
+    # new bases contributed by each interval beyond the running end of the earlier ones
+    contrib = np.where(new_mol, e - s, np.where(s >= prev_end, e - s, np.clip(e - prev_end, 0, None)))
+    tot = pd.Series(contrib, index=mid).groupby(level=0).sum()
+    out.loc[tot.index] = tot.to_numpy(float)
+    return out.to_numpy()
