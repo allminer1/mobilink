@@ -290,3 +290,24 @@ def cooccurrence_test(
         min_frac=min_frac,
         test=test,
     )
+
+
+def cooccurrence_test_ev(
+    lengths: pd.DataFrame, fa: pd.DataFrame, fb: pd.DataFrame, strata=None, min_frac: float = 0.8, **kw
+):
+    """N0-ev (amendment 03 Part 1): molecule-level co-occurrence of A and B with the excluded-volume correction.
+    The class carried by more molecules is conditioned on (its positions fixed); the other class's exposure is
+    counted in the gaps it leaves. O is symmetric, so swapping the roles does not change the observed count.
+    lengths: molecule_id, length; fa, fb: feature tables (molecule_id, start, end) of the two classes.
+    Returns (CooccurrenceResult, name of the conditioned class "A" or "B", exposure of the other class)."""
+    ids = lengths.molecule_id
+    L = lengths.length.to_numpy()
+    has_a, has_b = ids.isin(fa.molecule_id).to_numpy(), ids.isin(fb.molecule_id).to_numpy()
+    la, lb = (fa.end - fa.start).to_numpy(float), (fb.end - fb.start).to_numpy(float)
+    if has_a.sum() > has_b.sum():
+        x = excluded_volume_exposure(L, ids, fa, lb, min_frac)
+        r = cooccurrence_test(L, has_b, has_a, lb, la, strata=strata, min_frac=min_frac, exposure_a=x, **kw)
+        return r, "A", x
+    x = excluded_volume_exposure(L, ids, fb, la, min_frac)
+    r = cooccurrence_test(L, has_a, has_b, la, lb, strata=strata, min_frac=min_frac, exposure_a=x, **kw)
+    return r, "B", x

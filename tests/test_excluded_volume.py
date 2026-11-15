@@ -69,3 +69,31 @@ def test_excluded_volume_correction_removes_the_depletion_bias():
     m = {k: np.mean(v) for k, v in oe.items()}
     assert m["N0"] < 0.85 and m["N2"] < 0.9  # length-only nulls: biased low by excluded volume
     assert abs(m["N0ev"] - 1) < 0.06 and abs(m["N2ev"] - 1) < 0.08
+
+
+def test_ev_helper_conditions_on_the_more_common_class():
+    from linkstat.nulls.analytic import cooccurrence_test_ev
+
+    rng = np.random.default_rng(5)
+    rl = rng.lognormal(np.log(7_000), 0.6, 10_000).astype(int) + 500
+    al = np.maximum(150, rng.lognormal(np.log(900), 0.35, 1_000)).astype(int)
+    bl = np.maximum(150, rng.lognormal(np.log(1000), 0.5, 1_000)).astype(int)
+    sim = simulate_tables(
+        rl,
+        al,
+        bl,
+        seed=9,
+        n_genomes=100,
+        total_bases=1e8,
+        n_a=24.0,
+        islands=5,
+        singletons=12,
+        linked=0.0,
+        n_truth_anchors=1_000,
+    )
+    f = sim.features
+    fa, fb = f[f["class"] == "ARG"], f[f["class"] == "MGE"]
+    r1, c1, _ = cooccurrence_test_ev(sim.lengths, fa, fb, tost_bound=None)
+    r2, c2, _ = cooccurrence_test_ev(sim.lengths, fb, fa, tost_bound=None)
+    assert r1.observed == r2.observed and r1.expected == pytest.approx(r2.expected)
+    assert {c1, c2} == {"A", "B"} and r1.excluded_volume
