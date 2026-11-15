@@ -180,5 +180,57 @@ def simulate(
     )
 
 
+@main.command()
+@click.option(
+    "--lengths",
+    "lengths_path",
+    required=True,
+    type=click.Path(exists=True, dir_okay=False),
+    help="Lengths table of a pilot dataset.",
+)
+@click.option(
+    "--features",
+    "features_path",
+    required=True,
+    type=click.Path(exists=True, dir_okay=False),
+    help="Feature table of the pilot dataset.",
+)
+@click.option("--a", "a_class", required=True, help="Class A (e.g. ARG).")
+@click.option("--b", "b_class", required=True, help="Class B (e.g. MGE).")
+@click.option("--bases", multiple=True, type=float, help="Depths to evaluate (default: 0.5, 1, 2, 5, 10, 20 Gbp).")
+@click.option("--w", default=2000, show_default=True, type=int, help="Window of the net linked fraction (bp).")
+@click.option("--net", default=0.1, show_default=True, type=float, help="Assumed net linked fraction.")
+@click.option("--deff", default=1.0, show_default=True, type=float, help="Design effect for the half-width.")
+@click.option("--target-halfwidth", default=0.05, show_default=True, type=float)
+@click.option("--min-frac", default=0.8, show_default=True, type=float)
+def power(lengths_path, features_path, a_class, b_class, bases, w, net, deff, target_halfwidth, min_frac):
+    """What a given depth can detect, with densities and lengths taken from a pilot dataset (same read-length
+    distribution assumed): detectable O/E of the read-level test and the half-width of the net linked fraction."""
+    from .features import drop_same_orf
+    from .io import read_features, read_lengths
+    from .nulls.analytic import exposure, fit_density
+    from .power import calls_density, depth_table, required_bases
+
+    ln = read_lengths(lengths_path)
+    f = read_features(features_path)
+    fa, fb, _ = drop_same_orf(f[f["class"] == a_class], f[f["class"] == b_class])
+    if fa.empty or fb.empty:
+        raise click.ClickException("one of the classes has no features")
+    L = ln.length.to_numpy()
+    idx = ln.molecule_id
+    has_a, has_b = idx.isin(fa.molecule_id).to_numpy(), idx.isin(fb.molecule_id).to_numpy()
+    la, lb = (fa.end - fa.start).to_numpy(float), (fb.end - fb.start).to_numpy(float)
+    lam_a = fit_density(exposure(L, la, min_frac), int(has_a.sum()))
+    lam_b = fit_density(exposure(L, lb, min_frac), int(has_b.sum()))
+    lam_a_calls, lam_b_calls = calls_density(len(fa), L, la), calls_density(len(fb), L, lb)
+    pilot = float(L.sum())
+    grid = sorted(set(bases or (5e8, 1e9, 2e9, 5e9, 1e10, 2e10)) | {pilot})
+    t = depth_table(L, la, lb, lam_a, lam_b, lam_a_calls, lam_b_calls, grid, w=w, net=net, deff=deff, min_frac=min_frac)
+    t.insert(0, "pilot", t.bases == pilot)
+    click.echo(t.to_string(index=False, float_format=lambda x: f"{x:.4g}"))
+    g = required_bases(L, la, lam_a_calls, lam_b_calls, w, target_halfwidth, net, deff)
+    click.echo(f"bases for a net linked half-width of {target_halfwidth} at w = {w}: {g:.3g}")
+
+
 if __name__ == "__main__":
     main()
