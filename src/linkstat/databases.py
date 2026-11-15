@@ -70,13 +70,18 @@ def load_mobileog_lookup(path) -> pd.DataFrame:
     return pd.read_csv(path, sep="\t", dtype=str)
 
 
-def label_mobileog(d: pd.DataFrame, lookup: pd.DataFrame, mge_categories=MGE_D3) -> pd.DataFrame:
+def label_mobileog(d: pd.DataFrame, lookup: pd.DataFrame, mge_categories=MGE_D3, core=None) -> pd.DataFrame:
+    """Class MGE for calls in `mge_categories` (D3: MGE vs MGE_std), or, if `core` (a set of subject IDs, e.g. the
+    mobility core) is given, for calls whose subject is in the core (MGE vs MGE_other)."""
     m = d.merge(lookup, on="sseqid", how="left")
     if m.category.isna().any():
         raise DatabaseError(f"{int(m.category.isna().sum())} mobileOG hits are missing from the lookup")
     m["label"] = m.category
     m["intrinsic"] = False
-    m["class"] = np.where(m.label.isin(mge_categories), "MGE", "MGE_std")
+    if core is None:
+        m["class"] = np.where(m.label.isin(mge_categories), "MGE", "MGE_std")
+    else:
+        m["class"] = np.where(m.sseqid.isin(core), "MGE", "MGE_other")
     m["db"] = "mobileog_all"
     return m
 

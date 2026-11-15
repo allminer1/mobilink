@@ -44,8 +44,14 @@ def main():
     type=click.Choice(["primary", "strict", "relaxed", "mgeperm"]),
     help="Threshold rule(s).",
 )
+@click.option(
+    "--mobility-core",
+    type=click.Path(exists=True, dir_okay=False),
+    help="Mobility-core subject list (column sseqid). If given, class MGE = calls whose subject is in the core "
+    "(others: MGE_other); otherwise MGE = the four D3 categories (others: MGE_std).",
+)
 @click.option("--out-prefix", required=True, help="Writes PREFIX.<rule>.features.tsv.gz and PREFIX.summary.tsv.")
-def prep(lengths_path, card, bacmet, bacmet_classes, mobileog, mobileog_lookup, rules, out_prefix):
+def prep(lengths_path, card, bacmet, bacmet_classes, mobileog, mobileog_lookup, rules, mobility_core, out_prefix):
     """Build feature tables (one call per ORF and database) from DIAMOND hits."""
     from . import databases as db
     from .features import RULES, call_features, check_hit_lengths, summarise
@@ -62,9 +68,12 @@ def prep(lengths_path, card, bacmet, bacmet_classes, mobileog, mobileog_lookup, 
     if bacmet:
         classes = db.load_bacmet_classes(bacmet_classes)
         labellers["MRG"] = lambda d: db.label_bacmet(d, classes)
+    if mobility_core and not mobileog:
+        raise click.UsageError("--mobility-core needs --mobileog")
     if mobileog:
         lookup = db.load_mobileog_lookup(mobileog_lookup)
-        labellers["MGE"] = lambda d: db.label_mobileog(d, lookup)
+        core = db.load_mobility_core(mobility_core) if mobility_core else None
+        labellers["MGE"] = lambda d: db.label_mobileog(d, lookup, core=core)
     raw = {}
     for cls, path in src.items():
         if path is None:
