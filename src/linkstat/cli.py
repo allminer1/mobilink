@@ -94,5 +94,91 @@ def prep(lengths_path, card, bacmet, bacmet_classes, mobileog, mobileog_lookup, 
     click.echo(s.to_string(index=False))
 
 
+@main.command()
+@click.option(
+    "--read-lengths",
+    "read_lengths_path",
+    required=True,
+    type=click.Path(exists=True, dir_okay=False),
+    help="Lengths table whose `length` column is the read-length distribution to draw from.",
+)
+@click.option(
+    "--a-lengths",
+    type=click.Path(exists=True, dir_okay=False),
+    help="One length per line for class A genes (default: log-normal, median 900 bp).",
+)
+@click.option(
+    "--b-lengths",
+    type=click.Path(exists=True, dir_okay=False),
+    help="One length per line for class B genes (default: log-normal, median 1,000 bp).",
+)
+@click.option("--a-class", default="ARG", show_default=True)
+@click.option("--b-class", default="MGE", show_default=True)
+@click.option("--n-genomes", default=60, show_default=True, type=int)
+@click.option("--total-bases", default=1.5e9, show_default=True, type=float)
+@click.option("--linked", default=0.3, show_default=True, type=float, help="Share of A genes placed next to a B gene.")
+@click.option("--uniform", is_flag=True, help="Place B genes uniformly instead of in islands.")
+@click.option(
+    "--min-frac",
+    default=0.8,
+    show_default=True,
+    type=float,
+    help="Call genes with at least this fraction on the read (0 = whole genes only).",
+)
+@click.option("--seed", default=20261114, show_default=True, type=int)
+@click.option(
+    "--out-prefix", required=True, help="Writes PREFIX.lengths.tsv.gz, PREFIX.features.tsv.gz, PREFIX.truth.tsv."
+)
+def simulate(
+    read_lengths_path,
+    a_lengths,
+    b_lengths,
+    a_class,
+    b_class,
+    n_genomes,
+    total_bases,
+    linked,
+    uniform,
+    min_frac,
+    seed,
+    out_prefix,
+):
+    """Simulate reads from a community with known linkage (truth computed on the genomes)."""
+    import numpy as np
+
+    from .io import read_lengths
+    from .simulate import simulate_tables
+
+    rl = read_lengths(read_lengths_path).length.to_numpy()
+    rng = np.random.default_rng(seed + 999)
+
+    def gene_lengths(path, median, sigma):
+        if path:
+            return np.loadtxt(path, dtype=np.int64, ndmin=1)
+        return np.maximum(150, rng.lognormal(np.log(median), sigma, 5_000)).astype(np.int64)
+
+    sim = simulate_tables(
+        rl,
+        gene_lengths(a_lengths, 900, 0.35),
+        gene_lengths(b_lengths, 1000, 0.5),
+        a_class=a_class,
+        b_class=b_class,
+        seed=seed,
+        n_genomes=n_genomes,
+        total_bases=total_bases,
+        linked=linked,
+        clustered=not uniform,
+        min_frac=min_frac or None,
+    )
+    sim.lengths.to_csv(f"{out_prefix}.lengths.tsv.gz", sep="\t", index=False)
+    sim.features.to_csv(f"{out_prefix}.features.tsv.gz", sep="\t", index=False)
+    sim.truth.to_csv(f"{out_prefix}.truth.tsv", sep="\t", index=False)
+    net = sim.truth[(sim.truth["mode"] == "end") & (sim.truth.w == 2000)].net.iloc[0]
+    click.echo(
+        f"{len(sim.lengths):,} reads, {len(sim.features):,} features; "
+        f"true net linked (far-end distance, w = 2 kb): {net:.4f}"
+    )
+
+
 if __name__ == "__main__":
     main()
