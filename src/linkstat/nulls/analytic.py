@@ -30,6 +30,7 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 
 import numpy as np
+import pandas as pd
 from scipy import optimize, stats
 
 from ..stats import conditional as cond
@@ -96,25 +97,28 @@ def conditional_variance(xa, xb, lam_a: float, lam_b: float) -> float:
 @dataclass
 class CooccurrenceResult:
     n_molecules: int
+    n_strata: int
     molecules_A: int
     molecules_B: int
     observed: int
     expected: float
-    var_null: float  # conditional (delta method)
+    var_null: float  # conditional (delta method, summed over strata)
     var_unconditional: float  # plug-in Poisson-binomial
     z: float
     oe: float
     oe_lo: float
     oe_hi: float
     p_enriched: float  # P(O >= observed | margins): double saddlepoint (default) or conditional normal
-    p_depleted: float  # P(O <= observed)
+    p_depleted: float  # P(O <= observed | margins)
     p_two_sided: float  # 2 min(p_enriched, p_depleted), capped at 1
     p_enriched_mid: float  # mid-p: P(O > observed) + P(O = observed) / 2 (closer to nominal size for small counts)
     p_depleted_mid: float
     p_two_sided_mid: float
+    p_tost: float  # equivalence test of 1/bound < O/E < bound (small = "at chance")
+    tost_bound: float
     p_enriched_unconditional: float  # plug-in Poisson-binomial (conservative)
     p_depleted_unconditional: float
-    lambda_A: float
+    lambda_A: float  # NaN when several strata are fitted
     lambda_B: float
     exposure_mode: str
     min_frac: float
@@ -130,19 +134,27 @@ def cooccurrence_test(
     has_b,
     len_a,
     len_b,
+    strata=None,
     mode: str = "mixture",
     min_frac: float = 0.8,
     alpha: float = 0.05,
     method: str = "auto",
     test: str = "saddlepoint",
+    tost_bound: float = 1.25,
 ) -> CooccurrenceResult:
     """Molecule-level co-occurrence of classes A and B against the exposure null.
     lengths: per molecule; has_a, has_b: boolean per molecule; len_a, len_b: call lengths of each class (arrays).
-    test: "saddlepoint" (default; conditional on both margins, linkstat.stats.conditional) or "normal" (delta-method
+    strata: optional label per molecule (sample, taxon bin, GC bin, ...). N1: the densities are fitted per stratum,
+    E sums over strata and the test conditions on both margins in every stratum.
+    test: "saddlepoint" (default; conditional on the margins, linkstat.stats.conditional) or "normal" (delta-method
     conditional variance, normal approximation with continuity correction). method: for the unconditional
-    Poisson-binomial p values."""
+    Poisson-binomial p values. tost_bound: equivalence bound r for TOST on O/E (registered 1.25; None skips it)."""
+    from ..stats import equivalence
+
     lengths = np.asarray(lengths)
     has_a, has_b = np.asarray(has_a, bool), np.asarray(has_b, bool)
+    codes = np.zeros(lengths.size, np.int64) if strata is None else pd.factorize(np.asarray(strata))[0]
+    S = int(codes.max()) + 1 if codes.size else 1
     if mode == "mean":
         xa = exposure(lengths, np.mean(len_a), 1.0)
         xb = exposure(lengths, np.mean(len_b), 1.0)
@@ -152,19 +164,28 @@ def cooccurrence_test(
         xb = exposure(lengths, len_b, min_frac)
     else:
         raise ValueError(f"unknown exposure mode {mode!r}")
-    lam_a, lam_b = fit_density(xa, int(has_a.sum())), fit_density(xb, int(has_b.sum()))
-    p = presence(xa, lam_a) * presence(xb, lam_b)
+    a, b = np.zeros(lengths.size), np.zeros(lengths.size)
+    lam_a, lam_b = np.zeros(S), np.zeros(S)
+    var_c = 0.0
+    for s in range(S):
+        m = codes == s
+        lam_a[s], lam_b[s] = fit_density(xa[m], int(has_a[m].sum())), fit_density(xb[m], int(has_b[m].sum()))
+        a[m], b[m] = presence(xa[m], lam_a[s]), presence(xb[m], lam_b[s])
+        var_c += conditional_variance(xa[m], xb[m], lam_a[s], lam_b[s])
+    # a call on a molecule the model gives zero exposure (e.g. a short call on a short read in "mean" mode)
+    a[has_a & (a == 0)] = 1e-12
+    b[has_b & (b == 0)] = 1e-12
+    p = a * b
     obs = int((has_a & has_b).sum())
     mu, var_u = pb.mean_var(p)
-    var_c = conditional_variance(xa, xb, lam_a, lam_b)
     sd = np.sqrt(var_c) if var_c > 0 else np.nan
+    n_a, n_b = np.bincount(codes, has_a, S).astype(int), np.bincount(codes, has_b, S).astype(int)
+    st = None if S == 1 else codes
     if test == "saddlepoint":
-        a, b = presence(xa, lam_a), presence(xb, lam_b)
-        n_a, n_b = int(has_a.sum()), int(has_b.sum())
-        p_hi = cond.tail(a, b, n_a, n_b, obs, upper=True)
-        p_lo = cond.tail(a, b, n_a, n_b, obs, upper=False)
-        mid_hi = (p_hi + cond.tail(a, b, n_a, n_b, obs + 1, upper=True)) / 2
-        mid_lo = (p_lo + (cond.tail(a, b, n_a, n_b, obs - 1, upper=False) if obs > 0 else 0.0)) / 2
+        p_hi = cond.tail(a, b, n_a, n_b, obs, upper=True, strata=st)
+        p_lo = cond.tail(a, b, n_a, n_b, obs, upper=False, strata=st)
+        mid_hi = (p_hi + cond.tail(a, b, n_a, n_b, obs + 1, upper=True, strata=st)) / 2
+        mid_lo = (p_lo + (cond.tail(a, b, n_a, n_b, obs - 1, upper=False, strata=st) if obs > 0 else 0.0)) / 2
     elif test == "normal":
         p_hi = float(stats.norm.sf((obs - mu - 0.5) / sd)) if var_c > 0 else float(obs > mu)
         p_lo = float(stats.norm.cdf((obs - mu + 0.5) / sd)) if var_c > 0 else float(obs < mu)
@@ -172,9 +193,15 @@ def cooccurrence_test(
         mid_lo = float(stats.norm.cdf((obs - mu) / sd)) if var_c > 0 else float(obs < mu)
     else:
         raise ValueError(f"unknown test {test!r}")
+    p_tost = (
+        equivalence.tost_analytic(a, b, n_a, n_b, obs, mu, tost_bound, st)["p_tost"]
+        if tost_bound and mu > 0
+        else np.nan
+    )
     lo, hi = poisson_interval(obs, alpha)
     return CooccurrenceResult(
         n_molecules=int(lengths.size),
+        n_strata=S,
         molecules_A=int(has_a.sum()),
         molecules_B=int(has_b.sum()),
         observed=obs,
@@ -191,10 +218,12 @@ def cooccurrence_test(
         p_enriched_mid=mid_hi,
         p_depleted_mid=mid_lo,
         p_two_sided_mid=min(1.0, 2 * min(mid_hi, mid_lo)),
+        p_tost=p_tost,
+        tost_bound=tost_bound if tost_bound else np.nan,
         p_enriched_unconditional=pb.sf(obs, p, method=method),
         p_depleted_unconditional=pb.cdf(obs, p, method=method),
-        lambda_A=lam_a,
-        lambda_B=lam_b,
+        lambda_A=float(lam_a[0]) if S == 1 else np.nan,
+        lambda_B=float(lam_b[0]) if S == 1 else np.nan,
         exposure_mode=mode,
         min_frac=min_frac,
         test=test,
