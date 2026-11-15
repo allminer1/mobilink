@@ -1,15 +1,22 @@
 """The net linked test (amendment 04 draft v2; D39, D42, D44): H0 no linkage, with host-stratified anchors.
 
 Effect sizes (descriptive, with host-jackknife intervals):
-  net_w   = 1 - (1 - F_A(w)) / (1 - F_R(w))      far-end distance within w (frozen Part B estimator), A units
+  net_w   = 1 - (1 - F_A(w)) / (1 - F_R(w))      far-end distance within w (frozen Part B estimator), A units, with
+                                                 the margin rule of net_mol: units (and anchors) ending >= d from
+                                                 both molecule ends, weight 1 / p_whole(span + 2 d). Without it, a
+                                                 partly covered island still forms a unit whose outer side carries
+                                                 the weight of a whole unit of the observed span, so unlinked
+                                                 islands outweighed linked singletons: net_w 0.026 against truth
+                                                 0.032 with A islands and linkage in soil (run 6, probes v6-v7, D45).
   net_mol = 1 - (1 - M_A) / (1 - M_R)            M = weighted share of A units (or anchors) on a molecule that carries a
                                                  B call; margin rule: units ending >= d from both molecule ends, anchors
                                                  with the same margin (a unit cut by a molecule end looks complete but
                                                  sits on a read chosen by its span, which biased net_mol by -0.01 with A
                                                  in islands; P2 step 2.7, probes v1-v2)
 Tests (registered p values): null-variance score tests, linkstat.stats.nvtest, over A-unit sides against the host's
-anchor CDF, with clumps from unit loci (linkstat.unitloci): net_w (window w; clump = unit locus x oriented side) and
-same molecule (clump = unit locus). Probe v4 (3,600 datasets under no linkage): 5.8% and 4.6%.
+anchor CDF, with clumps from unit loci (linkstat.unitloci): net_w (window w, all A-unit sides; clump = unit
+locus x oriented side) and same molecule (clump = unit locus); p values from the exact null
+distribution of the clump model by Monte Carlo (n_mc draws, mid-p). Run 6 (normal reference): 3.7% and 4.3%.
 Anchors: with strata (host labels per molecule), each stratum gets anchors in proportion to its A units
 (anchors_per_unit, default 40, at least netlinked.N_ANCHORS in all), placed on its own molecules with weight
 (L - len)+; without strata, over all molecules. Anchors touching any B call are redrawn in their stratum.
@@ -184,6 +191,7 @@ def net_linked_test(
     n_boot: int = 200,
     min_eff: float = 10.0,
     dense_cover: float = 0.05,
+    n_mc: int = 9_999,
 ) -> dict:
     """lengths: molecule_id, length[, replicon, pos]; fa, fb: molecule_id, start, end[, scov]; strata: one host label
     per molecule (lengths order) or None; loci: None, "positions" (simulated reads), or a function units -> DataFrame
@@ -202,7 +210,20 @@ def net_linked_test(
     data, scov, info = prepare(ln_df, fa, fb, None if strata is None else st, n_anchors=n_anch, seed=seed)
     info["n_dual"] = n_dual
     _, rid, s_, e_, cls = data
-    A, R, smry = nl.analyse(*data, scov, w, min_sides)
+    cut = nl.cut_mask(ln, rid, s_, e_, scov)
+    span = e_ - s_
+    sd = nv.sides_dir(ln, rid, s_, e_, cls == "A", cls == "B", cut)
+    sr = nv.sides_dir(ln, rid, s_, e_, cls == "RND", cls == "B", cut)
+
+    def side_dict(t, keep, add):
+        i = t.i.to_numpy()[keep]
+        return dict(t=t.t.to_numpy()[keep], e=t.e.to_numpy()[keep], w=1 / nl.p_whole(ln, span[i] + add), read=rid[i])
+
+    margin = units_d or 0  # margin rule (units and anchors ending >= d from both molecule ends)
+    inner = np.minimum(s_, ln[rid] - e_)
+    keep_a, keep_r = inner[sd.i.to_numpy()] >= margin, inner[sr.i.to_numpy()] >= margin
+    A, R = side_dict(sd, keep_a, 2 * margin), side_dict(sr, keep_r, 2 * margin)  # net_w effect size
+    R_all = side_dict(sr, np.ones(len(sr), bool), 0)  # chance curves for the tests: all anchor sides
     # registered tests: null variance with unit-locus clumps
     if loci is None:
         lt = pd.DataFrame({"locus": np.arange(len(fa)), "parity": 0, "conflict": False})
@@ -210,10 +231,11 @@ def net_linked_test(
         lt = loci_from_positions(lengths)(fa)
     else:
         lt = loci(fa)
-    cut = nl.cut_mask(ln, rid, s_, e_, scov)
-    sd = nv.sides_dir(ln, rid, s_, e_, cls == "A", cls == "B", cut)
-    hr = st[R["read"]]
-    curves = {h: nv.km_curve(R["t"][ix], R["e"][ix], R["w"][ix]) for h, ix in pd.Series(hr).groupby(hr).indices.items()}
+    hr = st[R_all["read"]]
+    curves = {
+        h: nv.km_curve(R_all["t"][ix], R_all["e"][ix], R_all["w"][ix])
+        for h, ix in pd.Series(hr).groupby(hr).indices.items()
+    }
     tests = nv.score_tests(
         sd,
         st[rid[sd.i.to_numpy()]],
@@ -224,9 +246,11 @@ def net_linked_test(
         lt.conflict.to_numpy(),
         w,
         min_eff,
+        n_mc=n_mc,
+        seed=seed + 7,
     )
-    # effect sizes: net_w (frozen estimator) and net_mol (margin rule), host-jackknife intervals
-    est_w = smry["net"]
+    # effect sizes: net_w (frozen estimator) and net_mol, both with the margin rule; host-jackknife intervals
+    est_w = nl.net(A, R, w, min_sides=min_sides)
     mm = _margin_mol(ln, idx, fa, fb, st, units_d or 0, anchors_per_unit // 2, seed)
     if mm is not None:
         SA = pd.Series(mm["wa"] * mm["ya"]).groupby(mm["ha"]).sum()
@@ -280,6 +304,8 @@ def net_linked_test(
         units=len(fa),
         unit_loci=int(lt.locus.nunique()),
         loci_conflict_share=float(lt.conflict.mean()) if len(lt) else 0.0,
+        margin=margin,
+        sides_all=int(len(sd)),
         sides=int(A["t"].size),
         sides_w=int((A["t"] >= w).sum()),
     )
@@ -293,7 +319,7 @@ def net_linked_test(
                 f"{name}_lo": lo,
                 f"{name}_hi": hi,
                 f"{name}_p": r["p"],
-                f"{name}_p_enrich": float(stats.norm.sf(r["z"])) if np.isfinite(r["z"]) else np.nan,
+                f"{name}_p_enrich": r["p_enrich"],
                 f"{name}_z": r["z"],
                 f"{name}_O": r["O"],
                 f"{name}_E": r["E"],

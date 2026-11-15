@@ -47,7 +47,9 @@ def test_planted_linkage_is_detected_and_the_interval_covers_truth():
     s = _sim(31, linked=0.3)
     r = _test(s)
     truth = float(s.truth.query("mode == 'end' and w == 2000").net.iloc[0])
-    assert r["net_w_p"] < 1e-6 and r["net_mol_p"] < 1e-6 and r["net_w_p_enrich"] < 1e-6
+    floor = 1 / 10_000  # Monte Carlo reference, n_mc = 9,999 (two-sided mid-p floor)
+    assert r["net_w_p"] <= floor and r["net_mol_p"] <= floor and r["net_w_p_enrich"] <= floor / 2
+    assert r["net_w_z"] > 5 and r["net_mol_z"] > 5
     assert r["net_w_lo"] - 0.02 < truth < r["net_w_hi"] + 0.02
     assert r["flags"] == "", r["flags"]
     assert r["unit_loci"] < r["units"]  # about 5 reads per locus at this depth
