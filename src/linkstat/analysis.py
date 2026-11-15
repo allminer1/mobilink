@@ -2,16 +2,21 @@
 
 Per pair (A:B), after the same-ORF rule (A and B calls overlapping by >= 50% of the shorter are removed):
 - molecule level:
-  - primary: N0-ev (exposure null with the excluded-volume correction, amendment 03): O, E, O/E with an exact
-    Poisson interval, conditional p values (double saddlepoint; two-sided and enrichment), mid-p, TOST (bound 1.25);
-  - the registered length-only exposure null N0 (O/E, p), and N2-ev (exact permutation within 1 kb bins of the
-    corrected exposure; O/E, p, Mantel-Haenszel odds ratio);
+  - primary: N2-ev (amendment 03, gate G2 failed -> the pre-registered fallback): exact permutation of the modelled
+    class within 1 kb bins of its excluded-volume exposure (and strata), conditional on both margins in every cell;
+    O, E, O/E with an exact Poisson interval, p values (two-sided, enrichment, depletion), mid-p, TOST (bound 1.25)
+    and the Mantel-Haenszel odds ratio with its interval;
+  - N0-ev, the smooth (parametric) approximation of N2-ev: O/E and p. Its single-rate presence curve does not fit a
+    clustered class, so it is biased toward depletion when it models one (P1 step 1.15b);
+  - the registered length-only exposure null N0 (O/E, p);
   - naive share: molecules with A and B / molecules with A;
 - distance level: net linked fraction at w (far-end distance, anchored chance term, gene-length weights) with a
   molecule-bootstrap interval; when no A side has an event within w, the exact upper limit of F_A(w) is given;
   optionally the same after random fragmentation to target N50s;
 - Benjamini-Hochberg q values across the pairs (primary two-sided p).
-Flags: "pseudo-replication not modelled" (always, until locus clustering exists), "E < 5", "sides < 30".
+Flags: "pseudo-replication not modelled" (always, until locus clustering exists), "E < 5", "sides < 30",
+"modelled class clustered" (clustering index of the non-conditioned class > 2: the nulls model it as independent
+genes, so O/E can lean toward depletion; P1 step 1.15b).
 """
 
 from __future__ import annotations
@@ -20,9 +25,10 @@ import numpy as np
 import pandas as pd
 
 from .features import drop_same_orf
-from .nulls.analytic import cooccurrence_test, cooccurrence_test_ev
-from .nulls.binned import binned_test
+from .nulls.analytic import clustering_index, cooccurrence_test, cooccurrence_test_ev
+from .nulls.binned import binned_test, cell_table, cells, length_bins
 from .stats import netlinked as nl
+from .stats.equivalence import tost_binned
 from .stats.multiple import bh
 
 
@@ -70,7 +76,7 @@ def analyse_pairs(
             rows.append(dict(row, flags="class empty"))
             continue
         ha, hb = ids.isin(fa.molecule_id).to_numpy(), ids.isin(fb.molecule_id).to_numpy()
-        r, cond_on, x = cooccurrence_test_ev(lengths, fa, fb, strata=strata, min_frac=min_frac, tost_bound=tost_bound)
+        r, cond_on, x = cooccurrence_test_ev(lengths, fa, fb, strata=strata, min_frac=min_frac, tost_bound=None)
         reg = cooccurrence_test(
             L,
             ha,
@@ -81,33 +87,39 @@ def analyse_pairs(
             min_frac=min_frac,
             tost_bound=None,
         )
-        hx, hy = (hb, ha) if cond_on == "A" else (ha, hb)
+        hx, hy = (hb, ha) if cond_on == "A" else (ha, hb)  # (modelled class, conditioned class)
         n2 = binned_test(L, hx, hy, strata=strata, bin_by=x)
+        table = cell_table(cells(length_bins(x), strata), hx, hy)
+        tost = tost_binned(table, n2.observed, n2.expected, tost_bound) if tost_bound and n2.expected > 0 else {}
         row.update(
             level="molecule",
-            null_model="N0-ev",
+            null_model="N2-ev",
             conditioned=b if cond_on == "B" else a,
-            molecules=r.n_molecules,
+            molecules=n2.n_molecules,
             molecules_A=int(ha.sum()),
             molecules_B=int(hb.sum()),
-            observed=r.observed,
-            expected=r.expected,
-            oe_ratio=r.oe,
-            ci_low=r.oe_lo,
-            ci_high=r.oe_hi,
-            p=r.p_two_sided,
-            p_enriched=r.p_enriched,
-            p_depleted=r.p_depleted,
-            p_mid=r.p_two_sided_mid,
-            p_tost=r.p_tost,
-            naive_share=r.observed / ha.sum() if ha.sum() else np.nan,
+            observed=n2.observed,
+            expected=n2.expected,
+            oe_ratio=n2.oe,
+            ci_low=n2.oe_lo,
+            ci_high=n2.oe_hi,
+            p=n2.p_two_sided,
+            p_enriched=n2.p_enriched,
+            p_depleted=n2.p_depleted,
+            p_mid=n2.p_two_sided_mid,
+            p_tost=tost.get("p_tost", np.nan),
+            mh_or=n2.mh_odds_ratio,
+            mh_or_low=n2.mh_or_lo,
+            mh_or_high=n2.mh_or_hi,
+            naive_share=n2.observed / ha.sum() if ha.sum() else np.nan,
+            n0ev_expected=r.expected,
+            n0ev_oe=r.oe,
+            n0ev_p=r.p_two_sided,
             registered_expected=reg.expected,
             registered_oe=reg.oe,
             registered_p=reg.p_two_sided,
-            n2ev_expected=n2.expected,
-            n2ev_oe=n2.oe,
-            n2ev_p=n2.p_two_sided,
-            n2ev_mh_or=n2.mh_odds_ratio,
+            modelled=a if cond_on == "B" else b,
+            clustering_index_modelled=clustering_index(L, ids, fa if cond_on == "B" else fb, min_frac),
         )
         net = _net_linked(lengths[["molecule_id", "length"]], fa, fb, w, n_boot, seed, targets, draws)
         row.update(
@@ -118,8 +130,10 @@ def analyse_pairs(
             }
         )
         flags = ["pseudo-replication not modelled"]
-        if r.expected < 5:
+        if n2.expected < 5:
             flags.append("E < 5")
+        if row["clustering_index_modelled"] > 2:
+            flags.append("modelled class clustered (O/E may lean toward depletion)")
         if net.get("intact_sides_w", 0) < 30:
             flags.append("sides < 30")
         row["flags"] = "; ".join(flags)

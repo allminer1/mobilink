@@ -3,7 +3,7 @@ import pandas as pd
 import pytest
 
 from linkstat.features import covered_bases
-from linkstat.nulls.analytic import cooccurrence_test, excluded_volume_exposure, exposure
+from linkstat.nulls.analytic import clustering_index, cooccurrence_test, excluded_volume_exposure, exposure
 from linkstat.nulls.binned import binned_test
 from linkstat.simulate import simulate_tables
 
@@ -97,3 +97,27 @@ def test_ev_helper_conditions_on_the_more_common_class():
     r2, c2, _ = cooccurrence_test_ev(sim.lengths, fb, fa, tost_bound=None)
     assert r1.observed == r2.observed and r1.expected == pytest.approx(r2.expected)
     assert {c1, c2} == {"A", "B"} and r1.excluded_volume
+
+
+def test_clustering_index_is_one_for_uniform_genes_and_large_for_islands():
+    rng = np.random.default_rng(11)
+    reads = rng.lognormal(np.log(12_000), 0.6, 20_000).astype(int) + 500
+    s = simulate_tables(
+        reads,
+        rng.integers(600, 1_400, 300),
+        rng.integers(600, 1_400, 300),
+        seed=5,
+        n_genomes=60,
+        total_bases=1e9,
+        n_a=24.0,
+        islands=5,
+        singletons=12,
+        clustered=True,
+        linked=0.0,
+        min_frac=0.8,
+        n_truth_anchors=1000,
+    )
+    f, ln = s.features, s.lengths
+    ia = clustering_index(ln.length.to_numpy(), ln.molecule_id, f[f["class"] == "ARG"])
+    ib = clustering_index(ln.length.to_numpy(), ln.molecule_id, f[f["class"] == "MGE"])
+    assert 0.8 < ia < 1.25 and ib > 3

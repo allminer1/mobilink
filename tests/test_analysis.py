@@ -43,8 +43,8 @@ def test_analyse_pairs_recovers_planted_linkage_and_reports_all_nulls():
     r = t.iloc[0]
     truth = float(sim.truth.query("mode == 'end' and w == 2000").net.iloc[0])
     assert r.intact_lo - 0.03 < truth < r.intact_hi + 0.03
-    assert r.oe_ratio > 1.5 and r.p < 1e-6 and r.null_model == "N0-ev"
-    for c in ("registered_oe", "n2ev_oe", "n2ev_mh_or", "p_mid", "p_tost", "naive_share", "q", "flags"):
+    assert r.oe_ratio > 1.5 and r.p < 1e-6 and r.null_model == "N2-ev"
+    for c in ("registered_oe", "n0ev_oe", "mh_or", "p_mid", "p_tost", "naive_share", "q", "flags"):
         assert c in t.columns
     assert "pseudo-replication" in r["flags"]
     assert t.iloc[1]["flags"] == "class empty"

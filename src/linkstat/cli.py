@@ -325,7 +325,10 @@ def test_cmd(lengths_path, features_path, pairs, strata_col, w, boot, targets, d
         draws=draws,
         min_frac=min_frac,
         seed=seed,
-        null_model="N0-ev (excluded-volume corrected exposure null; registered length-only null reported)",
+        null_model=(
+            "N2-ev (exact permutation within bins of the excluded-volume exposure;"
+            " N0-ev and the registered length-only null reported)"
+        ),
         note="p values ignore reads that cover the same locus (pseudo-replication)",
     )
     with open(f"{out_path}.meta.json", "w") as fh:

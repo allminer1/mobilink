@@ -14,17 +14,23 @@ they are linked in a way that does not depend on read length.
   - It is 0 under chance.
   - In tests on public ONT runs it changed by at most 0.008 when reads were cut from N50 9–14 kb to 3 kb, while the
     naive share fell 2–5×.
-- **Molecule-level co-occurrence against a chance model (the test).** Observed molecules with A and B against an
-  exposure null.
-  - Genes cannot overlap, so a molecule carrying B has less room for A. The default null (N0-ev) counts only the
-    positions where an A gene fits in the gaps the B genes leave; length-only nulls are biased toward depletion.
-  - p values are conditional on the number of molecules carrying each class (double saddlepoint). The registered
-    length-only null and an exact permutation null are reported alongside.
+- **Molecule-level co-occurrence against a chance model (the test).** Observed molecules with A and B against a
+  chance model.
+  - Genes cannot overlap, so a molecule carrying B has less room for A. The default test (N2-ev) counts, on each
+    molecule, the room an A gene has in the gaps the B genes leave. Within 1 kb bins of that room (and per stratum)
+    it is an exact permutation test, conditional on how many molecules carry each class. Length-only nulls are
+    biased toward depletion.
+  - Reported alongside: N0-ev, a smooth (parametric) approximation of N2-ev, and the registered length-only null.
   - O/E is a test, not a length-invariant effect size.
 - **Power and design** (`linkstat power`), and a **simulator with known truth** (`linkstat simulate`).
 
-**Known limit:** p values treat molecules as independent. Reads that cover the same locus are not independent, so p
-values are too small at high coverage. Locus clustering is planned; until then, interpret effect sizes and intervals.
+**Known limits:**
+
+- p values treat molecules as independent. Reads that cover the same locus are not independent, so p values are
+  too small at high coverage. Locus clustering is planned; until then, interpret effect sizes and intervals.
+- The chance model treats the genes of one class as placed independently. In real metagenomes they come in clusters
+  (operons, islands, cassettes) and differ between hosts. When the class the model places is clustered, O/E can lean
+  toward depletion. The results report a clustering index for that class and flag values above 2.
 
 ## Inputs
 

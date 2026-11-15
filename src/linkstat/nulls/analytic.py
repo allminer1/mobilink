@@ -111,6 +111,26 @@ def fit_density(x, n_pos: int) -> float:
     return float(optimize.brentq(f, 0.0, hi, xtol=1e-300, rtol=1e-14))
 
 
+def clustering_index(lengths, molecule_ids, features, min_frac: float = 0.8) -> float:
+    """Observed share of carrier molecules with >= 2 calls of a class / the share expected if the calls fell as a
+    Poisson process with one density on the exposure (lambda fitted to the number of carriers, as in N0).
+    About 1 for genes placed independently; > 1 when calls come in clusters (islands, operons) or when the density
+    differs between hosts. N0-ev and N2-ev model the non-conditioned class as independent genes, so an index well
+    above 1 for that class means O/E can lean toward depletion (P1 step 1.15b)."""
+    if len(features) == 0:
+        return np.nan
+    n = features.groupby("molecule_id").size().reindex(molecule_ids, fill_value=0).to_numpy()
+    x = exposure(np.asarray(lengths), (features.end - features.start).to_numpy(float), min_frac)
+    lam = fit_density(x, int((n > 0).sum()))
+    if not np.isfinite(lam) or lam == 0:
+        return np.nan
+    mu = lam * x
+    p1 = -np.expm1(-mu)
+    p2 = p1 - mu * np.exp(-mu)
+    expected = p2.sum() / p1.sum()
+    return float(((n >= 2).sum() / (n > 0).sum()) / expected) if expected > 0 else np.nan
+
+
 def presence(x, lam: float) -> np.ndarray:
     x = np.asarray(x, dtype=float)
     return -np.expm1(-lam * x) if np.isfinite(lam) else (x > 0).astype(float)
