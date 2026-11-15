@@ -13,7 +13,16 @@ Reads: total_bases sampled over genomes in proportion to abundance x length, rea
 Truth (genome level, abundance-weighted over A gene sides; no reads involved), for the distance to the start ('start')
   or to the far end ('end') of the nearest B: F_A(w), F_rnd(w) for random anchors (lengths from the A array, anchors
   overlapping a B by >= 50% dropped) and net(w) = 1 - (1 - F_A) / (1 - F_rnd).
-Loci: genome * 1,000,000 + gene index (B genes + 500,000), so the reads covering one locus can be identified.
+Loci: replicon * 1,000,000 + gene index (B genes + 500,000), so the reads covering one locus can be identified.
+Options for P2 (all off by default; with the defaults the random-number order and the output are unchanged):
+  a_islands       A genes also in islands (cassettes; count ~ Poisson(a_islands), size 1 + Geometric(p_a_island),
+                  gaps ~ Exp(island_gap)), placed after B and before the single A genes;
+  density_sigma   host heterogeneity: per-genome log-normal multiplier (mean 1) on all gene counts, shared by A and B;
+  plasmids        replicons per genome (Poisson), lengths uniform in plasmid_length, abundance = host abundance x
+                  plasmid_copy, gene density plasmid_density x the chromosome's per base; reads from a plasmid carry
+                  the host as `genome` (stratum) and the replicon in `replicon`;
+  chimera_rate    (simulate_tables) share of molecules joined from two reads (molecule ids and genome of the first;
+                  column `chimera`).
 
 Port of scripts/P1_02_simulate.py (P1 step 1.2); the random-number order is unchanged, so a seed gives the same data.
 """
@@ -60,6 +69,8 @@ def make_genome(
     a_median,
     linked_short=None,
     linked_long=None,
+    a_islands=0.0,
+    p_a_island=0.25,
 ):
     bs, be = [], []
     n_isl = rng.poisson(islands)
@@ -71,6 +82,8 @@ def make_genome(
             lens = rng.choice(b_len, k)
             gaps = rng.exponential(island_gap, k).astype(int)
             span = int(lens.sum() + gaps.sum())
+            if span >= glen - 1:  # only on short replicons (plasmids); never for 2-6 Mb genomes
+                continue
             for _ in range(50):
                 s0 = int(rng.integers(0, glen - span))
                 e0 = s0 + span
@@ -90,6 +103,28 @@ def make_genome(
     B = np.array(list(zip(bs, be, strict=True)), dtype=np.int64).reshape(-1, 2)
     occ_s, occ_e = list(bs), list(be)
     A = []
+    if a_islands > 0:
+        n_ai = rng.poisson(a_islands)
+        for k in np.maximum(rng.geometric(p_a_island, n_ai), 1) if n_ai else []:
+            lens = rng.choice(a_len, k)
+            gaps = rng.exponential(island_gap, k).astype(int)
+            span = int(lens.sum() + gaps.sum())
+            if span >= glen - 1:
+                continue
+            for _ in range(50):
+                s0 = int(rng.integers(0, glen - span))
+                e0 = s0 + span
+                j = np.searchsorted(occ_s, s0)
+                if (j > 0 and occ_e[j - 1] > s0) or (j < len(occ_s) and occ_s[j] < e0):
+                    continue
+                pos = s0
+                for g, gap in zip(lens, gaps, strict=True):
+                    j = np.searchsorted(occ_s, pos)
+                    occ_s.insert(j, pos)
+                    occ_e.insert(j, pos + int(g))
+                    A.append((pos, pos + int(g)))
+                    pos += int(g) + int(gap)
+                break
     for g in rng.choice(a_len, rng.poisson(n_a)):
         p_link = linked if linked_short is None else (linked_short if g < a_median else linked_long)
         done = False
@@ -179,6 +214,15 @@ def simulate(
     genome_length=(2_000_000, 6_000_000),
     abundance_sigma=1.0,
     return_genomes=False,
+    a_islands=0.0,
+    p_a_island=0.25,
+    density_sigma=0.0,
+    plasmids=0.0,
+    plasmid_length=(20_000, 150_000),
+    plasmid_copy=5.0,
+    plasmid_density=4.0,
+    return_replicons=False,
+    return_positions=False,
 ):
     """Returns (reads, truth[, loci]); reads = (lengths, rid, start, end, cls) with cls in {"ARG", "MGE"} and
     truth[(mode, w)] = dict(F_A, F_rnd, net). genome_length (min, max) and abundance_sigma (log-normal sigma) default
@@ -187,30 +231,47 @@ def simulate(
     a_median = float(np.median(a_len))
     glens = rng.integers(int(genome_length[0]), int(genome_length[1]) + 1, n_genomes)
     ab = rng.lognormal(0, abundance_sigma, n_genomes)
-    genomes = [
-        make_genome(
+    mult = rng.lognormal(-(density_sigma**2) / 2, density_sigma, n_genomes) if density_sigma > 0 else np.ones(n_genomes)
+
+    def genome(glen, scale, k):
+        return make_genome(
             rng,
-            int(gl),
+            int(glen),
             a_len,
             b_len,
-            n_a,
-            islands,
+            n_a * scale,
+            islands * scale,
             p_island,
             island_gap,
-            singletons,
+            singletons * scale,
             clustered,
             linked,
             link_gap,
             a_median,
             linked_short,
             linked_long,
+            a_islands * scale,
+            p_a_island,
         )
-        for gl in glens
-    ]
+
+    genomes = [genome(gl, mult[k], k) for k, gl in enumerate(glens)]
+    host = np.arange(n_genomes)
+    if plasmids > 0:
+        g_mean = (genome_length[0] + genome_length[1]) / 2
+        pl, pab, ph = [], [], []
+        for k in range(n_genomes):
+            for _ in range(rng.poisson(plasmids)):
+                plen = int(rng.integers(int(plasmid_length[0]), int(plasmid_length[1]) + 1))
+                genomes.append(genome(plen, mult[k] * plasmid_density * plen / g_mean, k))
+                pl.append(plen)
+                pab.append(ab[k] * plasmid_copy)
+                ph.append(k)
+        glens, ab, host = np.r_[glens, pl].astype(np.int64), np.r_[ab, pab], np.r_[host, ph].astype(np.int64)
+    n_rep = len(genomes)
     truth = {}
     wa = np.concatenate([np.full(len(A), ab[k]) for k, (A, B) in enumerate(genomes)])
     p_g = ab * glens / (ab * glens).sum()
-    gi = rng.choice(n_genomes, n_truth_anchors, p=p_g)
+    gi = rng.choice(n_rep, n_truth_anchors, p=p_g)
     for mode in ("start", "end"):
         dA = [side_distances(A, B, mode) for A, B in genomes]
         R_all, dR = [], []
@@ -235,9 +296,9 @@ def simulate(
             truth[(mode, w)] = dict(F_A=fa, F_rnd=fr, net=1 - (1 - fa) / (1 - fr))
     rr = rng if read_seed is None else np.random.default_rng(read_seed)
     n_reads = int(total_bases / read_lengths.mean())
-    gr = rr.choice(n_genomes, n_reads, p=p_g)
+    gr = rr.choice(n_rep, n_reads, p=p_g)
     rl = rr.choice(read_lengths, n_reads)
-    lengths, rid, st, en, cl, loc, gen = [], [], [], [], [], [], []
+    lengths, rid, st, en, cl, loc, gen, rep, pos = [], [], [], [], [], [], [], [], []
     base = 0
     for k, (A, B) in enumerate(genomes):
         L = np.minimum(rl[gr == k], glens[k] - 1)
@@ -286,7 +347,9 @@ def simulate(
                 cl.append(np.full(r_idx.size, name))
                 loc.append(k * 1_000_000 + off + j[ok])
         lengths.append(L)
-        gen.append(np.full(L.size, k, dtype=np.int64))
+        gen.append(np.full(L.size, host[k], dtype=np.int64))
+        rep.append(np.full(L.size, k, dtype=np.int64))
+        pos.append(rs)
         base += L.size
     reads = (
         np.concatenate(lengths).astype(np.int64),
@@ -300,6 +363,10 @@ def simulate(
         out += (np.concatenate(loc).astype(np.int64),)
     if return_genomes:
         out += (np.concatenate(gen),)
+    if return_replicons:
+        out += (np.concatenate(rep),)
+    if return_positions:
+        out += (np.concatenate(pos).astype(np.int64),)
     return out
 
 
@@ -310,13 +377,27 @@ class Simulated:
     truth: pd.DataFrame  # mode, w, F_A, F_rnd, net
 
 
-def simulate_tables(read_lengths, a_len, b_len, a_class="ARG", b_class="MGE", **kw) -> Simulated:
+def simulate_tables(
+    read_lengths, a_len, b_len, a_class="ARG", b_class="MGE", chimera_rate=0.0, positions=False, **kw
+) -> Simulated:
     """simulate() as the two input tables plus a truth table. The tables do not carry the genes' full lengths, so a
     call touching a read end gets scov = 90 (as a partial alignment would; see stats.netlinked.cut_mask) and every
-    other call scov = 100."""
-    reads, truth, loci, genome = simulate(
-        np.asarray(read_lengths), np.asarray(a_len), np.asarray(b_len), return_loci=True, return_genomes=True, **kw
+    other call scov = 100. chimera_rate > 0 joins that share of the output molecules from two reads (own random
+    stream, seed + 7,777,777), adds `chimera` to the lengths table and keeps the first read's id and genome.
+    positions=True adds `replicon` and `pos` (read start on the replicon) for exact loci
+    (linkstat.loci.clusters_from_positions); a chimera keeps the first read's position."""
+    plasmids = kw.get("plasmids", 0.0) > 0
+    out = simulate(
+        np.asarray(read_lengths),
+        np.asarray(a_len),
+        np.asarray(b_len),
+        return_loci=True,
+        return_genomes=True,
+        return_replicons=plasmids or positions,
+        return_positions=positions,
+        **kw,
     )
+    reads, truth, loci, genome = out[:4]
     ln, rid, st, en, cl = reads
     ids = np.array([f"sim{i}" for i in range(ln.size)])
     cut = (st == 0) | (en == ln[rid])
@@ -331,4 +412,35 @@ def simulate_tables(read_lengths, a_len, b_len, a_class="ARG", b_class="MGE", **
         }
     )
     tr = pd.DataFrame([dict(mode=m, w=w, **v) for (m, w), v in truth.items()])
-    return Simulated(pd.DataFrame({"molecule_id": ids, "length": ln, "genome": genome}), feat, tr)
+    lengths = pd.DataFrame({"molecule_id": ids, "length": ln, "genome": genome})
+    if plasmids or positions:
+        lengths["replicon"] = out[4]
+    if positions:
+        lengths["pos"] = out[5]
+    if chimera_rate > 0:
+        lengths, feat = _join_chimeras(lengths, feat, chimera_rate, kw.get("seed", 1) + 7_777_777)
+    return Simulated(lengths, feat, tr)
+
+
+def _join_chimeras(lengths: pd.DataFrame, feat: pd.DataFrame, rate: float, seed: int):
+    """Join random pairs of reads into one molecule so that `rate` of the output molecules are chimeras."""
+    rng = np.random.default_rng(seed)
+    n = len(lengths)
+    c = int(round(rate * n / (1 + rate)))
+    pick = rng.choice(n, 2 * c, replace=False)
+    first, second = pick[:c], pick[c:]
+    L = lengths.length.to_numpy()
+    shift = pd.Series(L[first], index=lengths.molecule_id.to_numpy()[second])
+    to = pd.Series(lengths.molecule_id.to_numpy()[first], index=lengths.molecule_id.to_numpy()[second])
+    m2 = feat.molecule_id.isin(to.index)
+    feat = feat.copy()
+    feat.loc[m2, "start"] = feat.loc[m2, "start"] + shift.reindex(feat.loc[m2, "molecule_id"]).to_numpy()
+    feat.loc[m2, "end"] = feat.loc[m2, "end"] + shift.reindex(feat.loc[m2, "molecule_id"]).to_numpy()
+    feat.loc[m2, "molecule_id"] = to.reindex(feat.loc[m2, "molecule_id"]).to_numpy()
+    out = lengths.copy()
+    out["chimera"] = False
+    out.loc[out.index[first], "length"] = L[first] + L[second]
+    out.loc[out.index[first], "chimera"] = True
+    out = out.drop(index=out.index[second]).reset_index(drop=True)
+    feat = feat.sort_values(["molecule_id", "start"], kind="stable").reset_index(drop=True)
+    return out, feat

@@ -126,9 +126,14 @@ def net(A, R, w, ia=slice(None), ir=slice(None), min_sides: int = 30) -> float:
     return 1 - (1 - fa) / (1 - fr)
 
 
-def bootstrap(A, R, w, n_boot: int, rng, min_sides: int = 30):
-    """95% percentile interval, resampling molecules for the A sides and the anchor sides independently."""
-    ga, gr = pd.factorize(A["read"])[0], pd.factorize(R["read"])[0]
+def bootstrap(A, R, w, n_boot: int, rng, min_sides: int = 30, groups=None):
+    """95% percentile interval, resampling molecules for the A sides and the anchor sides independently.
+    groups: optional cluster code per molecule (indexed like the side tables' `read`, e.g. locus clusters from
+    linkstat.loci); whole clusters are then resampled (cluster bootstrap, P2 step 2.4)."""
+    ka, kr = (
+        (A["read"], R["read"]) if groups is None else (np.asarray(groups)[A["read"]], np.asarray(groups)[R["read"]])
+    )
+    ga, gr = pd.factorize(ka)[0], pd.factorize(kr)[0]
     by_a = np.split(np.argsort(ga, kind="stable"), np.cumsum(np.bincount(ga))[:-1])
     by_r = np.split(np.argsort(gr, kind="stable"), np.cumsum(np.bincount(gr))[:-1])
     out = np.empty(n_boot)
