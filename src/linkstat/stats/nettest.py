@@ -180,6 +180,12 @@ def _mol_from_sums(sa, wa, sr, wr):
     return 1 - (1 - ma) / (1 - mr) if wa > 0 and wr > 0 and mr < 1 else np.nan
 
 
+def _ratio_from_sums(sa, wa, sr, wr):
+    """log(M_A / M_R): the same-molecule share of A units over that of the anchors (amendment 04, 2.6: the "O/E" of
+    H3 and H4)."""
+    return np.log((sa / wa) / (sr / wr)) if wa > 0 and wr > 0 and sa > 0 and sr > 0 else np.nan
+
+
 def _ci(est, se, df):
     q = float(stats.t.ppf(0.975, df))
     return (est - q * se, est + q * se) if np.isfinite(se) else (np.nan, np.nan)
@@ -270,14 +276,16 @@ def net_linked_test(
         SR = pd.Series(mm["wr"] * mm["yr"]).groupby(mm["hr"]).sum()
         WR = pd.Series(mm["wr"]).groupby(mm["hr"]).sum()
         est_m = _mol_from_sums(SA.sum(), WA.sum(), SR.sum(), WR.sum())
+        est_lr = _ratio_from_sums(SA.sum(), WA.sum(), SR.sum(), WR.sum())
+        m_a, m_r = float(SA.sum() / WA.sum()), float(SR.sum() / WR.sum())
     else:
-        est_m = np.nan
+        est_m = est_lr = m_a = m_r = np.nan
     ua, ur = st[A["read"]], st[R["read"]]
     hosts = np.unique(ua)
     n_u = np.bincount(pd.factorize(ua)[0]).astype(float)
     g_eff = float(n_u.sum() ** 2 / np.sum(n_u**2)) if n_u.size else np.nan
     df = max(g_eff - 1, 1.0) if np.isfinite(g_eff) else 1.0
-    se_w = se_m = np.nan
+    se_w = se_m = se_lr = np.nan
     if strata is not None and 2 < hosts.size:
         jw = np.array([nl.net(A, R, w, np.flatnonzero(ua != h), np.flatnonzero(ur != h), min_sides) for h in hosts])
         jo = jw[np.isfinite(jw)]
@@ -296,6 +304,19 @@ def net_linked_test(
             )
             jo = jm[np.isfinite(jm)]
             se_m = float(np.sqrt((jo.size - 1) / jo.size * np.sum((jo - jo.mean()) ** 2))) if jo.size > 2 else np.nan
+            jl = np.array(
+                [
+                    _ratio_from_sums(
+                        SA.sum() - SA.get(h, 0),
+                        WA.sum() - WA.get(h, 0),
+                        SR.sum() - SR.get(h, 0),
+                        WR.sum() - WR.get(h, 0),
+                    )
+                    for h in hosts
+                ]
+            )
+            jo = jl[np.isfinite(jl)]
+            se_lr = float(np.sqrt((jo.size - 1) / jo.size * np.sum((jo - jo.mean()) ** 2))) if jo.size > 2 else np.nan
     else:  # no strata: bootstrap over molecules
         rng = np.random.default_rng(seed + 2)
         by_a = pd.Series(np.arange(A["read"].size)).groupby(A["read"]).indices
@@ -339,6 +360,17 @@ def net_linked_test(
                 f"{name}_eff": r["eff"],
             }
         )
+    # same-molecule ratio M_A / M_R with its 90% host-jackknife interval on the log scale (for the registered TOST)
+    q90 = float(stats.t.ppf(0.95, df))
+    ok = np.isfinite(est_lr) and np.isfinite(se_lr)
+    out.update(
+        mol_share_A=m_a,
+        mol_share_R=m_r,
+        mol_ratio=float(np.exp(est_lr)) if np.isfinite(est_lr) else np.nan,
+        mol_log_ratio_se=se_lr,
+        mol_ratio_lo90=float(np.exp(est_lr - q90 * se_lr)) if ok else np.nan,
+        mol_ratio_hi90=float(np.exp(est_lr + q90 * se_lr)) if ok else np.nan,
+    )
     called = float(np.sum((e_ - s_)[(cls == "A") | (cls == "B")]))
     out["call_cover_all"] = called / float(ln.sum()) if ln.size else np.nan
     flags = []

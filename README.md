@@ -3,7 +3,7 @@
 Tests whether two gene classes sit on the same long read or contig more often than chance, and measures how strongly
 they are linked in a way that does not depend on read length.
 
-**Status: pre-alpha (v0.2.0.dev0).** The interface will change, and the name will change before the first release
+**Status: pre-alpha (v0.3.0.dev0).** The interface will change, and the name will change before the first release
 (`linkstat` is taken on PyPI by an unrelated tool).
 
 ## What it computes

@@ -91,7 +91,8 @@ def net_test_pairs(
             flags.append(f"few effective hosts (G_eff {r['hosts_effective']:.1f}; intervals wide)")
         row.update(r)
         if st_by_mol is not None:
-            share = float((st_by_mol.reindex(fa.molecule_id.unique()) == UNRESOLVED).mean())
+            lab = st_by_mol.reindex(fa.molecule_id.unique()).astype(str)
+            share = float(((lab == UNRESOLVED) | lab.str.endswith("|" + UNRESOLVED)).mean())
             row["a_molecules_unresolved"] = share
             if share > 0:
                 flags.append(f"{share:.0%} of A molecules in the unresolved host stratum")
@@ -117,3 +118,30 @@ def net_test_pairs(
         if f"{t}_p" in out:
             out[f"{t}_q"] = bh(out[f"{t}_p"].to_numpy(float))
     return out
+
+
+def pool_runs(runs) -> tuple[pd.DataFrame, pd.DataFrame, np.ndarray, pd.DataFrame | None]:
+    """Several runs as one dataset for net_test_pairs (amendment 05 Part C). runs: iterable of dicts with keys run
+    (label), lengths (molecule_id, length), features (molecule_id, start, end, class[, scov]), strata (one label per
+    molecule, lengths order) and optionally paf (read_paf output). Molecule ids get the prefix "<run>|" and host strata
+    become "<run>|<stratum>", so anchors never leave their run and host, and unit loci never join reads of two runs."""
+    lns, fs, sts, pafs = [], [], [], []
+    for r in runs:
+        tag = f"{r['run']}|"
+        ln = r["lengths"][["molecule_id", "length"]].copy()
+        ln["molecule_id"] = tag + ln.molecule_id.astype(str)
+        f = r["features"].copy()
+        f["molecule_id"] = tag + f.molecule_id.astype(str)
+        st = np.asarray(r["strata"], dtype=object)
+        if st.size != len(ln):
+            raise ValueError(f"run {r['run']}: {st.size} strata for {len(ln)} molecules")
+        lns.append(ln)
+        fs.append(f)
+        sts.append(np.array([tag + str(x) for x in st], dtype=object))
+        if r.get("paf") is not None and len(r["paf"]):
+            p = r["paf"].copy()
+            p["q"], p["t"] = tag + p.q.astype(str), tag + p.t.astype(str)
+            pafs.append(p)
+    paf = pd.concat(pafs, ignore_index=True) if pafs else None
+    return pd.concat(lns, ignore_index=True), pd.concat(fs, ignore_index=True), np.concatenate(sts), paf
+

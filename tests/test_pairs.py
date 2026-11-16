@@ -93,3 +93,45 @@ def test_no_events_gives_no_estimate_instead_of_zero():
     t = net_test_pairs(ln, pd.concat([fa, fb]), [("ARG", "MRG")], strata=ln.genome.to_numpy(), loci="positions",
                        n_mc=99, oe=False).iloc[0]
     assert np.isnan(t.net_w) and np.isnan(t.net_w_lo) and "net_w: no events" in t["flags"]
+
+
+def test_mol_ratio_is_reported_with_a_90_interval():
+    s = toy(0.1, seed=16)
+    ln, f = s.lengths, s.features
+    r = net_linked_test(ln, f[f["class"] == "ARG"], f[f["class"] == "MGE"], strata=ln.genome.to_numpy(),
+                        loci="positions", n_mc=99)
+    assert np.isclose(r["mol_ratio"], r["mol_share_A"] / r["mol_share_R"])
+    assert np.isclose(r["net_mol"], 1 - (1 - r["mol_share_A"]) / (1 - r["mol_share_R"]))
+    assert r["mol_ratio_lo90"] < r["mol_ratio"] < r["mol_ratio_hi90"] and r["mol_ratio"] > 1
+
+
+def test_pool_runs_keeps_runs_apart_and_flags_unresolved():
+    from linkstat.pairs import pool_runs
+
+    runs = []
+    for k, seed in enumerate((17, 18)):
+        s = toy(0.1, seed=seed)
+        st = s.lengths.genome.astype(str).to_numpy().astype(object)
+        st[:200] = "unresolved"
+        runs.append(dict(run=f"run{k}", lengths=s.lengths, features=s.features, strata=st))
+    ln, f, st, paf = pool_runs(runs)
+    assert paf is None and ln.molecule_id.is_unique and len(ln) == sum(len(r["lengths"]) for r in runs)
+    assert set(x.split("|")[0] for x in st) == {"run0", "run1"}
+    t = net_test_pairs(ln, f, [("ARG", "MGE")], strata=st, n_mc=199, oe=False).iloc[0]
+    assert t.net_w > 0 and t.net_w_p < 0.05 and "a_molecules_unresolved" in t.index
+    one = net_test_pairs(runs[0]["lengths"], runs[0]["features"], [("ARG", "MGE")], strata=runs[0]["strata"],
+                         n_mc=199, oe=False).iloc[0]
+    assert t.units > one.units
+
+
+def test_read_paf_keep_filter(tmp_path):
+    from linkstat.loci import PAF_COLS, read_paf
+
+    rows = [("a", 5000, 0, 3000, "+", "b", 6000, 100, 3100, 2900, 3000, 60),
+            ("a", 5000, 0, 3000, "+", "c", 6000, 100, 3100, 2900, 3000, 60),
+            ("a", 5000, 0, 500, "+", "b", 6000, 100, 600, 480, 500, 60)]
+    pd.DataFrame(rows, columns=PAF_COLS).to_csv(tmp_path / "x.paf", sep="\t", header=False, index=False)
+    assert len(read_paf(tmp_path / "x.paf", min_block=1000)) == 2
+    assert len(read_paf(tmp_path / "x.paf", min_block=1000, keep={"a", "b"})) == 1
+    (tmp_path / "empty.paf").write_text("")
+    assert len(read_paf(tmp_path / "empty.paf")) == 0

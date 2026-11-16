@@ -18,10 +18,23 @@ from scipy.sparse.csgraph import connected_components
 PAF_COLS = ["q", "qlen", "qs", "qe", "strand", "t", "tlen", "ts", "te", "nmatch", "block", "mapq"]
 
 
-def read_paf(path, min_block: int = 2000) -> pd.DataFrame:
-    """The first 12 PAF columns; self-hits and blocks shorter than min_block dropped."""
-    p = pd.read_csv(path, sep="\t", header=None, usecols=range(12), names=PAF_COLS)
-    return p[(p.q != p.t) & (p.block >= min_block)].reset_index(drop=True)
+def read_paf(path, min_block: int = 2000, keep=None, chunksize: int = 5_000_000) -> pd.DataFrame:
+    """The first 12 PAF columns; self-hits and blocks shorter than min_block dropped. keep: a set of read ids; if given,
+    only overlaps with both reads in it are kept (e.g. the reads that carry a class-A call), read in chunks so that a
+    large PAF does not have to fit in memory."""
+    parts = []
+    try:
+        reader = pd.read_csv(path, sep="\t", header=None, usecols=range(12), names=PAF_COLS, chunksize=chunksize)
+    except pd.errors.EmptyDataError:  # no overlaps at all
+        return pd.DataFrame(columns=PAF_COLS)
+    for p in reader:
+        p = p[(p.q != p.t) & (p.block >= min_block)]
+        if keep is not None:
+            p = p[p.q.isin(keep) & p.t.isin(keep)]
+        parts.append(p)
+    if not parts:
+        return pd.DataFrame(columns=PAF_COLS)
+    return pd.concat(parts, ignore_index=True)
 
 
 def _inside(read, s, e, calls: pd.DataFrame) -> np.ndarray:
