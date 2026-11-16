@@ -50,7 +50,7 @@ def test_analyse_pairs_recovers_planted_linkage_and_reports_all_nulls():
     assert t.iloc[1]["flags"] == "class empty"
 
 
-def test_cli_test_writes_results_and_meta(tmp_path):
+def test_cli_oe_writes_results_and_meta(tmp_path):
     sim = toy(linked=0.0, seed=2)
     sim.lengths.to_csv(tmp_path / "l.tsv", sep="\t", index=False)
     sim.features.to_csv(tmp_path / "f.tsv", sep="\t", index=False)
@@ -58,7 +58,7 @@ def test_cli_test_writes_results_and_meta(tmp_path):
     r = CliRunner().invoke(
         main,
         [
-            "test",
+            "oe",
             "--lengths",
             str(tmp_path / "l.tsv"),
             "--features",
@@ -79,7 +79,7 @@ def test_cli_test_writes_results_and_meta(tmp_path):
     bad = CliRunner().invoke(
         main,
         [
-            "test",
+            "oe",
             "--lengths",
             str(tmp_path / "l.tsv"),
             "--features",

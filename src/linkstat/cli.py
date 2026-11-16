@@ -1,6 +1,7 @@
 """Command-line entry point. Subcommands are added as their modules are implemented (P1 steps 1.9-1.16)."""
 
 import click
+import numpy as np
 import pandas as pd
 
 from . import __version__
@@ -232,7 +233,7 @@ def power(lengths_path, features_path, a_class, b_class, bases, w, net, deff, ta
     click.echo(f"bases for a net linked half-width of {target_halfwidth} at w = {w}: {g:.3g}")
 
 
-@main.command("test")
+@main.command("oe")
 @click.option(
     "--lengths",
     "lengths_path",
@@ -268,8 +269,10 @@ def power(lengths_path, features_path, a_class, b_class, bases, w, net, deff, ta
 )
 @click.option("--seed", default=20261114, show_default=True, type=int)
 @click.option("--out", "out_path", required=True, help="Result table (TSV); settings go to OUT.meta.json.")
-def test_cmd(lengths_path, features_path, pairs, strata_col, w, boot, targets, draws, min_frac, seed, out_path):
-    """Test whether class pairs share molecules more often than chance, and estimate how strongly they are linked."""
+def oe_cmd(lengths_path, features_path, pairs, strata_col, w, boot, targets, draws, min_frac, seed, out_path):
+    """Descriptive v0.1 table: molecule-level O/E (N2-ev, N0-ev, length-only) and the unstratified net linked fraction.
+
+    Not the registered test (that is `linkstat test`); kept for comparison and for fragmentation (--fragment)."""
     import hashlib
     import json
     from datetime import datetime, timezone
@@ -349,6 +352,110 @@ def test_cmd(lengths_path, features_path, pairs, strata_col, w, boot, targets, d
         "flags",
     ]
     click.echo(t[[c for c in show if c in t]].to_string(index=False, float_format=lambda x: f"{x:.4g}"))
+
+
+@main.command("test")
+@click.option("--lengths", "lengths_path", required=True, type=click.Path(exists=True, dir_okay=False),
+              help="Lengths table (molecule_id or read_id, length[, strata column]).")
+@click.option("--features", "features_path", required=True, type=click.Path(exists=True, dir_okay=False),
+              help="Feature table (molecule_id, start, end, class[, scov]), e.g. from `linkstat prep`.")
+@click.option("--pairs", required=True, multiple=True, help="Class pairs A:B, e.g. --pairs ARG:MGE --pairs ARG:MRG.")
+@click.option("--kraken", "kraken_path", type=click.Path(exists=True, dir_okay=False),
+              help="Kraken2 labels per read (read_id, taxid[, hit_kmers]), from all reads at confidence 0.")
+@click.option("--taxonomy", "taxonomy_path", type=click.Path(exists=True, dir_okay=False),
+              help="Kraken2 ktaxonomy.tsv of the database used (needed with --kraken).")
+@click.option("--rank", default="S", show_default=True, type=click.Choice(["S", "G"]), help="Host stratum rank.")
+@click.option("--min-hits", default=10, show_default=True, type=int,
+              help="Reads with fewer Kraken2 hit k-mers are 'unresolved'.")
+@click.option("--strata-col", default=None, help="Use this column of the lengths table as host stratum instead.")
+@click.option("--loci", "paf_path", type=click.Path(exists=True, dir_okay=False),
+              help="minimap2 -x ava-ont PAF among the carrier reads (unit-locus clumps).")
+@click.option("--exclude", "exclude_path", type=click.Path(exists=True, dir_okay=False),
+              help="Molecule ids to drop before the analysis (one per line, or a table with a molecule_id/read_id "
+                   "column), e.g. flagged chimeras.")
+@click.option("--w", default=2000, show_default=True, type=int, help="Window of net_w (bp).")
+@click.option("--units-d", default=1000, show_default=True, type=int, help="A calls within d form one unit (bp).")
+@click.option("--n-mc", default=9999, show_default=True, type=int, help="Monte Carlo draws of the null.")
+@click.option("--no-oe", is_flag=True, help="Skip the descriptive unit-level O/E columns.")
+@click.option("--seed", default=20261114, show_default=True, type=int,
+              help="Seed for anchors and Monte Carlo draws (vary it per dataset in simulation studies).")
+@click.option("--out", "out_path", required=True, help="Result table (TSV); settings go to OUT.meta.json.")
+def test_cmd(lengths_path, features_path, pairs, kraken_path, taxonomy_path, rank, min_hits, strata_col, paf_path,
+             exclude_path, w, units_d, n_mc, no_oe, seed, out_path):
+    """The registered net linked test (amendment 04): is A linked to B beyond chance, and how strongly?
+
+    One row per pair: net_w (within w) and net_mol (same molecule) with intervals, the two registered p values
+    (Monte Carlo mid-p of the null-variance clump tests), BH q values across the pairs, flags, and the descriptive
+    unit-level O/E."""
+    import json
+    from datetime import datetime, timezone
+
+    from .hosts import read_taxonomy, strata_for_molecules
+    from .io import read_features, read_lengths, validate_features
+    from .loci import read_paf
+    from .pairs import net_test_pairs
+
+    ln = read_lengths(lengths_path)
+    f = read_features(features_path)
+    f = f[f.molecule_id.isin(ln.molecule_id)]
+    validate_features(f, ln)
+    pair_list = []
+    for p in pairs:
+        a, sep, b = p.partition(":")
+        if not sep or not a or not b:
+            raise click.UsageError(f"pair {p!r} is not of the form A:B")
+        pair_list.append((a, b))
+    strata, strata_src = None, None
+    if kraken_path and strata_col:
+        raise click.UsageError("use either --kraken or --strata-col")
+    if kraken_path:
+        if not taxonomy_path:
+            raise click.UsageError("--kraken needs --taxonomy (ktaxonomy.tsv of the Kraken2 database)")
+        k = pd.read_csv(kraken_path, sep="\t", dtype={"read_id": str})
+        strata = strata_for_molecules(ln.molecule_id.to_numpy(), k, read_taxonomy(taxonomy_path), rank=rank,
+                                      min_hits=min_hits)
+        strata_src = f"kraken2 {kraken_path} rank {rank} min_hits {min_hits}"
+    elif strata_col:
+        if strata_col not in ln.columns:
+            raise click.UsageError(f"--strata-col {strata_col!r} is not a column of the lengths table")
+        strata, strata_src = ln[strata_col].to_numpy(), f"column {strata_col}"
+    paf = read_paf(paf_path, min_block=1000) if paf_path else None
+    exclude = None
+    if exclude_path:
+        e = pd.read_csv(exclude_path, sep="\t", header=None, dtype=str)
+        col = 0
+        if e.iloc[0].isin(["molecule_id", "read_id"]).any():
+            col = int(np.flatnonzero(e.iloc[0].isin(["molecule_id", "read_id"]).to_numpy())[0])
+            e = e.iloc[1:]
+        exclude = set(e[col])
+    t = net_test_pairs(ln, f, pair_list, strata=strata, paf=paf, exclude=exclude, w=w, units_d=units_d, seed=seed,
+                       n_mc=n_mc, oe=not no_oe)
+    t.to_csv(out_path, sep="\t", index=False)
+    meta = dict(
+        linkstat=__version__,
+        created=datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        lengths=lengths_path, lengths_sha256=_sha256(lengths_path),
+        features=features_path, features_sha256=_sha256(features_path),
+        pairs=list(pairs), strata=strata_src, loci=paf_path, exclude=exclude_path,
+        excluded_molecules=len(exclude) if exclude else 0,
+        w=w, units_d=units_d, n_mc=n_mc, seed=seed,
+        test="net linked test (amendment 04): null-variance clump score tests, Monte Carlo mid-p; BH per test",
+    )
+    with open(f"{out_path}.meta.json", "w") as fh:
+        json.dump(meta, fh, indent=2)
+    show = ["class_a", "class_b", "net_w", "net_w_lo", "net_w_hi", "net_w_p", "net_w_q", "net_mol", "net_mol_lo",
+            "net_mol_hi", "net_mol_p", "net_mol_q", "flags"]
+    click.echo(t[[c for c in show if c in t]].to_string(index=False, float_format=lambda x: f"{x:.4g}"))
+
+
+def _sha256(path):
+    import hashlib
+
+    h = hashlib.sha256()
+    with open(path, "rb") as fh:
+        for chunk in iter(lambda: fh.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
 
 
 if __name__ == "__main__":

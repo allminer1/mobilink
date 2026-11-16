@@ -79,13 +79,21 @@ def stratified_anchors(lengths: np.ndarray, strata, a_strata, a_len, n: int, rng
 
 
 def prepare(
-    lengths: pd.DataFrame, fa: pd.DataFrame, fb: pd.DataFrame, strata=None, n_anchors=nl.N_ANCHORS, seed=nl.SEED
+    lengths: pd.DataFrame,
+    fa: pd.DataFrame,
+    fb: pd.DataFrame,
+    strata=None,
+    n_anchors=nl.N_ANCHORS,
+    seed=nl.SEED,
+    same_orf: float | None = 0.5,
 ):
     """Features and anchors for the net linked test: anchors stratified by host (if strata are given), and anchors
-    touching a B call rejected and redrawn (amendment 04 draft v2). The frozen Part B anchors are netlinked.prepare."""
+    touching a B call rejected and redrawn (amendment 04 draft v2). The frozen Part B anchors are netlinked.prepare.
+    same_orf: overlap (share of the shorter) at which A and B calls count as one ORF and are removed; None = off
+    (annotation sensitivity only; the registered rule is 0.5)."""
     ln = lengths.length.to_numpy(np.int64)
     idx = pd.Index(lengths.molecule_id)
-    fa, fb, n_dual = drop_same_orf(fa, fb)
+    fa, fb, n_dual = drop_same_orf(fa, fb, same_orf) if same_orf is not None else (fa, fb, 0)
     bm = idx.get_indexer(fb.molecule_id)
     b_by_m = {k: (g.start.to_numpy(), g.end.to_numpy()) for k, g in fb.assign(m=bm).groupby("m")}
     rng = np.random.default_rng(seed)
@@ -192,13 +200,15 @@ def net_linked_test(
     min_eff: float = 10.0,
     dense_cover: float = 0.05,
     n_mc: int = 9_999,
+    same_orf: float | None = 0.5,
 ) -> dict:
     """lengths: molecule_id, length[, replicon, pos]; fa, fb: molecule_id, start, end[, scov]; strata: one host label
     per molecule (lengths order) or None; loci: None, "positions" (simulated reads), or a function units -> DataFrame
-    (locus, parity, conflict) such as loci_from_paf(paf). Returns estimates, intervals and the registered p values."""
+    (locus, parity, conflict) such as loci_from_paf(paf). same_orf: the same-ORF overlap rule (0.5 registered; None =
+    off, for annotation sensitivity). Returns estimates, intervals and the registered p values."""
     fa = fa.assign(scov=fa["scov"] if "scov" in fa else 100.0)[["molecule_id", "start", "end", "scov"]]
     fb = fb.assign(scov=fb["scov"] if "scov" in fb else 100.0)[["molecule_id", "start", "end", "scov"]]
-    fa, fb, n_dual = drop_same_orf(fa, fb)
+    fa, fb, n_dual = drop_same_orf(fa, fb, same_orf) if same_orf is not None else (fa, fb, 0)
     if units_d is not None:  # measure from A units: islands of A are what the null places at random
         fa = a_units(fa, fb, units_d)
     fa = fa.reset_index(drop=True)
@@ -207,7 +217,9 @@ def net_linked_test(
     ln = lengths.length.to_numpy(np.int64)
     st = np.zeros(ln.size, int) if strata is None else pd.factorize(np.asarray(strata))[0]
     n_anch = max(nl.N_ANCHORS, anchors_per_unit * len(fa))
-    data, scov, info = prepare(ln_df, fa, fb, None if strata is None else st, n_anchors=n_anch, seed=seed)
+    data, scov, info = prepare(
+        ln_df, fa, fb, None if strata is None else st, n_anchors=n_anch, seed=seed, same_orf=same_orf
+    )
     info["n_dual"] = n_dual
     _, rid, s_, e_, cls = data
     cut = nl.cut_mask(ln, rid, s_, e_, scov)
