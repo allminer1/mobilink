@@ -75,3 +75,21 @@ def test_same_orf_default_is_the_registered_rule_and_none_turns_it_off():
     r1 = net_linked_test(ln, fa, fb2, strata=st, loci="positions", n_mc=99, same_orf=0.5)
     r2 = net_linked_test(ln, fa, fb2, strata=st, loci="positions", n_mc=99, same_orf=None)
     assert r0["net_w"] == r1["net_w"] and r0["n_dual"] == 5 and r2["n_dual"] == 0
+
+
+def test_no_events_gives_no_estimate_instead_of_zero():
+    s = toy(0.0, seed=15)
+    ln, f = s.lengths.copy(), s.features
+    hosts = ln.genome.to_numpy()
+    fa = f[f["class"] == "ARG"]
+    a_hosts = set(hosts[ln.molecule_id.isin(fa.molecule_id).to_numpy()])
+    # one B call on a molecule of a host that carries no A: no B is ever near an A side or an anchor
+    lonely = ln[~np.isin(hosts, list(a_hosts))].molecule_id
+    if lonely.empty:  # every host carries A: put the B on a molecule in a new stratum
+        ln.loc[ln.index[-1], "genome"] = "solo"
+        lonely = ln.molecule_id.iloc[[-1]]
+        fa = fa[fa.molecule_id != lonely.iloc[0]]
+    fb = pd.DataFrame({"molecule_id": [lonely.iloc[0]], "start": [10], "end": [800], "class": ["MRG"]})
+    t = net_test_pairs(ln, pd.concat([fa, fb]), [("ARG", "MRG")], strata=ln.genome.to_numpy(), loci="positions",
+                       n_mc=99, oe=False).iloc[0]
+    assert np.isnan(t.net_w) and np.isnan(t.net_w_lo) and "net_w: no events" in t["flags"]

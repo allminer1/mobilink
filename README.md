@@ -3,34 +3,37 @@
 Tests whether two gene classes sit on the same long read or contig more often than chance, and measures how strongly
 they are linked in a way that does not depend on read length.
 
-**Status: pre-alpha (v0.1.0.dev0).** The interface will change, and the name will change before the first release
+**Status: pre-alpha (v0.2.0.dev0).** The interface will change, and the name will change before the first release
 (`linkstat` is taken on PyPI by an unrelated tool).
 
 ## What it computes
 
-- **Net linked fraction at a window w (the effect size).** For each gene of class A, the distance to the far end of
-  the nearest gene of class B on the same molecule is treated as a censored time and estimated by weighted
-  Kaplan–Meier. It is compared with the same curve for random anchor positions.
-  - It is 0 under chance.
-  - In tests on public ONT runs it changed by at most 0.008 when reads were cut from N50 9–14 kb to 3 kb, while the
-    naive share fell 2–5×.
-- **Molecule-level co-occurrence against a chance model (the test).** Observed molecules with A and B against a
-  chance model.
-  - Genes cannot overlap, so a molecule carrying B has less room for A. The default test (N2-ev) counts, on each
-    molecule, the room an A gene has in the gaps the B genes leave. Within 1 kb bins of that room (and per stratum)
-    it is an exact permutation test, conditional on how many molecules carry each class. Length-only nulls are
-    biased toward depletion.
-  - Reported alongside: N0-ev, a smooth (parametric) approximation of N2-ev, and the registered length-only null.
-  - O/E is a test, not a length-invariant effect size.
-- **Power and design** (`linkstat power`), and a **simulator with known truth** (`linkstat simulate`).
+`linkstat test` runs the net linked test (pre-registered, amendment 04; calibrated in 16,200 simulated datasets at
+5.0% and 4.4% size):
+
+- **Effect sizes.** For each A unit (A genes within 1 kb with no B between them), the distance to the far end of the
+  nearest B on the same molecule, as a censored time, estimated by weighted Kaplan–Meier and compared with random
+  anchor positions on the same molecules:
+  - `net_w`: linked within w (default 2 kb); 0 under chance;
+  - `net_mol`: on the same molecule; 0 under chance.
+  Anchors are placed within host strata (Kraken2 species, or any column you give), because genomes rich in A are often
+  rich in B, which is association without linkage. Intervals come from a delete-one-host jackknife.
+- **Tests.** Score tests whose variance is computed under the null, with reads that cover the same locus as one clump
+  (from minimap2 all-vs-all overlaps among the gene-carrying reads), and p values from the exact null distribution by
+  Monte Carlo (mid-p). Benjamini–Hochberg q values across pairs, per test.
+- **Flags** for few effective events or hosts, dense classes, missing strata or clumps, and unresolved hosts.
+- **Descriptive:** unit-level O/E against an exposure null (columns `oe_*`); the older molecule-level table is
+  `linkstat oe`.
+
+Also: `linkstat chimeras` (reference-free flags for chimeric reads: overlap breakpoints, adapters inside reads),
+`linkstat power` and a simulator with known truth (`linkstat simulate`).
 
 **Known limits:**
 
-- p values treat molecules as independent. Reads that cover the same locus are not independent, so p values are
-  too small at high coverage. Locus clustering is planned; until then, interpret effect sizes and intervals.
-- The chance model treats the genes of one class as placed independently. In real metagenomes they come in clusters
-  (operons, islands, cassettes) and differ between hosts. When the class the model places is clustered, O/E can lean
-  toward depletion. The results report a clustering index for that class and flag values above 2.
+- With one dominant host (for example a sample that is mostly E. coli), there are few independent hosts and loci, and
+  the intervals are honestly wide.
+- The effect size depends on what counts as A and B (identity thresholds, which mobile-element categories): report the
+  class definitions with every estimate.
 
 ## Inputs
 
@@ -46,12 +49,22 @@ Two tab-separated tables:
 ```bash
 # a read-length distribution to sample from (any lengths table works)
 linkstat simulate --read-lengths my_reads.lengths.tsv --n-genomes 40 --total-bases 3e8 --linked 0.3 --out-prefix toy
-linkstat test --lengths toy.lengths.tsv.gz --features toy.features.tsv.gz --pairs ARG:MGE --out toy.results.tsv
+linkstat test --lengths toy.lengths.tsv.gz --features toy.features.tsv.gz --pairs ARG:MGE --strata-col genome \
+  --out toy.results.tsv
 linkstat power --lengths toy.lengths.tsv.gz --features toy.features.tsv.gz --a ARG --b MGE
 ```
 
-`toy.truth.tsv` holds the true net linked fraction of the simulated community, to compare with `intact_net` in the
+`toy.truth.tsv` holds the true net linked fraction of the simulated community, to compare with `net_w` in the
 results. Settings and input checksums go to `toy.results.tsv.meta.json`.
+
+Real data, with Kraken2 labels for all reads (confidence 0) and overlaps among the gene-carrying reads:
+
+```bash
+minimap2 -x ava-ont carriers.fa carriers.fa > carriers.ava.paf
+linkstat chimeras --paf carriers.ava.paf --out chimeras.tsv          # optional
+linkstat test --lengths reads.lengths.tsv --features reads.features.tsv --pairs ARG:MGE --pairs ARG:MRG \
+  --kraken reads.kraken.tsv --taxonomy k2db/ktaxonomy.tsv --loci carriers.ava.paf --out results.tsv
+```
 
 ## Development
 

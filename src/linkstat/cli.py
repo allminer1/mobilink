@@ -1,7 +1,6 @@
 """Command-line entry point. Subcommands are added as their modules are implemented (P1 steps 1.9-1.16)."""
 
 import click
-import numpy as np
 import pandas as pd
 
 from . import __version__
@@ -371,8 +370,8 @@ def oe_cmd(lengths_path, features_path, pairs, strata_col, w, boot, targets, dra
 @click.option("--loci", "paf_path", type=click.Path(exists=True, dir_okay=False),
               help="minimap2 -x ava-ont PAF among the carrier reads (unit-locus clumps).")
 @click.option("--exclude", "exclude_path", type=click.Path(exists=True, dir_okay=False),
-              help="Molecule ids to drop before the analysis (one per line, or a table with a molecule_id/read_id "
-                   "column), e.g. flagged chimeras.")
+              help="Molecule ids to drop before the analysis: one per line, a table with a molecule_id/read_id "
+                   "column, or a `linkstat chimeras` table (its flagged reads).")
 @click.option("--w", default=2000, show_default=True, type=int, help="Window of net_w (bp).")
 @click.option("--units-d", default=1000, show_default=True, type=int, help="A calls within d form one unit (bp).")
 @click.option("--n-mc", default=9999, show_default=True, type=int, help="Monte Carlo draws of the null.")
@@ -425,8 +424,11 @@ def test_cmd(lengths_path, features_path, pairs, kraken_path, taxonomy_path, ran
         e = pd.read_csv(exclude_path, sep="\t", header=None, dtype=str)
         col = 0
         if e.iloc[0].isin(["molecule_id", "read_id"]).any():
-            col = int(np.flatnonzero(e.iloc[0].isin(["molecule_id", "read_id"]).to_numpy())[0])
+            head = e.iloc[0].tolist()
             e = e.iloc[1:]
+            col = head.index("molecule_id") if "molecule_id" in head else head.index("read_id")
+            if "flag" in head:  # a `linkstat chimeras` table: drop the flagged reads only
+                e = e[e[head.index("flag")].str.lower().isin(["true", "1"])]
         exclude = set(e[col])
     t = net_test_pairs(ln, f, pair_list, strata=strata, paf=paf, exclude=exclude, w=w, units_d=units_d, seed=seed,
                        n_mc=n_mc, oe=not no_oe)
@@ -446,6 +448,38 @@ def test_cmd(lengths_path, features_path, pairs, kraken_path, taxonomy_path, ran
     show = ["class_a", "class_b", "net_w", "net_w_lo", "net_w_hi", "net_w_p", "net_w_q", "net_mol", "net_mol_lo",
             "net_mol_hi", "net_mol_p", "net_mol_q", "flags"]
     click.echo(t[[c for c in show if c in t]].to_string(index=False, float_format=lambda x: f"{x:.4g}"))
+
+
+@main.command("chimeras")
+@click.option("--paf", "paf_path", type=click.Path(exists=True, dir_okay=False),
+              help="minimap2 -x ava-ont PAF among the carrier reads (overlap breakpoints).")
+@click.option("--reads", "reads_path", type=click.Path(exists=True, dir_okay=False),
+              help="Reads (FASTA/FASTQ, gzip ok) to scan for adapters inside reads (needs edlib).")
+@click.option("--barcodes", "barcodes_path", type=click.Path(exists=True, dir_okay=False),
+              help="Native barcodes to scan for, as a TSV of name and sequence (e.g. NB01 CACAAAG...).")
+@click.option("--min-support", default=2, show_default=True, type=int, help="Partner reads supporting a breakpoint.")
+@click.option("--min-edge", default=500, show_default=True, type=int, help="Breakpoint distance from read ends (bp).")
+@click.option("--out", "out_path", required=True, help="Flag table (TSV) for `linkstat test --exclude`.")
+def chimeras_cmd(paf_path, reads_path, barcodes_path, min_support, min_edge, out_path):
+    """Flag likely chimeric reads without a reference: overlap breakpoints and adapters inside reads.
+
+    Mock communities (P2 step 2.5): the defaults flag 0.6-2.2% of clean reads and 73-100% of reads joining two species.
+    The registered test does not drop them by itself; use the table with `linkstat test --exclude`."""
+    from .chimeras import chimera_flags, read_sequences
+    from .loci import read_paf
+
+    if not paf_path and not reads_path:
+        raise click.UsageError("give --paf, --reads, or both")
+    bc = None
+    if barcodes_path:
+        b = pd.read_csv(barcodes_path, sep="\t", header=None, names=["name", "seq"], dtype=str)
+        bc = dict(zip(b.name, b.seq, strict=True))
+    paf = read_paf(paf_path, min_block=1000) if paf_path else None
+    reads = read_sequences(reads_path) if reads_path else None
+    t = chimera_flags(paf=paf, reads=reads, barcodes=bc, min_support=min_support, min_edge=min_edge)
+    t.to_csv(out_path, sep="\t", index=False)
+    click.echo(f"{len(t)} reads judged, {int(t.flag.sum())} flagged "
+               f"({int(t.flag_overlap.sum())} overlap breakpoints, {int(t.flag_adapter.sum())} adapters inside)")
 
 
 def _sha256(path):

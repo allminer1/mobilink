@@ -12,8 +12,11 @@ Registered analysis (amendment 04, frozen 2026-11-16; gate G3 passed, D47):
   level").
 - Host strata: Kraken2 per-read labels (linkstat.hosts; species, coarser taxa kept, else "unresolved") or any column
   of the lengths table. The share of A-carrying molecules in the unresolved stratum is reported and flagged.
-- Chimeras: molecules listed in `exclude` (e.g. the output of a chimera filter) are removed before anything else; the
+- Chimeras: molecules listed in `exclude` (e.g. flagged by `linkstat chimeras`) are removed before anything else; the
   count is reported.
+- Reporting (v0.2): a test with no observed event and fewer than one expected gives no estimate (flagged) instead of
+  0 with a zero-width interval; upper interval limits are clipped at 1 (the measure's maximum); fewer than 3
+  effective hosts are flagged.
 Descriptive, not tests: unit-level O/E under N2-ev-u (exact, binned on unit room) and N0-ev-u, with the fixed class of
 amendment 03 (the class whose units sit on more molecules).
 """
@@ -69,10 +72,23 @@ def net_test_pairs(
         if fa.empty or fb.empty:
             rows.append(dict(row, flags="class empty"))
             continue
-        r = net_linked_test(
-            ln, fa, fb, strata=st, loci=loci, w=w, units_d=units_d, seed=seed, n_mc=n_mc, same_orf=same_orf
-        )
+        try:
+            r = net_linked_test(
+                ln, fa, fb, strata=st, loci=loci, w=w, units_d=units_d, seed=seed, n_mc=n_mc, same_orf=same_orf
+            )
+        except ValueError as e:  # too few molecules or calls for anchors and sides
+            rows.append(dict(row, flags=f"test not possible ({e})"))
+            continue
         flags = [r.pop("flags")] if r.get("flags") else []
+        for t in ("net_w", "net_mol"):
+            # reporting (v0.2, P2 step 2.6): no observed event and < 1 expected -> no estimate (it would read 0 +- 0)
+            if r.get(f"{t}_O") == 0 and (r.get(f"{t}_E") or 0) < 1:
+                r[t] = r[f"{t}_lo"] = r[f"{t}_hi"] = np.nan
+                flags.append(f"{t}: no events (E = {r.get(f'{t}_E') or 0:.2g}; no estimate)")
+            elif np.isfinite(r.get(f"{t}_hi", np.nan)) and r[f"{t}_hi"] > 1:  # the measure cannot exceed 1
+                r[f"{t}_hi"] = 1.0
+        if st is not None and r.get("hosts_effective", np.inf) < 3:
+            flags.append(f"few effective hosts (G_eff {r['hosts_effective']:.1f}; intervals wide)")
         row.update(r)
         if st_by_mol is not None:
             share = float((st_by_mol.reindex(fa.molecule_id.unique()) == UNRESOLVED).mean())
