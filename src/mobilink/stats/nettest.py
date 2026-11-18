@@ -41,10 +41,12 @@ from . import netlinked as nl
 from . import nvtest as nv
 
 
-def _touches_b(m, s, e, b_by_m):
-    """Boolean per anchor: overlaps any B call on its molecule (b_by_m: molecule index -> (starts, ends))."""
+def _touches_b(m, s, e, b_by_m, has_b=None):
+    """Boolean per anchor: overlaps any B call on its molecule (b_by_m: molecule index -> (starts, ends)).
+    has_b: boolean per molecule, True where the molecule carries a B call (the same test as the dictionary lookup,
+    without building the key list for every call)."""
     out = np.zeros(m.size, bool)
-    for k in np.flatnonzero(np.isin(m, list(b_by_m))):
+    for k in np.flatnonzero(np.isin(m, list(b_by_m)) if has_b is None else has_b[m]):
         bs, be = b_by_m[m[k]]
         out[k] = bool(np.any((bs < e[k]) & (be > s[k])))
     return out
@@ -57,6 +59,11 @@ def stratified_anchors(lengths: np.ndarray, strata, a_strata, a_len, n: int, rng
     st = np.zeros(lengths.size, int) if strata is None else np.asarray(strata)
     ast = np.zeros(len(a_len), int) if strata is None else np.asarray(a_strata)
     rr, rs, re = [], [], []
+    has_b = None
+    if b_by_m:
+        keys = np.fromiter(b_by_m, dtype=np.int64, count=len(b_by_m))
+        has_b = np.zeros(lengths.size, bool)
+        has_b[keys[keys >= 0]] = True
     counts = pd.Series(ast).value_counts()
     for h, n_h in counts.items():
         m = np.flatnonzero(st == h)
@@ -67,7 +74,7 @@ def stratified_anchors(lengths: np.ndarray, strata, a_strata, a_len, n: int, rng
         for _ in range(50):
             r_rid, r_st, r_en = nl.anchors(lengths[m], a_len, max(target - k, 1) * 2, rng)
             mm = m[r_rid]
-            keep = ~_touches_b(mm, r_st, r_en, b_by_m) if b_by_m else np.ones(mm.size, bool)
+            keep = ~_touches_b(mm, r_st, r_en, b_by_m, has_b) if b_by_m else np.ones(mm.size, bool)
             got_r.append(mm[keep]), got_s.append(r_st[keep]), got_e.append(r_en[keep])
             k += int(keep.sum())
             if k >= target:
