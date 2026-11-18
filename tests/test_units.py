@@ -1,9 +1,9 @@
 import numpy as np
 import pandas as pd
 
-from linkstat.nulls.analytic import excluded_volume_exposure
-from linkstat.nulls.units import Catalogue, cooccurrence_test_units, make_units, unit_catalogue, unit_room
-from linkstat.simulate import simulate_tables
+from mobilink.nulls.analytic import excluded_volume_exposure
+from mobilink.nulls.units import Catalogue, cooccurrence_test_units, make_units, unit_catalogue, unit_room
+from mobilink.simulate import simulate_tables
 
 
 def test_make_units_merges_within_d_and_keeps_edge_lengths():

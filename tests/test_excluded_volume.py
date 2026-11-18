@@ -2,10 +2,10 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from linkstat.features import covered_bases
-from linkstat.nulls.analytic import clustering_index, cooccurrence_test, excluded_volume_exposure, exposure
-from linkstat.nulls.binned import binned_test
-from linkstat.simulate import simulate_tables
+from mobilink.features import covered_bases
+from mobilink.nulls.analytic import clustering_index, cooccurrence_test, excluded_volume_exposure, exposure
+from mobilink.nulls.binned import binned_test
+from mobilink.simulate import simulate_tables
 
 
 def test_covered_bases_merges_overlaps():
@@ -72,7 +72,7 @@ def test_excluded_volume_correction_removes_the_depletion_bias():
 
 
 def test_ev_helper_conditions_on_the_more_common_class():
-    from linkstat.nulls.analytic import cooccurrence_test_ev
+    from mobilink.nulls.analytic import cooccurrence_test_ev
 
     rng = np.random.default_rng(5)
     rl = rng.lognormal(np.log(7_000), 0.6, 10_000).astype(int) + 500

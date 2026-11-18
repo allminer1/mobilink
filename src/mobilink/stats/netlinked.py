@@ -129,7 +129,7 @@ def net(A, R, w, ia=slice(None), ir=slice(None), min_sides: int = 30) -> float:
 def bootstrap(A, R, w, n_boot: int, rng, min_sides: int = 30, groups=None):
     """95% percentile interval, resampling molecules for the A sides and the anchor sides independently.
     groups: optional cluster code per molecule (indexed like the side tables' `read`, e.g. locus clusters from
-    linkstat.loci); whole clusters are then resampled (cluster bootstrap, P2 step 2.4)."""
+    mobilink.loci); whole clusters are then resampled (cluster bootstrap, P2 step 2.4)."""
     ka, kr = (
         (A["read"], R["read"]) if groups is None else (np.asarray(groups)[A["read"]], np.asarray(groups)[R["read"]])
     )

@@ -4,10 +4,10 @@ import numpy as np
 import pandas as pd
 from click.testing import CliRunner
 
-from linkstat.cli import main
-from linkstat.pairs import net_test_pairs
-from linkstat.simulate import simulate_tables
-from linkstat.stats.nettest import net_linked_test
+from mobilink.cli import main
+from mobilink.pairs import net_test_pairs
+from mobilink.simulate import simulate_tables
+from mobilink.stats.nettest import net_linked_test
 
 G = np.random.default_rng(0)
 READS = G.lognormal(np.log(6000), 0.7, 8000).astype(int) + 500
@@ -106,7 +106,7 @@ def test_mol_ratio_is_reported_with_a_90_interval():
 
 
 def test_pool_runs_keeps_runs_apart_and_flags_unresolved():
-    from linkstat.pairs import pool_runs
+    from mobilink.pairs import pool_runs
 
     runs = []
     for k, seed in enumerate((17, 18)):
@@ -125,7 +125,7 @@ def test_pool_runs_keeps_runs_apart_and_flags_unresolved():
 
 
 def test_read_paf_keep_filter(tmp_path):
-    from linkstat.loci import PAF_COLS, read_paf
+    from mobilink.loci import PAF_COLS, read_paf
 
     rows = [("a", 5000, 0, 3000, "+", "b", 6000, 100, 3100, 2900, 3000, 60),
             ("a", 5000, 0, 3000, "+", "c", 6000, 100, 3100, 2900, 3000, 60),

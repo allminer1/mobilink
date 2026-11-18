@@ -2,7 +2,7 @@
 
 H0: O/E >= r or O/E <= 1/r, against H1: 1/r < O/E < r. Each boundary is an alternative of the conditional null with
 a common association that shifts the mean of O to r E (or E / r):
-- analytic null: the conditional law of O given the margins, tilted (linkstat.stats.conditional, log_tilt) so that its
+- analytic null: the conditional law of O given the margins, tilted (mobilink.stats.conditional, log_tilt) so that its
   saddlepoint mean is the boundary value;
 - binned null: in every cell a Fisher noncentral hypergeometric law with one common odds ratio, chosen so that the
   mean of O is the boundary value; the sum over cells is exact (convolution).
@@ -56,7 +56,7 @@ def _nc_mean(table: pd.DataFrame, psi: float) -> float:
 
 
 def tost_binned(table: pd.DataFrame, observed: int, expected: float, bound: float = 1.25) -> dict:
-    """table: cells with columns n, a, b (as linkstat.nulls.binned.cell_table)."""
+    """table: cells with columns n, a, b (as mobilink.nulls.binned.cell_table)."""
     t = table[(table.a > 0) & (table.b > 0)]
     lo_s = int(np.sum(np.maximum(0, t.a + t.b - t.n)))
     hi_s = int(np.sum(np.minimum(t.a, t.b)))

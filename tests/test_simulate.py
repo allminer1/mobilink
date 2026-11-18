@@ -2,10 +2,10 @@ import numpy as np
 import pandas as pd
 from click.testing import CliRunner
 
-from linkstat.cli import main
-from linkstat.io.tables import validate_features
-from linkstat.simulate import simulate_tables
-from linkstat.stats.netlinked import length_robustness
+from mobilink.cli import main
+from mobilink.io.tables import validate_features
+from mobilink.simulate import simulate_tables
+from mobilink.stats.netlinked import length_robustness
 
 RNG = np.random.default_rng(0)
 READS = RNG.lognormal(np.log(9_000), 0.6, 5_000).astype(int) + 500
@@ -89,7 +89,7 @@ def _p2_reads(seed=0):
 
 
 def test_a_islands_make_a_clustered():
-    from linkstat.nulls.analytic import clustering_index
+    from mobilink.nulls.analytic import clustering_index
 
     reads, al, bl = _p2_reads()
     kw = dict(seed=9, n_genomes=60, total_bases=4e8, linked=0.0, min_frac=0.8, n_truth_anchors=1000)

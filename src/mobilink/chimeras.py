@@ -40,7 +40,7 @@ def overlap_breakpoints(
     cluster: int = 200,
     span: int = 500,
 ):
-    """paf: linkstat.loci.read_paf columns (q, qlen, qs, qe, strand, t, tlen, ts, te, nmatch, block).
+    """paf: mobilink.loci.read_paf columns (q, qlen, qs, qe, strand, t, tlen, ts, te, nmatch, block).
     Returns (set of assessable reads, breakpoints DataFrame read_id, x, support, edge)."""
     o = paf[(paf.block >= min_block) & (paf.nmatch >= min_density * paf.block) & (paf.q != paf.t)]
     plus = (o.strand == "+").to_numpy()

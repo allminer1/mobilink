@@ -1,4 +1,4 @@
-"""`linkstat test` (v0.2): the registered net linked test for a set of class pairs, one row per pair.
+"""`mobilink test` (v0.2): the registered net linked test for a set of class pairs, one row per pair.
 
 Registered analysis (amendment 04, frozen 2026-11-16; gate G3 passed, D47):
 - A is measured as units (calls within units_d = 1 kb with no B call between them); the same-ORF rule removes A and
@@ -10,9 +10,9 @@ Registered analysis (amendment 04, frozen 2026-11-16; gate G3 passed, D47):
   anti-conservative when reads cover a locus more than once).
 - Benjamini-Hochberg q values across the pairs, separately for each test (pre-registration: "across pairs within each
   level").
-- Host strata: Kraken2 per-read labels (linkstat.hosts; species, coarser taxa kept, else "unresolved") or any column
+- Host strata: Kraken2 per-read labels (mobilink.hosts; species, coarser taxa kept, else "unresolved") or any column
   of the lengths table. The share of A-carrying molecules in the unresolved stratum is reported and flagged.
-- Chimeras: molecules listed in `exclude` (e.g. flagged by `linkstat chimeras`) are removed before anything else; the
+- Chimeras: molecules listed in `exclude` (e.g. flagged by `mobilink chimeras`) are removed before anything else; the
   count is reported.
 - Reporting (v0.2): a test with no observed event and fewer than one expected gives no estimate (flagged) instead of
   0 with a zero-width interval; upper interval limits are clipped at 1 (the measure's maximum); fewer than 3
@@ -50,7 +50,7 @@ def net_test_pairs(
     same_orf: float | None = 0.5,
 ) -> pd.DataFrame:
     """lengths: molecule_id, length; features: molecule_id, start, end, class[, scov]; strata: one label per molecule
-    (lengths order) or None; paf: linkstat.loci.read_paf(..., min_block=1000) of the carrier overlaps, or loci: a
+    (lengths order) or None; paf: mobilink.loci.read_paf(..., min_block=1000) of the carrier overlaps, or loci: a
     unit-locus function / "positions" (simulation) / "molecule" (contigs: all A units of a molecule are one clump);
     exclude: molecule ids to drop (chimeras)."""
     ln = lengths.reset_index(drop=True)

@@ -1,9 +1,9 @@
 import numpy as np
 import pandas as pd
 
-from linkstat.loci import accepted_overlaps, clusters_from_positions, locus_clusters
-from linkstat.nulls.binned import binned_test
-from linkstat.nulls.robust import cluster_robust_test
+from mobilink.loci import accepted_overlaps, clusters_from_positions, locus_clusters
+from mobilink.nulls.binned import binned_test
+from mobilink.nulls.robust import cluster_robust_test
 
 
 def test_mge_guard_rejects_overlaps_inside_an_element():

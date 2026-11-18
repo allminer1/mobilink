@@ -7,7 +7,7 @@ from . import __version__
 
 
 @click.group(context_settings={"help_option_names": ["-h", "--help"]})
-@click.version_option(__version__, prog_name="linkstat")
+@click.version_option(__version__, prog_name="mobilink")
 def main():
     """Chance-corrected co-localization of gene classes on long reads and contigs."""
 
@@ -271,7 +271,7 @@ def power(lengths_path, features_path, a_class, b_class, bases, w, net, deff, ta
 def oe_cmd(lengths_path, features_path, pairs, strata_col, w, boot, targets, draws, min_frac, seed, out_path):
     """Descriptive v0.1 table: molecule-level O/E (N2-ev, N0-ev, length-only) and the unstratified net linked fraction.
 
-    Not the registered test (that is `linkstat test`); kept for comparison and for fragmentation (--fragment)."""
+    Not the registered test (that is `mobilink test`); kept for comparison and for fragmentation (--fragment)."""
     import hashlib
     import json
     from datetime import datetime, timezone
@@ -313,7 +313,7 @@ def oe_cmd(lengths_path, features_path, pairs, strata_col, w, boot, targets, dra
         return h.hexdigest()
 
     meta = dict(
-        linkstat=__version__,
+        mobilink=__version__,
         created=datetime.now(timezone.utc).isoformat(timespec="seconds"),
         lengths=lengths_path,
         lengths_sha256=sha(lengths_path),
@@ -357,7 +357,7 @@ def oe_cmd(lengths_path, features_path, pairs, strata_col, w, boot, targets, dra
 @click.option("--lengths", "lengths_path", required=True, type=click.Path(exists=True, dir_okay=False),
               help="Lengths table (molecule_id or read_id, length[, strata column]).")
 @click.option("--features", "features_path", required=True, type=click.Path(exists=True, dir_okay=False),
-              help="Feature table (molecule_id, start, end, class[, scov]), e.g. from `linkstat prep`.")
+              help="Feature table (molecule_id, start, end, class[, scov]), e.g. from `mobilink prep`.")
 @click.option("--pairs", required=True, multiple=True, help="Class pairs A:B, e.g. --pairs ARG:MGE --pairs ARG:MRG.")
 @click.option("--kraken", "kraken_path", type=click.Path(exists=True, dir_okay=False),
               help="Kraken2 labels per read (read_id, taxid[, hit_kmers]), from all reads at confidence 0.")
@@ -374,7 +374,7 @@ def oe_cmd(lengths_path, features_path, pairs, strata_col, w, boot, targets, dra
                    "(not with --loci).")
 @click.option("--exclude", "exclude_path", type=click.Path(exists=True, dir_okay=False),
               help="Molecule ids to drop before the analysis: one per line, a table with a molecule_id/read_id "
-                   "column, or a `linkstat chimeras` table (its flagged reads).")
+                   "column, or a `mobilink chimeras` table (its flagged reads).")
 @click.option("--w", default=2000, show_default=True, type=int, help="Window of net_w (bp).")
 @click.option("--units-d", default=1000, show_default=True, type=int, help="A calls within d form one unit (bp).")
 @click.option("--n-mc", default=9999, show_default=True, type=int, help="Monte Carlo draws of the null.")
@@ -423,7 +423,9 @@ def test_cmd(lengths_path, features_path, pairs, kraken_path, taxonomy_path, ran
         strata, strata_src = ln[strata_col].to_numpy(), f"column {strata_col}"
     if paf_path and molecule_clumps:
         raise click.UsageError("use either --loci (reads) or --molecule-clumps (contigs)")
-    paf = read_paf(paf_path, min_block=1000) if paf_path else None
+    # unit loci use only overlaps between molecules that carry an A unit, so the others need not be held in memory
+    carriers = set(f.molecule_id[f["class"].isin({a for a, _ in pair_list})])
+    paf = read_paf(paf_path, min_block=1000, keep=carriers) if paf_path else None
     exclude = None
     if exclude_path:
         e = pd.read_csv(exclude_path, sep="\t", header=None, dtype=str)
@@ -432,14 +434,14 @@ def test_cmd(lengths_path, features_path, pairs, kraken_path, taxonomy_path, ran
             head = e.iloc[0].tolist()
             e = e.iloc[1:]
             col = head.index("molecule_id") if "molecule_id" in head else head.index("read_id")
-            if "flag" in head:  # a `linkstat chimeras` table: drop the flagged reads only
+            if "flag" in head:  # a `mobilink chimeras` table: drop the flagged reads only
                 e = e[e[head.index("flag")].str.lower().isin(["true", "1"])]
         exclude = set(e[col])
     t = net_test_pairs(ln, f, pair_list, strata=strata, paf=paf, loci="molecule" if molecule_clumps else None,
                        exclude=exclude, w=w, units_d=units_d, seed=seed, n_mc=n_mc, oe=not no_oe)
     t.to_csv(out_path, sep="\t", index=False)
     meta = dict(
-        linkstat=__version__,
+        mobilink=__version__,
         created=datetime.now(timezone.utc).isoformat(timespec="seconds"),
         lengths=lengths_path, lengths_sha256=_sha256(lengths_path),
         features=features_path, features_sha256=_sha256(features_path),
@@ -465,12 +467,12 @@ def test_cmd(lengths_path, features_path, pairs, kraken_path, taxonomy_path, ran
               help="Native barcodes to scan for, as a TSV of name and sequence (e.g. NB01 CACAAAG...).")
 @click.option("--min-support", default=2, show_default=True, type=int, help="Partner reads supporting a breakpoint.")
 @click.option("--min-edge", default=500, show_default=True, type=int, help="Breakpoint distance from read ends (bp).")
-@click.option("--out", "out_path", required=True, help="Flag table (TSV) for `linkstat test --exclude`.")
+@click.option("--out", "out_path", required=True, help="Flag table (TSV) for `mobilink test --exclude`.")
 def chimeras_cmd(paf_path, reads_path, barcodes_path, min_support, min_edge, out_path):
     """Flag likely chimeric reads without a reference: overlap breakpoints and adapters inside reads.
 
     Mock communities (P2 step 2.5): the defaults flag 0.6-2.2% of clean reads and 73-100% of reads joining two species.
-    The registered test does not drop them by itself; use the table with `linkstat test --exclude`."""
+    The registered test does not drop them by itself; use the table with `mobilink test --exclude`."""
     from .chimeras import chimera_flags, read_sequences
     from .loci import read_paf
 

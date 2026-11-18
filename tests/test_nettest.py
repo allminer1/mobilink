@@ -1,7 +1,7 @@
 import numpy as np
 
-from linkstat.simulate import simulate_tables
-from linkstat.stats.nettest import net_linked_test
+from mobilink.simulate import simulate_tables
+from mobilink.stats.nettest import net_linked_test
 
 RNG = np.random.default_rng(21)
 READS = RNG.lognormal(np.log(9_000), 0.6, 20_000).astype(int) + 500

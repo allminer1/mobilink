@@ -5,7 +5,7 @@ Threshold rules (identity %, subject cover 80% for all), as registered (docs/pre
   strict   ARG 80  MRG 80  MGE 80
   relaxed  ARG 60  MRG 60  MGE 60
   mgeperm  ARG 80  MRG 80  MGE 40
-Per rule and database, hits passing the rule are collapsed to one call per ORF (linkstat.io.diamond.collapse); the
+Per rule and database, hits passing the rule are collapsed to one call per ORF (mobilink.io.diamond.collapse); the
 surviving hit labels the ORF. Port of P0_02c_features and P0_04_gonogo.drop_same_orf (frozen in amendment 02 Part B).
 """
 

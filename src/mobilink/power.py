@@ -2,7 +2,7 @@
 
 Read-level co-occurrence test (N0, conditional):
   For n molecules with lengths drawn from a length distribution, E0 = n mean(a_i b_i) and the conditional null
-  variance V = n mean(v_i) (delta method, linkstat.nulls.analytic). Under an alternative with O/E = r, O is taken as
+  variance V = n mean(v_i) (delta method, mobilink.nulls.analytic). Under an alternative with O/E = r, O is taken as
   approximately normal with mean r E0 and variance r V. The minimum detectable O/E at level alpha (two-sided) and the
   given power solves r E0 - z_power sqrt(r V) = E0 + z_alpha/2 sqrt(V) + 1/2 (enrichment), or the mirror image for
   depletion.

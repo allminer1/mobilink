@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from linkstat.nulls.analytic import cooccurrence_test
-from linkstat.nulls.binned import (
+from mobilink.nulls.analytic import cooccurrence_test
+from mobilink.nulls.binned import (
     binned_test,
     cell_table,
     cells,
@@ -12,9 +12,9 @@ from linkstat.nulls.binned import (
     null_pmf,
     permutation_test,
 )
-from linkstat.stats import conditional as cond
-from linkstat.stats.equivalence import tost_analytic, tost_binned
-from linkstat.stats.multiple import bh
+from mobilink.stats import conditional as cond
+from mobilink.stats.equivalence import tost_analytic, tost_binned
+from mobilink.stats.multiple import bh
 
 
 def molecules(rng, n=6_000, lam_a=1 / 40_000, lam_b=1 / 10_000):

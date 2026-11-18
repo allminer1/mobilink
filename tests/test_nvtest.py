@@ -1,6 +1,6 @@
 import numpy as np
 
-from linkstat.stats.nvtest import cdf_at, clump_var_mol, clump_var_w, km_curve
+from mobilink.stats.nvtest import cdf_at, clump_var_mol, clump_var_w, km_curve
 
 
 def test_clump_variances_match_their_definitions():
@@ -27,7 +27,7 @@ def test_km_curve_and_cdf():
 
 
 def test_monte_carlo_null_matches_clump_moments():
-    from linkstat.stats.nvtest import mc_counts_mol, mc_counts_w
+    from mobilink.stats.nvtest import mc_counts_mol, mc_counts_w
 
     rng = np.random.default_rng(3)
     f = rng.random(60) * 0.3
@@ -47,7 +47,7 @@ def test_monte_carlo_null_matches_clump_moments():
 
 
 def test_mid_p_values():
-    from linkstat.stats.nvtest import mid_p
+    from mobilink.stats.nvtest import mid_p
 
     assert mid_p(3.0, np.full(99, 3.0)) == (1.0, 0.5, 0.5)
     p, up, low = mid_p(10.0, np.zeros(999))
@@ -60,7 +60,7 @@ def test_mid_p_values():
 def test_same_molecule_sides_follow_parity():
     import pandas as pd
 
-    from linkstat.stats.nvtest import score_tests
+    from mobilink.stats.nvtest import score_tests
 
     curve = (np.array([500.0, 1500.0, 4000.0]), np.array([0.1, 0.2, 0.4]))
     # one locus seen on two reads, the second reversed: its read-left side is the genome-right side

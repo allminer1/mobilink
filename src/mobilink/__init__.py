@@ -1,9 +1,9 @@
-"""linkstat: chance-corrected, read-length-robust co-localization of gene classes on long reads and contigs."""
+"""mobilink: chance-corrected, read-length-robust co-localization of gene classes on long reads and contigs."""
 
 from importlib.metadata import PackageNotFoundError, version
 
 try:
-    __version__ = version("linkstat")
+    __version__ = version("mobilink")
 except PackageNotFoundError:  # running from a source tree without installation
     __version__ = "0.0.0+unknown"
 

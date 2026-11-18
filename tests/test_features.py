@@ -4,10 +4,10 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from linkstat import databases as db
-from linkstat.features import RULES, call_features, check_hit_lengths, drop_same_orf
-from linkstat.io.diamond import COLS, collapse, read_hits
-from linkstat.io.tables import TableError, read_lengths, validate_features
+from mobilink import databases as db
+from mobilink.features import RULES, call_features, check_hit_lengths, drop_same_orf
+from mobilink.io.diamond import COLS, collapse, read_hits
+from mobilink.io.tables import TableError, read_lengths, validate_features
 
 
 def hits_tsv(rows):

@@ -5,7 +5,7 @@ locus sees a B, many small negative ones), so sum c / sqrt(sum c^2) has SD 1.1-1
 linkage (P2_07d-f). The variance is computed under the null instead.
 
 Sides: for each A-unit side, the room to the molecule end on that side and the distance to the far end of the
-nearest B on it (as linkstat.stats.netlinked.sides, with the side recorded). Chance: F_h, the weighted
+nearest B on it (as mobilink.stats.netlinked.sides, with the side recorded). Chance: F_h, the weighted
 Kaplan-Meier CDF of the host's anchor sides (anchors placed within host strata).
   net_w (window w): y_i = 1[nearest B within tau_i], tau_i = min(w, room_i); E = sum F_h(tau_i).
   mol (same molecule): per unit occurrence y = 1[a B on either side within the room];
@@ -14,7 +14,7 @@ Clumps: sides that see the same genome side of the same locus share one distance
 locus x oriented side; mol clump = unit locus). Then
   net_w: Var_k = sum_ij F(min(tau_i, tau_j)) - E_k^2          (F increasing: F(min tau) = min F)
   mol:   Cov_ij = (1 - max F_L)(1 - max F_R) - q_i q_j.
-Orientation: a side's genome side is its read side XOR the unit's parity (linkstat.unitloci). Loci whose overlaps
+Orientation: a side's genome side is its read side XOR the unit's parity (mobilink.unitloci). Loci whose overlaps
 disagree on orientation (conflict) get one shared draw for all their outcomes (comonotone; it maximises the clump
 variance for the given marginals, so it is conservative).
 Reference (P2 step 2.7, run 6 -> D45): the exact null distribution of O under this clump model, by Monte Carlo

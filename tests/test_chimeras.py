@@ -3,9 +3,9 @@ import pandas as pd
 import pytest
 from click.testing import CliRunner
 
-from linkstat.chimeras import LSK_CORE, adapter_hits, chimera_flags, overlap_breakpoints
-from linkstat.cli import main
-from linkstat.loci import PAF_COLS
+from mobilink.chimeras import LSK_CORE, adapter_hits, chimera_flags, overlap_breakpoints
+from mobilink.cli import main
+from mobilink.loci import PAF_COLS
 
 
 def paf_rows():
@@ -53,7 +53,7 @@ def test_cli_chimeras_table_feeds_test_exclude(tmp_path):
     assert r.exit_code == 0, r.output
     f = pd.read_csv(out, sep="\t")
     assert f.loc[f.flag, "read_id"].tolist() == ["R"]
-    from linkstat.simulate import simulate_tables
+    from mobilink.simulate import simulate_tables
 
     g = np.random.default_rng(2)
     sim = simulate_tables(g.lognormal(np.log(6000), 0.6, 3000).astype(int) + 500, g.integers(600, 1500, 200),
@@ -72,7 +72,7 @@ def test_cli_chimeras_table_feeds_test_exclude(tmp_path):
 
 
 def test_tiny_input_is_reported_not_raised():
-    from linkstat.pairs import net_test_pairs
+    from mobilink.pairs import net_test_pairs
 
     reads = pd.DataFrame({"molecule_id": ["R", "C", "X"], "length": [10000, 10000, 8000]})
     feats = pd.DataFrame({"molecule_id": ["R", "C", "X", "X"], "start": [100, 100, 100, 3000],

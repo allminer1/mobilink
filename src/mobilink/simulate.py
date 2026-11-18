@@ -485,7 +485,7 @@ def simulate_tables(
     other call scov = 100. chimera_rate > 0 joins that share of the output molecules from two reads (own random
     stream, seed + 7,777,777), adds `chimera` to the lengths table and keeps the first read's id and genome.
     positions=True adds `replicon` and `pos` (read start on the replicon) for exact loci
-    (linkstat.loci.clusters_from_positions); a chimera keeps the first read's position."""
+    (mobilink.loci.clusters_from_positions); a chimera keeps the first read's position."""
     plasmids = kw.get("plasmids", 0.0) > 0
     out = simulate(
         np.asarray(read_lengths),

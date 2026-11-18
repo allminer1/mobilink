@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from linkstat.fragment import fragment_partial, fragment_whole, n50, random_bounds, rate_for_n50
-from linkstat.stats.netlinked import anchors, cut_mask, km, length_robustness, p_whole, prepare, sides
+from mobilink.fragment import fragment_partial, fragment_whole, n50, random_bounds, rate_for_n50
+from mobilink.stats.netlinked import anchors, cut_mask, km, length_robustness, p_whole, prepare, sides
 
 
 def test_km_matches_hand_computation():
@@ -126,7 +126,7 @@ def test_prepare_rejects_unknown_molecules():
 def test_zero_event_upper_is_clopper_pearson():
     from scipy.stats import beta
 
-    from linkstat.stats.netlinked import events_within, zero_event_upper
+    from mobilink.stats.netlinked import events_within, zero_event_upper
 
     for n in (1, 5, 30, 400):
         assert zero_event_upper(n) == pytest.approx(beta.ppf(0.975, 1, n))

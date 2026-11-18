@@ -105,7 +105,7 @@ def binned_test(
     bin_by=None,
 ) -> BinnedResult:
     # bin_by: the length used for the bins (default the molecule length). With bin_by = length - bases covered by B
-    # (linkstat.features.covered_bases), molecules in a cell have the same room for A, which removes the
+    # (mobilink.features.covered_bases), molecules in a cell have the same room for A, which removes the
     # excluded-volume bias of length-only bins.
     cell = cells(length_bins(lengths if bin_by is None else bin_by, width, cap_quantile), strata)
     t = cell_table(cell, has_a, has_b)

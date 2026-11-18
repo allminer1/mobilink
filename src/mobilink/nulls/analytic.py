@@ -13,7 +13,7 @@ Test. The densities are fitted on the same molecules, which fixes sum_i A_i and 
 (a plug-in Poisson-binomial test) then overstates the null variance of O - E by up to a factor 1 / ((1 - a)(1 - b))
 and the test is conservative; for common classes it almost never rejects (P1 step 1.11, tables/P1_11_*). The default
 test is therefore conditional on both margins: P(O >= observed | sum A, sum B) by the double saddlepoint
-approximation (linkstat.stats.conditional; with equal lengths it approximates Fisher's exact test). The reported
+approximation (mobilink.stats.conditional; with equal lengths it approximates Fisher's exact test). The reported
 null variance is that of O - E(lambda_hat) by the delta method for the moment fits:
     O - E(lambda_hat) ~ sum_i d_i,  d_i = A_i B_i - c_a A_i - c_b B_i,
     c_a = sum_i b_i a'_i / sum_i a'_i,  c_b = sum_i a_i b'_i / sum_i b'_i,  a'_i = d a_i / d lambda_A,
@@ -209,7 +209,7 @@ def cooccurrence_test(
     lengths: per molecule; has_a, has_b: boolean per molecule; len_a, len_b: call lengths of each class (arrays).
     strata: optional label per molecule (sample, taxon bin, GC bin, ...). N1: the densities are fitted per stratum,
     E sums over strata and the test conditions on both margins in every stratum.
-    test: "saddlepoint" (default; conditional on the margins, linkstat.stats.conditional) or "normal" (delta-method
+    test: "saddlepoint" (default; conditional on the margins, mobilink.stats.conditional) or "normal" (delta-method
     conditional variance, normal approximation with continuity correction). method: for the unconditional
     Poisson-binomial p values. tost_bound: equivalence bound r for TOST on O/E (registered 1.25; None skips it).
     exposure_a: A's exposure on each molecule given where B lies (excluded_volume_exposure). If given, the

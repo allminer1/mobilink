@@ -1,4 +1,4 @@
-"""`linkstat test`: all tests and effect sizes for a set of class pairs, one row per pair.
+"""`mobilink test`: all tests and effect sizes for a set of class pairs, one row per pair.
 
 Per pair (A:B), after the same-ORF rule (A and B calls overlapping by >= 50% of the shorter are removed):
 - molecule level:

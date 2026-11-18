@@ -11,3 +11,7 @@ dist/
 *.fq
 *.fastq*
 *.tsv.gz
+# small files that belong to the repository
+!examples/*.tsv.gz
+!resources/*.tsv.gz
+!benchmark/**/*.tsv.gz

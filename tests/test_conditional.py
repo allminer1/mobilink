@@ -2,8 +2,8 @@ import numpy as np
 import pytest
 from scipy import stats
 
-from linkstat.nulls.analytic import conditional_variance
-from linkstat.stats import conditional as cond
+from mobilink.nulls.analytic import conditional_variance
+from mobilink.stats import conditional as cond
 
 
 def test_exact_pmf_is_hypergeometric_for_equal_probabilities():

@@ -3,7 +3,7 @@ import itertools
 import numpy as np
 import pytest
 
-from linkstat.stats import poisson_binomial as pb
+from mobilink.stats import poisson_binomial as pb
 
 
 def brute_pmf(p):

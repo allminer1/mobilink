@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from linkstat.power import (
+from mobilink.power import (
     calls_density,
     depth_table,
     detectable_oe,
@@ -49,9 +49,9 @@ def test_at_risk_and_power_cli(tmp_path):
     import pandas as pd
     from click.testing import CliRunner
 
-    from linkstat.cli import main
-    from linkstat.power import at_risk, chance_and_linked
-    from linkstat.simulate import simulate_tables
+    from mobilink.cli import main
+    from mobilink.power import at_risk, chance_and_linked
+    from mobilink.simulate import simulate_tables
 
     f_r, f_a = chance_and_linked(0.1, 1 / 5_000, 2_000)
     assert at_risk(1_000, 0.1, 1 / 5_000, 2_000) == pytest.approx(1_000 * (1 - f_a))

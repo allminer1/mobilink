@@ -1,7 +1,7 @@
 """Unit loci: the A units on different reads that are copies of the same locus (P2 step 2.7, probe v4).
 
 Reads that see the same side of the same locus share one distance to the nearest B, so under no linkage their
-outcomes are one random draw: the null-variance score test (linkstat.stats.nvtest) needs these clumps.
+outcomes are one random draw: the null-variance score test (mobilink.stats.nvtest) needs these clumps.
 
 Real data (unit_loci_from_paf): minimap2 -x ava-ont overlaps among carrier reads (read_paf, blocks >= 1,000 bp),
 kept if nmatch / block >= min_density (homologous genes at different loci align with low match density; P2 step
@@ -59,7 +59,7 @@ def parity_components(n: int, a: np.ndarray, b: np.ndarray, p: np.ndarray):
 def unit_loci_from_paf(
     units: pd.DataFrame, paf: pd.DataFrame, min_frac: float = 0.5, min_density: float = 0.25, min_inside: float = 0.8
 ):
-    """units: molecule_id, start, end (one row per A unit occurrence); paf: linkstat.loci.read_paf output.
+    """units: molecule_id, start, end (one row per A unit occurrence); paf: mobilink.loci.read_paf output.
     Returns a DataFrame aligned with units: locus, parity (0/1 relative to the locus), conflict (bool)."""
     u = units[["molecule_id", "start", "end"]].reset_index(drop=True).assign(u=lambda x: np.arange(len(x)))
     mols = set(u.molecule_id)

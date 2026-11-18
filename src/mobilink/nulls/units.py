@@ -132,7 +132,7 @@ def unit_room(lengths, molecule_ids, fixed_units: pd.DataFrame, cat: Catalogue, 
 
 
 def unit_clustering_index(lengths, molecule_ids, units: pd.DataFrame, cat: Catalogue, min_frac: float = 0.8) -> float:
-    """As linkstat.nulls.analytic.clustering_index, counting units instead of calls, with the unit exposure."""
+    """As mobilink.nulls.analytic.clustering_index, counting units instead of calls, with the unit exposure."""
     if len(units) == 0:
         return np.nan
     n = units.groupby("molecule_id").size().reindex(molecule_ids, fill_value=0).to_numpy()

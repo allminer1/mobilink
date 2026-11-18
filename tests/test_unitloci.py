@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
 
-from linkstat.loci import PAF_COLS
-from linkstat.unitloci import parity_components, unit_loci_from_paf, unit_loci_from_positions
+from mobilink.loci import PAF_COLS
+from mobilink.unitloci import parity_components, unit_loci_from_paf, unit_loci_from_positions
 
 
 def test_parity_components_and_conflict():

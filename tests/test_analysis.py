@@ -4,9 +4,9 @@ import numpy as np
 import pandas as pd
 from click.testing import CliRunner
 
-from linkstat.analysis import analyse_pairs
-from linkstat.cli import main
-from linkstat.simulate import simulate_tables
+from mobilink.analysis import analyse_pairs
+from mobilink.cli import main
+from mobilink.simulate import simulate_tables
 
 RNG = np.random.default_rng(3)
 READS = RNG.lognormal(np.log(9_000), 0.6, 10_000).astype(int) + 500

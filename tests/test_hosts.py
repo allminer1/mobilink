@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from linkstat.hosts import UNRESOLVED, host_strata, read_taxonomy, strata_for_molecules
+from mobilink.hosts import UNRESOLVED, host_strata, read_taxonomy, strata_for_molecules
 
 # root 1 > Bacteria 2 (D) > phylum 10 (P) > order 20 (O) > family 30 (F) > genus 40 (G) > species 50 (S)
 # > strain 60 (S1); species 51 in genus 40

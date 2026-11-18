@@ -13,8 +13,8 @@ Effect sizes (descriptive, with host-jackknife intervals):
                                                  with the same margin (a unit cut by a molecule end looks complete but
                                                  sits on a read chosen by its span, which biased net_mol by -0.01 with A
                                                  in islands; P2 step 2.7, probes v1-v2)
-Tests (registered p values): null-variance score tests, linkstat.stats.nvtest, over A-unit sides against the host's
-anchor CDF, with clumps from unit loci (linkstat.unitloci): net_w (window w, all A-unit sides; clump = unit
+Tests (registered p values): null-variance score tests, mobilink.stats.nvtest, over A-unit sides against the host's
+anchor CDF, with clumps from unit loci (mobilink.unitloci): net_w (window w, all A-unit sides; clump = unit
 locus x oriented side) and same molecule (clump = unit locus); p values from the exact null
 distribution of the clump model by Monte Carlo (n_mc draws, mid-p). Run 6 (normal reference): 3.7% and 4.3%.
 Anchors: with strata (host labels per molecule), each stratum gets anchors in proportion to its A units
@@ -132,7 +132,7 @@ def a_units(fa: pd.DataFrame, fb: pd.DataFrame, d: int) -> pd.DataFrame:
 
 
 def loci_from_paf(paf: pd.DataFrame):
-    """Unit-locus function for net_linked_test from ava overlaps (linkstat.loci.read_paf with min_block 1000)."""
+    """Unit-locus function for net_linked_test from ava overlaps (mobilink.loci.read_paf with min_block 1000)."""
     return lambda units: unit_loci_from_paf(units, paf)
 
 

@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from linkstat.nulls.analytic import cooccurrence_test, exposure, fit_density, poisson_interval, presence
+from mobilink.nulls.analytic import cooccurrence_test, exposure, fit_density, poisson_interval, presence
 
 
 def test_exposure_matches_brute_force_mixture():
