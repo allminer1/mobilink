@@ -197,7 +197,7 @@ def simulate(
 )
 @click.option("--a", "a_class", required=True, help="Class A (e.g. ARG).")
 @click.option("--b", "b_class", required=True, help="Class B (e.g. MGE).")
-@click.option("--bases", multiple=True, type=float, help="Depths to evaluate (default: 0.5, 1, 2, 5, 10, 20 Gbp).")
+@click.option("--bases", multiple=True, type=float, help="Depths to evaluate, in bases, e.g. --bases 2e9 (default: 0.5e9, 1e9, 2e9, 5e9, 1e10 and 2e10).")
 @click.option("--w", default=2000, show_default=True, type=int, help="Window of the net linked fraction (bp).")
 @click.option("--net", default=0.1, show_default=True, type=float, help="Assumed net linked fraction.")
 @click.option("--deff", default=1.0, show_default=True, type=float, help="Design effect for the half-width.")
