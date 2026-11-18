@@ -51,7 +51,8 @@ def net_test_pairs(
 ) -> pd.DataFrame:
     """lengths: molecule_id, length; features: molecule_id, start, end, class[, scov]; strata: one label per molecule
     (lengths order) or None; paf: linkstat.loci.read_paf(..., min_block=1000) of the carrier overlaps, or loci: a
-    unit-locus function / "positions" (simulation); exclude: molecule ids to drop (chimeras)."""
+    unit-locus function / "positions" (simulation) / "molecule" (contigs: all A units of a molecule are one clump);
+    exclude: molecule ids to drop (chimeras)."""
     ln = lengths.reset_index(drop=True)
     st = None if strata is None else np.asarray(strata, dtype=object)
     excluded = 0

@@ -136,6 +136,13 @@ def loci_from_paf(paf: pd.DataFrame):
     return lambda units: unit_loci_from_paf(units, paf)
 
 
+def loci_by_molecule(units: pd.DataFrame) -> pd.DataFrame:
+    """Unit-locus function for contigs (loci="molecule"): all A units of one molecule are one clump, both sides
+    merged. Units on one contig share the event "the contig carries B", so they are not independent draws under no
+    linkage. The estimates do not change; the tests get the wider null variance."""
+    return pd.DataFrame({"locus": pd.factorize(units.molecule_id)[0], "parity": 0, "conflict": True})
+
+
 def loci_from_positions(lengths: pd.DataFrame):
     """Unit-locus function for simulated reads (lengths with replicon and pos columns; reads are forward)."""
     idx = pd.Index(lengths.molecule_id)
@@ -209,8 +216,8 @@ def net_linked_test(
     same_orf: float | None = 0.5,
 ) -> dict:
     """lengths: molecule_id, length[, replicon, pos]; fa, fb: molecule_id, start, end[, scov]; strata: one host label
-    per molecule (lengths order) or None; loci: None, "positions" (simulated reads), or a function units -> DataFrame
-    (locus, parity, conflict) such as loci_from_paf(paf). same_orf: the same-ORF overlap rule (0.5 registered; None =
+    per molecule (lengths order) or None; loci: None, "positions" (simulated reads), "molecule" (contigs: one clump
+    per molecule), or a function units -> DataFrame (locus, parity, conflict) such as loci_from_paf(paf). same_orf: the same-ORF overlap rule (0.5 registered; None =
     off, for annotation sensitivity). Returns estimates, intervals and the registered p values."""
     fa = fa.assign(scov=fa["scov"] if "scov" in fa else 100.0)[["molecule_id", "start", "end", "scov"]]
     fb = fb.assign(scov=fb["scov"] if "scov" in fb else 100.0)[["molecule_id", "start", "end", "scov"]]
@@ -247,6 +254,10 @@ def net_linked_test(
         lt = pd.DataFrame({"locus": np.arange(len(fa)), "parity": 0, "conflict": False})
     elif isinstance(loci, str) and loci == "positions":
         lt = loci_from_positions(lengths)(fa)
+    elif isinstance(loci, str) and loci == "molecule":
+        lt = loci_by_molecule(fa)
+    elif isinstance(loci, str):
+        raise ValueError(f"loci: unknown value {loci!r} (use 'positions', 'molecule' or a function)")
     else:
         lt = loci(fa)
     hr = st[R_all["read"]]
@@ -383,7 +394,9 @@ def net_linked_test(
         flags.append("no host strata (anchors over all molecules)")
     if loci is None:
         flags.append("no locus clumps (each unit occurrence is its own clump)")
-    if out["loci_conflict_share"] > 0.1:
+    if isinstance(loci, str) and loci == "molecule":
+        flags.append("molecule clumps (all A units of a molecule are one clump)")
+    elif out["loci_conflict_share"] > 0.1:
         flags.append("locus conflicts (> 10% of units; sides merged)")
     if strata is not None and hosts.size < 30:
         flags.append("few units (< 30 hosts carry A units)")

@@ -369,6 +369,9 @@ def oe_cmd(lengths_path, features_path, pairs, strata_col, w, boot, targets, dra
 @click.option("--strata-col", default=None, help="Use this column of the lengths table as host stratum instead.")
 @click.option("--loci", "paf_path", type=click.Path(exists=True, dir_okay=False),
               help="minimap2 -x ava-ont PAF among the carrier reads (unit-locus clumps).")
+@click.option("--molecule-clumps", is_flag=True,
+              help="All A units of one molecule form one clump. Use it when the molecules are contigs "
+                   "(not with --loci).")
 @click.option("--exclude", "exclude_path", type=click.Path(exists=True, dir_okay=False),
               help="Molecule ids to drop before the analysis: one per line, a table with a molecule_id/read_id "
                    "column, or a `linkstat chimeras` table (its flagged reads).")
@@ -380,7 +383,7 @@ def oe_cmd(lengths_path, features_path, pairs, strata_col, w, boot, targets, dra
               help="Seed for anchors and Monte Carlo draws (vary it per dataset in simulation studies).")
 @click.option("--out", "out_path", required=True, help="Result table (TSV); settings go to OUT.meta.json.")
 def test_cmd(lengths_path, features_path, pairs, kraken_path, taxonomy_path, rank, min_hits, strata_col, paf_path,
-             exclude_path, w, units_d, n_mc, no_oe, seed, out_path):
+             molecule_clumps, exclude_path, w, units_d, n_mc, no_oe, seed, out_path):
     """The registered net linked test (amendment 04): is A linked to B beyond chance, and how strongly?
 
     One row per pair: net_w (within w) and net_mol (same molecule) with intervals, the two registered p values
@@ -418,6 +421,8 @@ def test_cmd(lengths_path, features_path, pairs, kraken_path, taxonomy_path, ran
         if strata_col not in ln.columns:
             raise click.UsageError(f"--strata-col {strata_col!r} is not a column of the lengths table")
         strata, strata_src = ln[strata_col].to_numpy(), f"column {strata_col}"
+    if paf_path and molecule_clumps:
+        raise click.UsageError("use either --loci (reads) or --molecule-clumps (contigs)")
     paf = read_paf(paf_path, min_block=1000) if paf_path else None
     exclude = None
     if exclude_path:
@@ -430,15 +435,16 @@ def test_cmd(lengths_path, features_path, pairs, kraken_path, taxonomy_path, ran
             if "flag" in head:  # a `linkstat chimeras` table: drop the flagged reads only
                 e = e[e[head.index("flag")].str.lower().isin(["true", "1"])]
         exclude = set(e[col])
-    t = net_test_pairs(ln, f, pair_list, strata=strata, paf=paf, exclude=exclude, w=w, units_d=units_d, seed=seed,
-                       n_mc=n_mc, oe=not no_oe)
+    t = net_test_pairs(ln, f, pair_list, strata=strata, paf=paf, loci="molecule" if molecule_clumps else None,
+                       exclude=exclude, w=w, units_d=units_d, seed=seed, n_mc=n_mc, oe=not no_oe)
     t.to_csv(out_path, sep="\t", index=False)
     meta = dict(
         linkstat=__version__,
         created=datetime.now(timezone.utc).isoformat(timespec="seconds"),
         lengths=lengths_path, lengths_sha256=_sha256(lengths_path),
         features=features_path, features_sha256=_sha256(features_path),
-        pairs=list(pairs), strata=strata_src, loci=paf_path, exclude=exclude_path,
+        pairs=list(pairs), strata=strata_src, loci=paf_path, molecule_clumps=bool(molecule_clumps),
+        exclude=exclude_path,
         excluded_molecules=len(exclude) if exclude else 0,
         w=w, units_d=units_d, n_mc=n_mc, seed=seed,
         test="net linked test (amendment 04): null-variance clump score tests, Monte Carlo mid-p; BH per test",

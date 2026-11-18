@@ -135,3 +135,30 @@ def test_read_paf_keep_filter(tmp_path):
     assert len(read_paf(tmp_path / "x.paf", min_block=1000, keep={"a", "b"})) == 1
     (tmp_path / "empty.paf").write_text("")
     assert len(read_paf(tmp_path / "empty.paf")) == 0
+
+
+def test_molecule_clumps_keep_the_estimates_and_widen_the_test(tmp_path):
+    s = toy(0.1, seed=13)
+    ln, f = s.lengths, s.features
+    st = ln.genome.to_numpy()
+    none = net_test_pairs(ln, f, [("ARG", "MGE")], strata=st, n_mc=499, oe=False).iloc[0]
+    mol = net_test_pairs(ln, f, [("ARG", "MGE")], strata=st, loci="molecule", n_mc=499, oe=False).iloc[0]
+    for k in ("net_w", "net_mol", "net_w_O", "net_w_E", "net_mol_O", "net_mol_E"):
+        assert mol[k] == none[k]
+    assert mol.unit_loci == f[f["class"] == "ARG"].molecule_id.nunique() <= none.unit_loci
+    assert mol.net_w_V >= none.net_w_V and mol.net_mol_V >= none.net_mol_V
+    assert "molecule clumps" in mol["flags"] and "locus conflicts" not in mol["flags"]
+    assert "no locus clumps" in none["flags"] and "no locus clumps" not in mol["flags"]
+    ln.to_csv(tmp_path / "l.tsv", sep="\t", index=False)
+    f.to_csv(tmp_path / "f.tsv", sep="\t", index=False)
+    args = ["test", "--lengths", str(tmp_path / "l.tsv"), "--features", str(tmp_path / "f.tsv"), "--pairs", "ARG:MGE",
+            "--strata-col", "genome", "--n-mc", "499", "--no-oe", "--out", str(tmp_path / "res.tsv")]
+    r = CliRunner().invoke(main, args + ["--molecule-clumps"])
+    assert r.exit_code == 0, r.output
+    row = pd.read_csv(tmp_path / "res.tsv", sep="\t").iloc[0]
+    assert np.isclose(row.net_w, mol.net_w) and np.isclose(row.net_w_p, mol.net_w_p)
+    assert json.load(open(tmp_path / "res.tsv.meta.json"))["molecule_clumps"] is True
+    empty = tmp_path / "ava.paf"
+    empty.write_text("")
+    bad = CliRunner().invoke(main, args + ["--molecule-clumps", "--loci", str(empty)])
+    assert bad.exit_code != 0 and "either --loci" in bad.output
