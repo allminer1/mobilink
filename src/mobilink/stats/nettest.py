@@ -41,6 +41,18 @@ from . import netlinked as nl
 from . import nvtest as nv
 
 
+def _calls_by_molecule(m, start, end) -> dict:
+    """Molecule index -> (starts, ends) of its calls, in the order of the table (what iterating a group-by over the
+    molecule gives, without the per-group overhead: one stable sort and one split)."""
+    m = np.asarray(m)
+    if m.size == 0:
+        return {}
+    o = np.argsort(m, kind="stable")
+    ms = m[o]
+    cut = np.flatnonzero(np.diff(ms)) + 1
+    return dict(zip(ms[np.r_[0, cut]].tolist(), zip(np.split(start[o], cut), np.split(end[o], cut), strict=True), strict=True))
+
+
 def _touches_b(m, s, e, b_by_m, has_b=None):
     """Boolean per anchor: overlaps any B call on its molecule (b_by_m: molecule index -> (starts, ends)).
     has_b: boolean per molecule, True where the molecule carries a B call (the same test as the dictionary lookup,
@@ -102,7 +114,7 @@ def prepare(
     idx = pd.Index(lengths.molecule_id)
     fa, fb, n_dual = drop_same_orf(fa, fb, same_orf) if same_orf is not None else (fa, fb, 0)
     bm = idx.get_indexer(fb.molecule_id)
-    b_by_m = {k: (g.start.to_numpy(), g.end.to_numpy()) for k, g in fb.assign(m=bm).groupby("m")}
+    b_by_m = _calls_by_molecule(bm, fb.start.to_numpy(), fb.end.to_numpy())
     rng = np.random.default_rng(seed)
     a_m = idx.get_indexer(fa.molecule_id)
     st = None if strata is None else np.asarray(strata)
@@ -175,7 +187,7 @@ def _margin_mol(ln, idx, fa, fb, st, d, n_per, seed):
     if am.size == 0:
         return None
     lnm = np.maximum(ln - 2 * d, 0)
-    b_by_m = {k: (g.start.to_numpy() - d, g.end.to_numpy() - d) for k, g in fb.assign(m=bm).groupby("m")}
+    b_by_m = _calls_by_molecule(bm, fb.start.to_numpy() - d, fb.end.to_numpy() - d)
     r_m, r_s, r_e = stratified_anchors(
         lnm, st, st[am], span, max(nl.N_ANCHORS, n_per * am.size), np.random.default_rng(seed + 5), b_by_m
     )
