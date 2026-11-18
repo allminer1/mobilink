@@ -1,0 +1,37 @@
+library	raw_file	sheet_row	soil	locality	role
+EKR1_r1b01	run1.barcode01.fastq.gz	1	277	Ridder	analysed
+EKR1_r1b02	run1.barcode02.fastq.gz	2	278	Ridder	left out: this soil is analysed from its deep data (step 3.4b)
+EKR1_r1b03	run1.barcode03.fastq.gz	3	279	Ridder	left out: this soil is analysed from its deep data (step 3.4b)
+EKR1_r1b04	run1.barcode04.fastq.gz	4	280	Ridder	left out: this soil is analysed from its deep data (step 3.4b)
+EKR1_r1b05	run1.barcode05.fastq.gz	5	281	Ridder	left out: this soil is analysed from its deep data (step 3.4b)
+EKR1_r1b06	run1.barcode06.fastq.gz	6	287	Shemonaikha	analysed
+EKR1_r1b07	run1.barcode07.fastq.gz	7	289	Shemonaikha	analysed
+EKR1_r1b08	run1.barcode08.fastq.gz	8	292	Shemonaikha	analysed
+EKR1_r1b09	run1.barcode09.fastq.gz	9	295	Shemonaikha	analysed
+EKR1_r1b10	run1.barcode10.fastq.gz	10	296	Shemonaikha	analysed
+EKR1_r1b11	run1.barcode11.fastq.gz	11	299	Pervomaisk	analysed
+EKR1_r1b12	run1.barcode12.fastq.gz	12	301	Pervomaisk	analysed
+EKR1_r1b13	run1.barcode13.fastq.gz	13	304	Pervomaisk	left out: this soil is analysed from its deep data (step 3.4b)
+EKR1_r1b14	run1.barcode14.fastq.gz	14	307	Pervomaisk	left out: this soil is analysed from its deep data (step 3.4b)
+EKR1_r1b15	run1.barcode15.fastq.gz	15	308	Pervomaisk	left out: this soil is analysed from its deep data (step 3.4b)
+EKR1_r1b16	run1.barcode16.fastq.gz	16	310	Pervomaisk	left out: this soil is analysed from its deep data (step 3.4b)
+EKR1_r1b17	run1.barcode17.fastq.gz	17	313	Glubokoe	analysed
+EKR1_r1b18	run1.barcode18.fastq.gz	18	317	Glubokoe	analysed
+EKR1_r2b01	run2.barcode01.fastq.gz	19	330	Belousovka	analysed
+EKR1_r2b02	run2.barcode02.fastq.gz	20	331	Belousovka	analysed
+EKR1_r2b03	run2.barcode03.fastq.gz	21	332	Belousovka	analysed
+EKR1_r2b04	run2.barcode04.fastq.gz	22	333	Belousovka	analysed
+EKR1_r2b05	run2.barcode05.fastq.gz	23	334	Belousovka	analysed
+EKR1_r2b06	run2.barcode06.fastq.gz	24	335	Belousovka	analysed
+EKR1_r2b07	run2.barcode07.fastq.gz	25	339	TMK	analysed
+EKR1_r2b08	run2.barcode08.fastq.gz	26	340	TMK	analysed
+EKR1_r2b09	run2.barcode09.fastq.gz	27	343	TMK	analysed
+EKR1_r2b10	run2.barcode10.fastq.gz	28	344	TMK	analysed
+EKR1_r2b11	run2.barcode11.fastq.gz	29	348	TMK	analysed
+EKR1_r2b12	run2.barcode12.fastq.gz	30	357	Ust-Kamenogorsk	analysed
+EKR1_r2b13	run2.barcode13.fastq.gz	31	362	Ust-Kamenogorsk	analysed
+EKR1_r2b14	run2.barcode14.fastq.gz	32	363	Ust-Kamenogorsk	analysed
+EKR1_r2b15	run2.barcode15.fastq.gz	33	364	Ust-Kamenogorsk	analysed
+EKR1_r2b16	run2.barcode16.fastq.gz	34	gf10	Ust-Kamenogorsk	analysed
+EKR1_r2b17	run2.barcode17.fastq.gz	35	gf11	Ust-Kamenogorsk	analysed
+EKR1_r2b18	run2.barcode18.fastq.gz	36	control	Ust-Kamenogorsk	left out: control library

@@ -1,0 +1,11 @@
+runs analysed: 48 (human gut 12, livestock 12, soil 12, wastewater 12)
+H1a: not determined | counting runs 3 (classes: 1), naive share native / 3 kb >= 1.5 in 3 (1.00)
+H2 (under linkage): not determined | counting runs 3 (classes: 1), net linked stable, intervals overlap in 3 (1.00)
+  naive ratio median 2.00 (range 1.81-3.41); |native - 3 kb| median 0.0042
+H1b: supported | weighted sum of within-class Spearman 11.02, one-sided permutation p 0.0475; human gut rho 0.39, livestock rho 0.08, soil rho -0.13, wastewater rho 0.66
+H2 (no linkage, descriptive): Spearman of ARG:MRG net_mol with N50 over 26 runs 0.27 (p 0.184)
+H4: not determined | pooled soil ARG:MRG not determined (net_mol nan, q 0.9508, M_A/M_R nan, 90% nan-nan); runs: not determined 12
+H3 (descriptive) human gut: ARG:MGE net_w 0.2144 (0.1789 to 0.2499), net_mol 0.5077 (0.4416 to 0.5739), q 0.0003 / 0.0003
+H3 (descriptive) livestock: ARG:MGE net_w 0.1018 (0.0858 to 0.1179), net_mol 0.2612 (0.2262 to 0.2963), q 0.0009 / 0.0003
+H3 (descriptive) soil: ARG:MGE net_w -0.0010 (-0.0040 to 0.0021), net_mol 0.0008 (-0.0135 to 0.0150), q 0.9742 / 0.9508
+H3 (descriptive) wastewater: ARG:MGE net_w 0.0803 (0.0647 to 0.0958), net_mol 0.1841 (0.1436 to 0.2245), q 0.00015 / 0.00015

@@ -1,0 +1,49 @@
+run_accession	env	project	experiment	design_description	library_protocol	instrument	submitted_file
+SRR32022287	wastewater	PRJNA1207805	SRX27372822	DNA was extracted using the DNeasy PowerSoil Pro Kit.		PromethION	
+SRR32022526	wastewater	PRJNA1207805	SRX27372989	DNA was extracted using the DNeasy PowerSoil Pro Kit.		PromethION	
+SRR32022389	wastewater	PRJNA1207805	SRX27372720	DNA was extracted using the DNeasy PowerSoil Pro Kit.		PromethION	
+SRR32022196	wastewater	PRJNA1207805	SRX27372913	DNA was extracted using the DNeasy PowerSoil Pro Kit.		PromethION	
+SRR32022414	wastewater	PRJNA1207805	SRX27372695	DNA was extracted using the DNeasy PowerSoil Pro Kit.		PromethION	
+SRR32022551	wastewater	PRJNA1207805	SRX27372964	DNA was extracted using the DNeasy PowerSoil Pro Kit.		PromethION	
+SRR32022544	wastewater	PRJNA1207805	SRX27372971	DNA was extracted using the DNeasy PowerSoil Pro Kit.		PromethION	
+SRR32022513	wastewater	PRJNA1207805	SRX27373002	DNA was extracted using the DNeasy PowerSoil Pro Kit.		PromethION	
+SRR32022432	wastewater	PRJNA1207805	SRX27372677	DNA was extracted using the DNeasy PowerSoil Pro Kit.		PromethION	
+SRR32022541	wastewater	PRJNA1207805	SRX27372974	DNA was extracted using the DNeasy PowerSoil Pro Kit.		PromethION	
+SRR32022426	wastewater	PRJNA1207805	SRX27372683	DNA was extracted using the DNeasy PowerSoil Pro Kit.		PromethION	
+SRR32022423	wastewater	PRJNA1207805	SRX27372686	DNA was extracted using the DNeasy PowerSoil Pro Kit.		PromethION	
+SRR23278736	human gut	PRJNA929328	SRX19222008	ONT WGS Sequencing; HMT Protocol; MinION/PromethION		PromethION	
+SRR23278666	human gut	PRJNA929328	SRX19222078	ONT WGS Sequencing; HMT Protocol; MinION/PromethION		PromethION	
+SRR23278747	human gut	PRJNA929328	SRX19221997	ONT WGS Sequencing; HMT Protocol; MinION/PromethION		PromethION	
+SRR23278688	human gut	PRJNA929328	SRX19222056	ONT WGS Sequencing; HMT Protocol; MinION/PromethION		PromethION	
+SRR23278716	human gut	PRJNA929328	SRX19222028	ONT WGS Sequencing; HMT Protocol; MinION/PromethION		PromethION	
+SRR23278658	human gut	PRJNA929328	SRX19222086	ONT WGS Sequencing; HMT Protocol; MinION/PromethION		PromethION	
+ERR16683622	human gut	PRJEB108131	ERX16074556			GridION	ftp.sra.ebi.ac.uk/vol1/run/ERR166/ERR16683622/CAR-004-06_nohost.fq.gz
+ERR16683637	human gut	PRJEB108131	ERX16074571			GridION	ftp.sra.ebi.ac.uk/vol1/run/ERR166/ERR16683637/CAR-040-06_nohost.fq.gz
+ERR16683631	human gut	PRJEB108131	ERX16074565			GridION	ftp.sra.ebi.ac.uk/vol1/run/ERR166/ERR16683631/CAR-028-06_nohost.fq.gz
+ERR16683592	human gut	PRJEB108131	ERX16074526			GridION	ftp.sra.ebi.ac.uk/vol1/run/ERR166/ERR16683592/CAR-021-01_nohost.fq.gz
+ERR16683614	human gut	PRJEB108131	ERX16074548			GridION	ftp.sra.ebi.ac.uk/vol1/run/ERR166/ERR16683614/CAR-029-02_nohost.fq.gz
+ERR16683602	human gut	PRJEB108131	ERX16074536			GridION	ftp.sra.ebi.ac.uk/vol1/run/ERR166/ERR16683602/CAR-041-01_nohost.fq.gz
+SRR34068992	livestock	PRJNA1279599	SRX29264036	Enzymatic lysis with lysozyme and MetaPolyzyme followed by DNA extraction (Quick-DNA HMW MagBead Kit). Library preparation using the native ligation kit V14 and sequencing on R10.4.1 flow cells. Basecalling using guppy 6.1.1 with model dna_r10.4.1_e8.2_400bps_sup@v4.2.0.		MinION	
+SRR34069001	livestock	PRJNA1279599	SRX29264027	Enzymatic lysis with lysozyme and MetaPolyzyme followed by DNA extraction (Quick-DNA HMW MagBead Kit). Library preparation using the native ligation kit V14 and sequencing on R10.4.1 flow cells. Basecalling using guppy 6.1.1 with model dna_r10.4.1_e8.2_400bps_sup@v4.2.0.		MinION	
+SRR34068993	livestock	PRJNA1279599	SRX29264035	Enzymatic lysis with lysozyme and MetaPolyzyme followed by DNA extraction (Quick-DNA HMW MagBead Kit). Library preparation using the native ligation kit V14 and sequencing on R10.4.1 flow cells. Basecalling using guppy 6.1.1 with model dna_r10.4.1_e8.2_400bps_sup@v4.2.0.		MinION	
+SRR34068988	livestock	PRJNA1279599	SRX29264040	Enzymatic lysis with lysozyme and MetaPolyzyme followed by DNA extraction (Quick-DNA HMW MagBead Kit). Library preparation using the native ligation kit V14 and sequencing on R10.4.1 flow cells. Basecalling using guppy 6.1.1 with model dna_r10.4.1_e8.2_400bps_sup@v4.2.0.		MinION	
+SRR37062733	livestock	PRJNA1414918	SRX32009099	Rapid Barcodeing kit		PromethION	
+SRR37062721	livestock	PRJNA1414918	SRX32009111	Rapid Barcodeing kit		PromethION	
+SRR37062729	livestock	PRJNA1414918	SRX32009103	Rapid Barcodeing kit		PromethION	
+SRR37062723	livestock	PRJNA1414918	SRX32009109	Rapid Barcodeing kit		PromethION	
+ERR17169856	livestock	ERP183232	ERX16553136	unspecified		PromethION	ftp.sra.ebi.ac.uk/vol1/run/ERR171/ERR17169856/B-M-005-01_filtered_deduplicated.fq.gz
+ERR17169968	livestock	ERP183232	ERX16553248	unspecified		PromethION	ftp.sra.ebi.ac.uk/vol1/run/ERR171/ERR17169968/V-S-047-01_filtered_deduplicated.fq.gz
+ERR17169882	livestock	ERP183232	ERX16553162	unspecified		PromethION	ftp.sra.ebi.ac.uk/vol1/run/ERR171/ERR17169882/B-M-112-17_filtered_deduplicated.fq.gz
+ERR17169874	livestock	ERP183232	ERX16553154	unspecified		PromethION	ftp.sra.ebi.ac.uk/vol1/run/ERR171/ERR17169874/B-M-101-16_filtered_deduplicated.fq.gz
+ERR11596057	soil	PRJEB58634	ERX10998506			PromethION	ftp.sra.ebi.ac.uk/vol1/run/ERR115/ERR11596057/MFD08462_R1041_trim_filt.fastq.gz
+ERR11593393	soil	PRJEB58634	ERX10995851			PromethION	ftp.sra.ebi.ac.uk/vol1/run/ERR115/ERR11593393/MFD08669_R1041_trim_filt.fastq.gz
+ERR11523675	soil	PRJEB58634	ERX10929549			PromethION	ftp.sra.ebi.ac.uk/vol1/run/ERR115/ERR11523675/MFD09495_R1041_trim_filt.fastq.gz
+ERR11523661	soil	PRJEB58634	ERX10929535			PromethION	ftp.sra.ebi.ac.uk/vol1/run/ERR115/ERR11523661/MFD02199_R1041_trim_filt.fastq.gz
+ERR14825711	soil	PRJEB86780	ERX14231415			PromethION	ftp.sra.ebi.ac.uk/vol1/run/ERR148/ERR14825711/K_H_5_T3.fastq.gz
+ERR14825823	soil	PRJEB86780	ERX14231527			PromethION	ftp.sra.ebi.ac.uk/vol1/run/ERR148/ERR14825823/M_M_4_T3.fastq.gz
+ERR14825617	soil	PRJEB86780	ERX14231321			PromethION	ftp.sra.ebi.ac.uk/vol1/run/ERR148/ERR14825617/H_H_2_T3.fastq.gz
+ERR14825839	soil	PRJEB86780	ERX14231543			PromethION	ftp.sra.ebi.ac.uk/vol1/run/ERR148/ERR14825839/M_U_1_T3.fastq.gz
+SRR36743233	soil	PRJNA1400213	SRX31742255	Shotgun metagenomic DNA libraries from soil and rhizosphere (rhizosheath) samples were extracted with the QIAGEN DNeasy PowerSoil Pro kit, prepared with the ONT Native Barcoding Kit 96 V14 (SQK-NBD114.96) using end-prep and ligation, pooled and sequenced on an ONT PromethION, then basecalled and demultiplexed with Dorado v1.1.1 in super-accurate (sup) mode and quality filtered (median Q>=15, length >=300bp).		PromethION	
+SRR36743566	soil	PRJNA1400213	SRX31742572	Oxford Nanopore long-read shotgun metagenome sequencing was performed on DNA extracted (QIAGEN DNeasy PowerSoil Pro) from greenhouse pot microcosm soils under different crop treatments and no-plant controls (25 days), with libraries prepared using ONT Native Barcoding Kit 96 V14 (SQK-NBD114.96), pooled and sequenced on an ONT PromethION (PromethION 2 Solo), then basecalled and demultiplexed with Dorado (SUP).		PromethION	
+SRR36743545	soil	PRJNA1400213	SRX31742593	Oxford Nanopore long-read shotgun metagenome sequencing was performed on DNA extracted (QIAGEN DNeasy PowerSoil Pro) from greenhouse pot microcosm soils under different crop treatments and no-plant controls (25 days), with libraries prepared using ONT Native Barcoding Kit 96 V14 (SQK-NBD114.96), pooled and sequenced on an ONT PromethION (PromethION 2 Solo), then basecalled and demultiplexed with Dorado (SUP).		PromethION	
+SRR36743497	soil	PRJNA1400213	SRX31742551	Oxford Nanopore long-read shotgun metagenome sequencing was performed on DNA extracted (QIAGEN DNeasy PowerSoil Pro) from greenhouse pot microcosm soils under different crop treatments and no-plant controls (25 days), with libraries prepared using ONT Native Barcoding Kit 96 V14 (SQK-NBD114.96), pooled and sequenced on an ONT PromethION (PromethION 2 Solo), then basecalled and demultiplexed with Dorado (SUP).		PromethION	

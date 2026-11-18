@@ -1,0 +1,26 @@
+run_accession	env	project	unit	try_order	archive_mean_len	status	subsample_n50	subsample_bases
+SRR29980985	human gut	PRJNA1139951	PRJNA1139951:SAMN42799989	1	12511	accepted	18536	2984513739
+SRR18491323	human gut	PRJNA820119	PRJNA820119:SAMN26980399	2	11536	accepted	13201	2996116661
+SRR33225186	human gut	PRJNA1236482	PRJNA1236482:SAMN48066098	3	9408	accepted	11990	2997935186
+DRR351862	human gut	PRJDB8879	PRJDB8879:SAMD00446310	4	8575	accepted	13477	3005251653
+ERR15826294	human gut	PRJEB98069	PRJEB98069:SAMEA120295509	5	8230	accepted	10771	2985021362
+SRR16329124	human gut	PRJNA763692	PRJNA763692:SAMN22267715	6	8153	accepted	14904	3029259915
+SRR36719965	livestock	PRJNA1398240	PRJNA1398240:SAMN54442539	1	11489	rejected: kit rule: kit and chemistry both unknown (reads trimmed, no pattern at 5% of read starts; SRA record states neither; no publication found on PubMed or the web, 2026-11-17)	14640	3047368214
+ERR16013023	livestock	PRJEB105185	PRJEB105185:SAMEA120804176	2	9100	accepted	11136	3001777295
+SRR25823913	livestock	PRJNA1011201	PRJNA1011201:SAMN37209932	3	7318	accepted	12824	2983217260
+SRR30694000	livestock	PRJNA1162230	PRJNA1162230:SAMN43804810	4	7063	accepted	10736	3000778924
+SRR38674067	livestock	PRJNA1466632	PRJNA1466632:SAMN60146831	5	6938	rejected: kit rule: kit and chemistry both unknown (reads trimmed, no pattern at 5% of read starts; SRA and BioProject records state neither; no publication found on PubMed or the web, 2026-11-17)	11753	3044946475
+ERR14218439	livestock	PRJEB83989	PRJEB83989:SAMEA117628644	6	6818	rejected: subsample N50 < 9 kb	8130	2987542375
+SRR36719968	livestock	PRJNA1398240	PRJNA1398240:SAMN54442537	7	10045	rejected: kit rule: kit and chemistry both unknown (reads trimmed, no pattern at 5% of read starts; SRA record states neither; no publication found on PubMed or the web, 2026-11-17)	12719	2902771788
+ERR16013022	livestock	PRJEB105185	PRJEB105185:SAMEA120804177	8	8274	accepted	10203	3002369021
+SRR38674069	livestock	PRJNA1466632	PRJNA1466632:SAMN60146830	9	6603	rejected: kit rule: kit and chemistry both unknown (reads trimmed, no pattern at 5% of read starts; SRA and BioProject records state neither; no publication found on PubMed or the web, 2026-11-17)	11751	3048964908
+ERR14218453	livestock	PRJEB83989	PRJEB83989:SAMEA117628658	10	6399	rejected: subsample N50 < 9 kb	7714	2998252157
+SRR36719970	livestock	PRJNA1398240	PRJNA1398240:SAMN54442535	11	8768	rejected: kit rule: kit and chemistry both unknown (reads trimmed, no pattern at 5% of read starts; SRA record states neither; no publication found on PubMed or the web, 2026-11-17)	13562	3095082448
+ERR14218448	livestock	PRJEB83989	PRJEB83989:SAMEA117628653	13	6375	rejected: subsample N50 < 9 kb	7606	3014291991
+SRR29786052	wastewater	PRJNA1134722	PRJNA1134722:Quebec City WWTP East Station influent sample	1	11995	accepted	18179	3033916654
+ERR14656553	wastewater	PRJEB83983	PRJEB83983:SAMEA117693096	2	11899	accepted	13505	2985854987
+SRR27730983	wastewater	PRJNA1067729	PRJNA1067729:SAMN39487689	3	9898	accepted	12804	3066417403
+ERR12160882	wastewater	PRJEB67571	PRJEB67571:SAMEA114530218	4	8026	accepted	13910	3030237991
+SRR11673973	wastewater	PRJNA629478	PRJNA629478:SAMN14825705	5	7925	accepted	12198	3020435815
+SRR24197343	wastewater	PRJNA955434	PRJNA955434:SAMN34177909	6	7492	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts, ligation adapter at 1.7%; SRA record states neither; no publication found on PubMed or the web, 2026-11-17)	11084	2991926139
+DRR333437	wastewater	PRJDB12729	PRJDB12729:SAMD00430153	7	7256	accepted	10488	2989262560

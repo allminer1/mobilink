@@ -1,0 +1,2 @@
+g2a_cases	g2a_counting	g2a_within_5pct	g2a_share_within	g2a_median_abs_dev	g2a_pass	g2b_pass	g2b_settings_passing	g2_pass
+16	7	4	0.5714285714285714	0.03457710121029911	False	False	3	False

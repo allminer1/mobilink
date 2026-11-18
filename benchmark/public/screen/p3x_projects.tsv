@@ -1,0 +1,37 @@
+class	project	include	sample_type_record	kit_chemistry_record	reason
+human gut	PRJNA820119	yes	human stool (gut structural variation study)	SQK-LSK109 with EXP-NBD104/114; PromethION R9.4 (design description)	
+human gut	PRJNA1139951	yes	human gut metagenome	SQK-LSK114, kit 14 (design description)	
+human gut	PRJNA1236482	yes	human gut metagenome (patients)	Native Barcoding 96 kit; R10.4.1 (design description)	
+human gut	PRJEB98069	yes	human gut metagenome (ileal pouch study)	not in the record	
+human gut	PRJEB88320	yes	stool of six healthy volunteers	not in the record	
+human gut	PRJEB49168	yes	human stool (Singapore Platinum Metagenomes)	not in the record	
+human gut	PRJNA763692	yes	human stool (design description)	not in the record	
+human gut	PRJNA1000750	yes	human gut metagenome	not in the record	
+human gut	PRJDB8879	yes	human gut metagenome (diet study)	not in the record	
+human gut	PRJNA1073587	no	giant panda gut		not human
+human gut	PRJNA1353574	no	crayfish gut		not human
+human gut	PRJNA942254	no	faeces of ant-eating mammals		not human
+livestock	PRJEB105185	yes	rumen of dairy cows	not in the record	
+livestock	PRJEB83989	yes	rumen of beef cattle	not in the record; barcoded (file names)	
+livestock	PRJNA1162230	yes	rumen of dairy cows	ligation kit LSK112; R9.4.1 as stated (design description)	
+livestock	PRJNA1466632	yes	rumen liquid	not in the record	
+livestock	PRJNA1011201	yes	chicken faeces	SQK-RAD004 rapid kit (design description)	
+livestock	PRJNA1398240	yes	swine slurry; only the runs with alias '-raw-long'	not in the record	runs with alias '-enr-long' are enrichments and are excluded
+livestock	PRJNA843932	no	manure, 'influent_mix_cul'		culture, not a native sample
+livestock	PRJNA1041350	no	Acinetobacter enrichment cultures from cattle faeces		enrichment culture
+wastewater	PRJEB83983	yes	activated sludge of treatment plants (global)	not in the record	
+wastewater	PRJNA1134722	yes	sewage influent, one treatment plant	SQK-LSK114; FLO-PRO114 (design description)	
+wastewater	PRJNA629478	yes	activated sludge of treatment plants	SQK-LSK109; PromethION R9 FLO-PRO002 (design description)	
+wastewater	PRJEB67571	yes	treatment plant (Aalborg West)	R9.4.1 (submitted file name)	
+wastewater	PRJNA1067729	yes	activated sludge	not in the record	
+wastewater	PRJNA955434	yes	activated sludge and wastewater	not in the record	
+wastewater	PRJNA1437919	yes	activated sludge, municipal treatment plant	not in the record	
+wastewater	PRJNA1005436	yes	activated sludge	SQK-LSK112 (design description)	
+wastewater	PRJNA1028177	yes	wastewater	not in the record	
+wastewater	PRJDB12729	yes	activated sludge treating landfill leachate	not in the record	
+wastewater	PRJNA1502585	no	anammox reactors		laboratory reactor or enrichment
+wastewater	PRJNA627084	no	PNA reactor		laboratory reactor or enrichment
+wastewater	PRJNA1061829	no	ibuprofen-degrading consortia		laboratory reactor or enrichment
+wastewater	PRJNA1030159	no	TAP-degrading consortium		laboratory reactor or enrichment
+wastewater	PRJNA953649	no	CAP-degrading consortia		laboratory reactor or enrichment
+wastewater	PRJNA1132546	no	consortium treating antibiotic production wastewater		laboratory reactor or enrichment

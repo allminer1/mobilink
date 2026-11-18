@@ -1,0 +1,22 @@
+run_accession	sample_alias	instrument_platform	experiment_title
+SRR36719958	A-enr	ILLUMINA	Illumina NovaSeq 6000 sequencing: NGS of swine slurry-2018
+SRR36719962	7140-raw	ILLUMINA	Illumina NovaSeq 6000 sequencing: NGS of swine slurry-2008
+SRR36719969	B-enr-long	OXFORD_NANOPORE	GridION sequencing: ONT of swine slurry-2020
+SRR36719963	7140-enr	ILLUMINA	Illumina NovaSeq 6000 sequencing: NGS of swine slurry-2008
+SRR36719964	7134-raw	ILLUMINA	Illumina NovaSeq 6000 sequencing: NGS of swine slurry-2008
+SRR36719965	D-raw-long	OXFORD_NANOPORE	GridION sequencing: ONT of swine slurry-2023
+SRR36719970	A-raw-long	OXFORD_NANOPORE	GridION sequencing: ONT of swine slurry-2019
+SRR36719972	D-raw	ILLUMINA	Illumina NovaSeq 6000 sequencing: NGS of swine slurry-2018
+SRR36719960	7134-enr-long	OXFORD_NANOPORE	GridION sequencing: ONT of swine slurry-2009
+SRR36719966	7134-enr	ILLUMINA	Illumina NovaSeq 6000 sequencing: NGS of swine slurry-2008
+SRR36719973	D-enr	ILLUMINA	Illumina NovaSeq 6000 sequencing: NGS of swine slurry-2018
+SRR36719975	B-enr	ILLUMINA	Illumina NovaSeq 6000 sequencing: NGS of swine slurry-2018
+SRR36719968	B-raw-long	OXFORD_NANOPORE	GridION sequencing: ONT of swine slurry-2021
+SRR36719974	B-raw	ILLUMINA	Illumina NovaSeq 6000 sequencing: NGS of swine slurry-2018
+SRR36719976	A-raw	ILLUMINA	Illumina NovaSeq 6000 sequencing: NGS of swine slurry-2018
+SRR36719978	7131-enr	ILLUMINA	Illumina NovaSeq 6000 sequencing: NGS of swine slurry-2008
+SRR36719959	7140-enr-long	OXFORD_NANOPORE	GridION sequencing: ONT of swine slurry-2010
+SRR36719961	7131-enr-long	OXFORD_NANOPORE	GridION sequencing: ONT of swine slurry-2008
+SRR36719967	D-enr-long	OXFORD_NANOPORE	GridION sequencing: ONT of swine slurry-2022
+SRR36719971	A-enr-long	OXFORD_NANOPORE	GridION sequencing: ONT of swine slurry-2018
+SRR36719977	7131-raw	ILLUMINA	Illumina NovaSeq 6000 sequencing: NGS of swine slurry-2008

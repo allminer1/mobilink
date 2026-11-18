@@ -1,0 +1,10 @@
+project	class	kit	chemistry	basecaller	source
+PRJNA1207805	wastewater	SQK-NBD114.24 (native barcoding)	R10.4.1 (FLO-PRO114M)	Guppy 6.5.7 SUP	PMID 41755800, doi 10.1002/advs.202508389 (methods)
+PRJNA929328	human gut	SQK-LSK109 with EXP-NBD104/114 (ligation, native barcodes)	R9.4 (FLO-PRO002, FLO-MIN106)	Guppy	PMID 38374282, doi 10.1038/s41598-024-53506-1 (methods); R9 stratum
+PRJNA1279599	livestock	SQK-LSK114 (ligation)	R10.4.1 (MinION)	Guppy 6.1.1, sup v4.2.0	PMID 41761378, doi 10.1186/s40813-026-00496-3 (methods)
+PRJEB58634	soil	SQK-LSK114 (ligation)	R10.4.1 (FLO-PRO114M)	Guppy 6.2.1-6.5.7 SUP	PMID 40707831, doi 10.1038/s41564-025-02062-z (methods)
+PRJNA1400213	soil	SQK-NBD114.96 (native barcoding V14)	R10.4.1 (Kit 14; workflow README: R10)	Dorado v1.1.1 SUP	SRA experiment design description (e.g. SRX31742270); github.com/AdriaWu/soil-metagenome-workflow
+PRJEB108131	human gut	SQK-RPB004 (Rapid PCR Barcoding: PCR-amplified, not native DNA)	R9.4.1	MinKNOW	PMID 42878177, doi 10.1080/19490976.2026.2746814 (methods; found 2026-11-17); reads trimmed and host-filtered; NOT ELIGIBLE under the registered native-DNA rule (user decision pending)
+PRJNA1414918	livestock	Rapid Barcoding kit (version not stated)	not stated in the record; no linked publication		"SRA experiment design description (""Rapid Barcodeing kit"", e.g. SRX32009111); reads trimmed and host-filtered"
+ERP183232	livestock	from the read-end probe	not stated in the record (design: unspecified); no publication found (searched again 2026-11-17)		archive record only; submitted files are filtered and deduplicated, bare read names
+PRJEB86780	soil	from the read-end probe; barcoded (read headers: barcode=barcodeNN)	R10.4.1 (read headers of the submitted files: dna_r10.4.1_e8.2_400bps_hac@v4.3.0)	hac v4.3.0	submitted FASTQ headers at ENA (e.g. ERR14825711); no linked publication

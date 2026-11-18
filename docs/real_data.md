@@ -98,8 +98,8 @@ mobilink chimeras --paf carriers.ava.paf.gz --out chimeras.tsv
 A chimera joins two unrelated molecules and can create a false link. On mock communities the default settings flagged
 73–100% of reads that join two species and 0.6–2.2% of clean reads.
 
-In real communities the rule flags more reads (about 10% of the gene-carrying reads in the public gut and wastewater
-runs we examined), because strains that differ by an insertion or a rearrangement also produce overlap breakpoints.
+In real communities the rule flags more reads (a median of 12% of the judged reads, 4–39%, in 64 public runs),
+because strains that differ by an insertion or a rearrangement also produce overlap breakpoints.
 Some of these are true links. Treat the filtered result as a sensitivity analysis: run `mobilink test` with and
 without `--exclude chimeras.tsv` and report both. The registered analyses of the paper use no filter.
 
@@ -114,6 +114,23 @@ mobilink test --lengths reads.lengths.tsv.gz --features reads.primary.features.t
 
 `results.tsv` has one row per pair. `results.tsv.meta.json` records the version, the settings and the checksums of
 the inputs. `docs/output_columns.md` explains the columns.
+
+### Time and memory
+
+Measured on 64 public runs of about 3 Gbp each (0.24–1.9 million reads), one thread:
+
+| Command | CPU time, median (range) | Peak memory, median (range) | Grows with |
+|---|---|---|---|
+| `prep` | 0.4 min (0.1–11) | 1.2 GB (0.5–26) | DIAMOND hit rows: about 0.3 GB and 5 s per million rows |
+| `chimeras` | 0.2 min (0.01–21) | 1.0 GB (0.1–104) | overlap rows: about 0.34 GB and 4 s per million rows |
+| `test` | 3.0 min (0.6–13) | 7.8 GB (0.5–14) | host strata (the descriptive O/E columns) |
+
+- `mobilink test --no-oe` skips the descriptive O/E columns. The estimates, intervals and p values are the same. In a
+  soil run with about a million reads this lowered the peak from 12.9 GB to 0.5 GB and the CPU time from about 4 min to under
+  15 s.
+- `mobilink chimeras` holds all overlaps in memory. 53 of the 64 runs needed less than 4 GB, but two runs with 188
+  and 445 million overlap rows (deep coverage of a few abundant genomes) needed 85 and 104 GB. For such data, keep
+  only the overlaps of the reads you want judged before calling it.
 
 The direction of a pair matters. `ARG:MGE` asks what share of ARG are linked to an MGE; `MGE:ARG` asks what share of
 MGE are linked to an ARG.

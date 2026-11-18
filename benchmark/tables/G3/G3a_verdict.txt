@@ -1,0 +1,10 @@
+R1 net_w: pass (pooled 0.050, max setting 0.062)
+R2 net_w: pass (pooled 0.025, max setting 0.042)
+R3 net_w: pass (max |mean| 0.0005)
+R1 net_mol: pass (pooled 0.044, max setting 0.052)
+R2 net_mol: pass (pooled 0.024, max setting 0.030)
+R3 net_mol: pass (max |mean| 0.0018)
+R4 net_w: pass (min coverage 0.914)
+power at linked 0.03: net_w 0.56-1.00, net_mol 0.35-1.00
+power at linked 0.1: net_w 0.99-1.00, net_mol 0.98-1.00
+seconds per dataset: 17.4 mean, by depth {0.1: 25.3, 5.0: 5.1, 20.0: 21.7}

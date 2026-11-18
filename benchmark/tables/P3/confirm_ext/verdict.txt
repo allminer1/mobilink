@@ -1,0 +1,9 @@
+runs analysed: 16 (human gut 6, livestock 4, wastewater 6)
+H1a: supported | counting runs 11 (classes: 3), naive share native / 3 kb >= 1.5 in 11 (1.00)
+H2 (under linkage): supported | counting runs 11 (classes: 3), net linked stable, intervals overlap in 11 (1.00)
+  naive ratio median 3.61 (range 1.99-7.66); |native - 3 kb| median 0.0014
+H1b: not supported | weighted sum of within-class Spearman 6.06, one-sided permutation p 0.0535; human gut rho 0.26, livestock rho 0.40, wastewater rho 0.71
+H2 (no linkage, descriptive): Spearman of ARG:MRG net_mol with N50 over 7 runs 0.29 (p 0.535)
+H3 (descriptive) human gut: ARG:MGE net_w 0.1235 (-0.0974 to 0.3445), net_mol 0.3376 (0.1468 to 0.5285), q 0.0045 / 0.0003
+H3 (descriptive) livestock: ARG:MGE net_w 0.0232 (-0.0342 to 0.0807), net_mol 0.1311 (-0.1429 to 0.4051), q 0.1971 / 0.0351
+H3 (descriptive) wastewater: ARG:MGE net_w 0.0785 (0.0455 to 0.1114), net_mol 0.2948 (0.2009 to 0.3886), q 0.158 / 0.0003

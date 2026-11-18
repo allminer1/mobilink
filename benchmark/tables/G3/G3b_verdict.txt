@@ -1,0 +1,2 @@
+G3b net_mol: mean false share 0.0290 (MC SE 0.0007) -> pass; max setting 0.057; mean power 0.51
+G3b net_w: mean false share 0.0309 (MC SE 0.0007) -> pass; max setting 0.053; mean power 0.69
