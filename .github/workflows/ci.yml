@@ -1,0 +1,52 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ["3.10", "3.12", "3.13"]
+        include:
+          - os: macos-latest
+            python-version: "3.12"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install
+        run: python -m pip install -e ".[dev,adapters]"
+      - name: Lint
+        run: ruff check src tests
+      - name: Tests
+        run: pytest -q
+      - name: Worked example
+        run: |
+          mobilink simulate --read-lengths examples/read_lengths.tsv.gz --n-genomes 60 --total-bases 1e9 --linked 0.3 --out-prefix toy
+          mobilink test --lengths toy.lengths.tsv.gz --features toy.features.tsv.gz --pairs ARG:MGE --strata-col genome --out toy.results.tsv
+          python - <<'PY'
+          import pandas as pd
+          r = pd.read_csv("toy.results.tsv", sep="\t").iloc[0]
+          truth = pd.read_csv("toy.truth.tsv", sep="\t").query("mode == 'end' and w == 2000").net.iloc[0]
+          assert abs(r.net_w - truth) < 0.03, (r.net_w, truth)
+          assert r.net_w_lo < truth < r.net_w_hi
+          PY
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install build twine
+      - run: python -m build
+      - run: twine check dist/*
