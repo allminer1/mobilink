@@ -197,7 +197,8 @@ def simulate(
 )
 @click.option("--a", "a_class", required=True, help="Class A (e.g. ARG).")
 @click.option("--b", "b_class", required=True, help="Class B (e.g. MGE).")
-@click.option("--bases", multiple=True, type=float, help="Depths to evaluate, in bases, e.g. --bases 2e9 (default: 0.5e9, 1e9, 2e9, 5e9, 1e10 and 2e10).")
+@click.option("--bases", multiple=True, type=float,
+              help="Depths to evaluate, in bases, e.g. --bases 2e9 (default: 0.5e9, 1e9, 2e9, 5e9, 1e10 and 2e10).")
 @click.option("--w", default=2000, show_default=True, type=int, help="Window of the net linked fraction (bp).")
 @click.option("--net", default=0.1, show_default=True, type=float, help="Assumed net linked fraction.")
 @click.option("--deff", default=1.0, show_default=True, type=float, help="Design effect for the half-width.")
@@ -456,6 +457,96 @@ def test_cmd(lengths_path, features_path, pairs, kraken_path, taxonomy_path, ran
     show = ["class_a", "class_b", "net_w", "net_w_lo", "net_w_hi", "net_w_p", "net_w_q", "net_mol", "net_mol_lo",
             "net_mol_hi", "net_mol_p", "net_mol_q", "flags"]
     click.echo(t[[c for c in show if c in t]].to_string(index=False, float_format=lambda x: f"{x:.4g}"))
+
+
+@main.command("meta")
+@click.option("--manifest", "manifest_path", required=True, type=click.Path(exists=True, dir_okay=False),
+              help="One row per run (TSV): run, the group and cluster columns, lengths, features[, kraken]. "
+                   "Relative paths are taken from the directory of the manifest.")
+@click.option("--pair", required=True, help="Class pair A:B, e.g. ARG:MGE.")
+@click.option("--group-col", default="group", show_default=True, help="Column with the group (e.g. environment).")
+@click.option("--cluster-col", default="cluster", show_default=True,
+              help="Column with the unit that is left out in the jackknife (e.g. project).")
+@click.option("--taxonomy", "taxonomy_path", type=click.Path(exists=True, dir_okay=False),
+              help="Kraken2 ktaxonomy.tsv (needed when the manifest has a kraken column).")
+@click.option("--rank", default="S", show_default=True, type=click.Choice(["S", "G"]), help="Host stratum rank.")
+@click.option("--min-hits", default=10, show_default=True, type=int,
+              help="Reads with fewer Kraken2 hit k-mers are 'unresolved'.")
+@click.option("--strata-col", default=None, help="Use this column of each lengths table as host stratum instead.")
+@click.option("--w", default=2000, show_default=True, type=int, help="Window of net_w (bp).")
+@click.option("--units-d", default=1000, show_default=True, type=int, help="A calls within d form one unit (bp).")
+@click.option("--out", "out_prefix", required=True,
+              help="Prefix: PREFIX.groups.tsv, PREFIX.jackknife.tsv, PREFIX.contrasts.tsv, PREFIX.meta.json.")
+def meta_cmd(manifest_path, pair, group_col, cluster_col, taxonomy_path, rank, min_hits, strata_col, w, units_d,
+             out_prefix):
+    """Group estimates from several runs, with a delete-one-cluster jackknife, and contrasts between groups.
+
+    The runs of a group are pooled (anchors stay in their run and host). The interval of a group comes from leaving
+    out each cluster (e.g. project) in turn, because runs of one project are not independent. Contrasts are Welch
+    tests on the jackknife standard errors with Holm adjustment. This is the model of the survey in the paper."""
+    import json
+    import os
+    from datetime import datetime, timezone
+
+    from .hosts import read_taxonomy, strata_for_molecules
+    from .io import read_features, read_lengths, validate_features
+    from .meta import meta
+
+    a, sep, b = pair.partition(":")
+    if not sep or not a or not b:
+        raise click.UsageError(f"pair {pair!r} is not of the form A:B")
+    m = pd.read_csv(manifest_path, sep="\t", dtype=str)
+    need = ["run", group_col, cluster_col, "lengths", "features"]
+    missing = [c for c in need if c not in m.columns]
+    if missing:
+        raise click.UsageError(f"the manifest lacks the column(s) {', '.join(missing)}")
+    has_kraken = "kraken" in m.columns and m.kraken.notna().any()
+    if has_kraken and strata_col:
+        raise click.UsageError("use either a kraken column in the manifest or --strata-col")
+    if has_kraken and not taxonomy_path:
+        raise click.UsageError("a kraken column needs --taxonomy (ktaxonomy.tsv of the Kraken2 database)")
+    if has_kraken and m.kraken.isna().any():
+        raise click.UsageError("the kraken column is empty for some runs")
+    base = os.path.dirname(os.path.abspath(manifest_path))
+    tax = read_taxonomy(taxonomy_path) if has_kraken else None
+
+    def path(x):
+        return x if os.path.isabs(x) else os.path.join(base, x)
+
+    def load(r):
+        ln = read_lengths(path(r.lengths))
+        f = read_features(path(r.features))
+        f = f[f.molecule_id.isin(ln.molecule_id)]
+        validate_features(f, ln)
+        st = None
+        if has_kraken:
+            k = pd.read_csv(path(r.kraken), sep="\t", dtype={"read_id": str})
+            st = strata_for_molecules(ln.molecule_id.to_numpy(), k, tax, rank=rank, min_hits=min_hits)
+        elif strata_col:
+            if strata_col not in ln.columns:
+                raise click.UsageError(f"--strata-col {strata_col!r} is not a column of {r.lengths}")
+            st = ln[strata_col].to_numpy()
+        return ln, f, st
+
+    groups, rep, con = meta(m, load, a, b, group=group_col, cluster=cluster_col, progress=click.echo, w=w,
+                            units_d=units_d)
+    groups.to_csv(f"{out_prefix}.groups.tsv", sep="\t", index=False)
+    rep.to_csv(f"{out_prefix}.jackknife.tsv", sep="\t", index=False)
+    con.to_csv(f"{out_prefix}.contrasts.tsv", sep="\t", index=False)
+    info = dict(
+        mobilink=__version__,
+        created=datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        manifest=manifest_path, manifest_sha256=_sha256(manifest_path), pair=pair, group_col=group_col,
+        cluster_col=cluster_col,
+        strata=(f"kraken2 rank {rank} min_hits {min_hits}" if has_kraken else f"column {strata_col}" if strata_col
+                else None),
+        w=w, units_d=units_d,
+        model="pooled net_w per group; delete-one-cluster jackknife; Welch contrasts on jackknife SE, Holm",
+    )
+    with open(f"{out_prefix}.meta.json", "w") as fh:
+        json.dump(info, fh, indent=2)
+    show = [group_col, "runs", "clusters", "clusters_effective", "units", "net_w", "lo95", "hi95"]
+    click.echo(groups[show].to_string(index=False, float_format=lambda x: f"{x:.4g}"))
 
 
 @main.command("chimeras")

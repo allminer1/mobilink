@@ -137,7 +137,7 @@ def overlap_breakpoints_stream(
                 code = np.fromiter((names.setdefault(x, len(names)) for x in uniq), np.int64, len(uniq))[local]
                 d = _side_records(p.assign(q=code[: len(p)], t=code[len(p) :]), term)
                 rec = np.empty(len(d), _REC)
-                for f, c in (("r", "r"), ("a", "a"), ("b", "b"), ("rl", "rl"), ("p", "p"), ("pl", "p_left"), ("pr", "p_right")):
+                for f, c in zip(_REC.names, ("r", "a", "b", "rl", "p", "p_left", "p_right"), strict=True):
                     rec[f] = d[c].to_numpy()
                 k = rec["r"] % buckets
                 order = np.argsort(k, kind="stable")

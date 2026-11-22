@@ -91,8 +91,9 @@ def random_paf(n_reads=400, n_overlaps=6000, seed=5):
     for a, b in zip(q, t, strict=True):
         block = int(g.integers(500, min(length[a], length[b])))
         qs, ts = int(g.integers(0, length[a] - block + 1)), int(g.integers(0, length[b] - block + 1))
-        rows.append((f"r{a:04d}", int(length[a]), qs, qs + block, "+-"[int(g.integers(2))], f"r{b:04d}", int(length[b]), ts,
-                     ts + block, int(block * g.uniform(0.1, 0.9)), block, 60))
+        strand = "+-"[int(g.integers(2))]
+        rows.append((f"r{a:04d}", int(length[a]), qs, qs + block, strand, f"r{b:04d}", int(length[b]), ts, ts + block,
+                     int(block * g.uniform(0.1, 0.9)), block, 60))
     return pd.DataFrame(rows, columns=PAF_COLS)
 
 

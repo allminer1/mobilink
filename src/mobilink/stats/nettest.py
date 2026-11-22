@@ -50,7 +50,8 @@ def _calls_by_molecule(m, start, end) -> dict:
     o = np.argsort(m, kind="stable")
     ms = m[o]
     cut = np.flatnonzero(np.diff(ms)) + 1
-    return dict(zip(ms[np.r_[0, cut]].tolist(), zip(np.split(start[o], cut), np.split(end[o], cut), strict=True), strict=True))
+    spans = zip(np.split(start[o], cut), np.split(end[o], cut), strict=True)
+    return dict(zip(ms[np.r_[0, cut]].tolist(), spans, strict=True))
 
 
 def _touches_b(m, s, e, b_by_m, has_b=None):
@@ -94,7 +95,19 @@ def stratified_anchors(lengths: np.ndarray, strata, a_strata, a_len, n: int, rng
         rr.append(np.concatenate(got_r)[:target])
         rs.append(np.concatenate(got_s)[:target])
         re.append(np.concatenate(got_e)[:target])
+    if not rr:
+        raise ValueError("no anchors can be drawn: no class A call lies in a stratum that has molecules")
     return np.concatenate(rr), np.concatenate(rs), np.concatenate(re)
+
+
+def _need_a(fa, n_before: int) -> None:
+    """A clear error when no class A call is left to measure from (before v1.0: "need at least one array")."""
+    if len(fa) == 0:
+        raise ValueError(
+            "no class A call to measure from" if n_before == 0
+            else f"no class A call is left after the same-ORF rule (all {n_before} share an open reading frame with "
+                 "a class B call)"
+        )
 
 
 def prepare(
@@ -112,7 +125,9 @@ def prepare(
     (annotation sensitivity only; the registered rule is 0.5)."""
     ln = lengths.length.to_numpy(np.int64)
     idx = pd.Index(lengths.molecule_id)
+    n_a = len(fa)
     fa, fb, n_dual = drop_same_orf(fa, fb, same_orf) if same_orf is not None else (fa, fb, 0)
+    _need_a(fa, n_a)
     bm = idx.get_indexer(fb.molecule_id)
     b_by_m = _calls_by_molecule(bm, fb.start.to_numpy(), fb.end.to_numpy())
     rng = np.random.default_rng(seed)
@@ -217,6 +232,53 @@ def _ci(est, se, df):
     return (est - q * se, est + q * se) if np.isfinite(se) else (np.nan, np.nan)
 
 
+def net_w_estimate(
+    lengths: pd.DataFrame,
+    fa: pd.DataFrame,
+    fb: pd.DataFrame,
+    strata=None,
+    w: int = 2000,
+    units_d: int | None = 1000,
+    anchors_per_unit: int = 40,
+    same_orf: float | None = 0.5,
+    min_sides: int = 30,
+    seed: int = nl.SEED,
+) -> dict:
+    """The net_w estimate of net_linked_test and nothing else: the same calls in the same order (same-ORF rule, A
+    units, stratified anchors, sides, margin rule, weighted Kaplan-Meier), without the tests and the delete-one-host
+    jackknife. The value is identical to net_linked_test(...)["net_w"] before the reporting rule of `mobilink test`.
+    For replicates that need the estimate many times (mobilink.meta). Returns net_w, units, sides_w (A sides that
+    reach w) and events_w (A sides with a B within w)."""
+    fa = fa.assign(scov=fa["scov"] if "scov" in fa else 100.0)[["molecule_id", "start", "end", "scov"]]
+    fb = fb.assign(scov=fb["scov"] if "scov" in fb else 100.0)[["molecule_id", "start", "end", "scov"]]
+    n_a = len(fa)
+    fa, fb, _ = drop_same_orf(fa, fb, same_orf) if same_orf is not None else (fa, fb, 0)
+    _need_a(fa, n_a)
+    if units_d is not None:
+        fa = a_units(fa, fb, units_d)
+    fa = fa.reset_index(drop=True)
+    ln = lengths.length.to_numpy(np.int64)
+    st = None if strata is None else pd.factorize(np.asarray(strata))[0]
+    data, scov, _ = prepare(lengths[["molecule_id", "length"]], fa, fb, st,
+                            n_anchors=max(nl.N_ANCHORS, anchors_per_unit * len(fa)), seed=seed, same_orf=same_orf)
+    _, rid, s_, e_, cls = data
+    cut = nl.cut_mask(ln, rid, s_, e_, scov)
+    span = e_ - s_
+    sd = nv.sides_dir(ln, rid, s_, e_, cls == "A", cls == "B", cut)
+    sr = nv.sides_dir(ln, rid, s_, e_, cls == "RND", cls == "B", cut)
+
+    def side_dict(t, keep, add):
+        i = t.i.to_numpy()[keep]
+        return dict(t=t.t.to_numpy()[keep], e=t.e.to_numpy()[keep], w=1 / nl.p_whole(ln, span[i] + add), read=rid[i])
+
+    margin = units_d or 0
+    inner = np.minimum(s_, ln[rid] - e_)
+    A = side_dict(sd, inner[sd.i.to_numpy()] >= margin, 2 * margin)
+    R = side_dict(sr, inner[sr.i.to_numpy()] >= margin, 2 * margin)
+    return dict(net_w=nl.net(A, R, w, min_sides=min_sides), units=len(fa), sides_w=int((A["t"] >= w).sum()),
+                events_w=int(((A["e"] == 1) & (A["t"] <= w)).sum()))
+
+
 def net_linked_test(
     lengths: pd.DataFrame,
     fa: pd.DataFrame,
@@ -236,11 +298,14 @@ def net_linked_test(
 ) -> dict:
     """lengths: molecule_id, length[, replicon, pos]; fa, fb: molecule_id, start, end[, scov]; strata: one host label
     per molecule (lengths order) or None; loci: None, "positions" (simulated reads), "molecule" (contigs: one clump
-    per molecule), or a function units -> DataFrame (locus, parity, conflict) such as loci_from_paf(paf). same_orf: the same-ORF overlap rule (0.5 registered; None =
-    off, for annotation sensitivity). Returns estimates, intervals and the registered p values."""
+    per molecule), or a function units -> DataFrame (locus, parity, conflict) such as loci_from_paf(paf). same_orf:
+    the same-ORF overlap rule (0.5 registered; None = off, for annotation sensitivity). Returns estimates, intervals
+    and the registered p values."""
     fa = fa.assign(scov=fa["scov"] if "scov" in fa else 100.0)[["molecule_id", "start", "end", "scov"]]
     fb = fb.assign(scov=fb["scov"] if "scov" in fb else 100.0)[["molecule_id", "start", "end", "scov"]]
+    n_a = len(fa)
     fa, fb, n_dual = drop_same_orf(fa, fb, same_orf) if same_orf is not None else (fa, fb, 0)
+    _need_a(fa, n_a)
     if units_d is not None:  # measure from A units: islands of A are what the null places at random
         fa = a_units(fa, fb, units_d)
     fa = fa.reset_index(drop=True)

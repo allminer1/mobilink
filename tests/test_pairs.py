@@ -162,3 +162,11 @@ def test_molecule_clumps_keep_the_estimates_and_widen_the_test(tmp_path):
     empty.write_text("")
     bad = CliRunner().invoke(main, args + ["--molecule-clumps", "--loci", str(empty)])
     assert bad.exit_code != 0 and "either --loci" in bad.output
+
+
+def test_all_a_calls_in_the_same_orf_as_b_gives_a_flag_with_the_reason():
+    ln = pd.DataFrame({"molecule_id": [f"m{i}" for i in range(50)], "length": 8000})
+    f = pd.DataFrame({"molecule_id": ["m1", "m1", "m2"], "start": [1000, 1050, 3000], "end": [2000, 2050, 4000],
+                      "class": ["ARG", "MGE", "MGE"]})
+    t = net_test_pairs(ln, f, [("ARG", "MGE")], n_mc=99, oe=False)
+    assert "no class A call is left after the same-ORF rule" in t.iloc[0]["flags"] and "net_w" not in t.columns
