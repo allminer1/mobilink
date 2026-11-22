@@ -41,35 +41,36 @@ class _System:
             raise ValueError("one margin per stratum is needed")
         keep = (a > 0) | (b > 0)
         a, b, g = a[keep], b[keep], g[keep]
-        free_a, free_b = np.ones(S, bool), np.ones(S, bool)
-        for s in range(S):
-            m = g == s
-            elig_a, elig_b = int(np.sum(a[m] > 0)), int(np.sum(b[m] > 0))
-            if n_a[s] > elig_a or n_b[s] > elig_b:
-                raise ValueError(f"stratum {s}: more molecules carry a class than the model allows")
-            if n_a[s] == 0:
-                a[m] = 0.0
-                free_a[s] = False
-            elif n_a[s] == elig_a:
-                a[m & (a > 0)] = 1.0
-                free_a[s] = False
-            if n_b[s] == 0:
-                b[m] = 0.0
-                free_b[s] = False
-            elif n_b[s] == elig_b:
-                b[m & (b > 0)] = 1.0
-                free_b[s] = False
+        # per stratum, without a pass over all molecules for each stratum (the cost with thousands of host strata)
+        elig_a = np.bincount(g, a > 0, S).astype(np.int64)
+        elig_b = np.bincount(g, b > 0, S).astype(np.int64)
+        bad = np.flatnonzero((n_a > elig_a) | (n_b > elig_b))
+        if bad.size:
+            raise ValueError(f"stratum {bad[0]}: more molecules carry a class than the model allows")
+        none_a, none_b = n_a == 0, n_b == 0
+        all_a, all_b = ~none_a & (n_a == elig_a), ~none_b & (n_b == elig_b)
+        a[all_a[g] & (a > 0)] = 1.0
+        a[none_a[g]] = 0.0
+        b[all_b[g] & (b > 0)] = 1.0
+        b[none_b[g]] = 0.0
+        free_a, free_b = ~(none_a | all_a), ~(none_b | all_b)
         with np.errstate(divide="ignore"):
             la, l1a, lb, l1b = np.log(a), np.log1p(-a), np.log(b), np.log1p(-b)
         self.lp = np.stack([l1a + l1b, la + l1b, l1a + lb, la + lb + log_tilt], axis=1)
         self.g, self.S = g, S
         self.n_a, self.n_b = n_a, n_b
-        self.free_t = np.concatenate([1 + np.flatnonzero(free_a), 1 + S + np.flatnonzero(free_b)])
+        self.fa, self.fb = np.flatnonzero(free_a), np.flatnonzero(free_b)
+        self.free_t = np.concatenate([1 + self.fa, 1 + S + self.fb])
+        # strata free in both margins: their positions among the free A and the free B coordinates
+        both = free_a & free_b
+        self.ab = np.flatnonzero(both)
+        self.ab_a = np.cumsum(free_a)[both] - 1
+        self.ab_b = np.cumsum(free_b)[both] - 1
         self.z = np.concatenate([n_a, n_b]).astype(float)
         # fixed contributions to O from strata where both indicators are fixed
-        self.hi = int(sum(min(n_a[s], n_b[s]) for s in range(S)))
+        self.hi = int(np.minimum(n_a, n_b).sum())
         sizes = np.bincount(g, minlength=S)
-        self.lo = int(sum(max(0, n_a[s] + n_b[s] - sizes[s]) for s in range(S)))
+        self.lo = int(np.maximum(0, n_a + n_b - sizes).sum())
 
     def cgf(self, theta):
         S, g = self.S, self.g
@@ -80,22 +81,26 @@ class _System:
         q11 = q[:, 3]
         ma, mb = q[:, 1] + q11, q[:, 2] + q11
         grad = np.concatenate([[q11.sum()], np.bincount(g, ma, S), np.bincount(g, mb, S)])
-        n = 1 + 2 * S
-        h = np.zeros((n, n))
+        # Hessian over the coordinates that are ever used: s (index 0), then the free A and the free B margins.
+        # The full (1 + 2S) x (1 + 2S) matrix is never needed, and with thousands of strata it took gigabytes.
+        fa, fb = self.fa, self.fb
+        na = fa.size
+        h = np.zeros((1 + na + fb.size, 1 + na + fb.size))
         h[0, 0] = np.sum(q11 * (1 - q11))
         c_oa, c_ob = np.bincount(g, q11 * (1 - ma), S), np.bincount(g, q11 * (1 - mb), S)
-        h[0, 1 : 1 + S] = h[1 : 1 + S, 0] = c_oa
-        h[0, 1 + S :] = h[1 + S :, 0] = c_ob
-        ia, ib = np.arange(1, 1 + S), np.arange(1 + S, 1 + 2 * S)
-        h[ia, ia] = np.bincount(g, ma * (1 - ma), S)
-        h[ib, ib] = np.bincount(g, mb * (1 - mb), S)
-        c_ab = np.bincount(g, q11 - ma * mb, S)
-        h[ia, ib] = h[ib, ia] = c_ab
+        h[0, 1 : 1 + na] = h[1 : 1 + na, 0] = c_oa[fa]
+        h[0, 1 + na :] = h[1 + na :, 0] = c_ob[fb]
+        ia, ib = np.arange(1, 1 + na), np.arange(1 + na, 1 + na + fb.size)
+        h[ia, ia] = np.bincount(g, ma * (1 - ma), S)[fa]
+        h[ib, ib] = np.bincount(g, mb * (1 - mb), S)[fb]
+        c_ab = np.bincount(g, q11 - ma * mb, S)[self.ab]
+        h[1 + self.ab_a, 1 + na + self.ab_b] = h[1 + na + self.ab_b, 1 + self.ab_a] = c_ab
         return float(lz.sum()), grad, h
 
     def solve(self, x=None, theta0=None, max_iter=200):
         """Null saddlepoint (x None: s = 0, solve the free t) or joint saddlepoint at O = x."""
         idx = self.free_t if x is None else np.concatenate([[0], self.free_t])
+        hs = slice(1, None) if x is None else slice(None)  # the same coordinates in the reduced Hessian of cgf
         tgt = self.z[idx[idx > 0] - 1] if x is None else np.concatenate([[x], self.z[self.free_t - 1]])
         theta = np.zeros(1 + 2 * self.S) if theta0 is None else np.array(theta0, float)
         k, gr, h = self.cgf(theta)
@@ -106,7 +111,7 @@ class _System:
             if r.size == 0 or np.max(np.abs(r)) < 1e-9 * scale:
                 return theta, True
             try:
-                step = np.linalg.solve(h[np.ix_(idx, idx)], r)
+                step = np.linalg.solve(h[hs, hs], r)
             except np.linalg.LinAlgError:
                 return theta, False
             lam = 1.0
@@ -126,19 +131,19 @@ class _System:
         return theta, bool(r.size == 0 or np.max(np.abs(r)) < 1e-6 * scale)
 
 
-def _schur_var(h, free_t):
-    """K_ss - K_st K_tt^-1 K_ts over the free coordinates."""
-    if free_t.size == 0:
+def _schur_var(h):
+    """K_ss - K_st K_tt^-1 K_ts over the free coordinates (h: the reduced Hessian of _System.cgf)."""
+    if h.shape[0] == 1:
         return float(h[0, 0])
-    hst = h[0, free_t]
-    return float(h[0, 0] - hst @ np.linalg.solve(h[np.ix_(free_t, free_t)], hst))
+    hst = h[0, 1:]
+    return float(h[0, 0] - hst @ np.linalg.solve(h[1:, 1:], hst))
 
 
 def variance(a, b, n_a, n_b, strata=None) -> float:
     """Conditional variance of O at the null saddlepoint."""
     sy = _System(a, b, n_a, n_b, strata)
     t0, _ = sy.solve()
-    return _schur_var(sy.cgf(t0)[2], sy.free_t)
+    return _schur_var(sy.cgf(t0)[2])
 
 
 def tilt_for_mean(a, b, n_a, n_b, target_mean: float, strata=None) -> float:
@@ -169,7 +174,7 @@ def tail(a, b, n_a, n_b, k: int, upper: bool = True, strata=None, log_tilt: floa
         x = k + 0.5
     t0, ok0 = sy.solve()
     k0, g0, h0 = sy.cgf(t0)
-    cmean, cvar = g0[0], _schur_var(h0, sy.free_t)
+    cmean, cvar = g0[0], _schur_var(h0)
     th, ok = sy.solve(x=x, theta0=t0)
     s = th[0]
     if not (ok0 and ok) or abs(s) < 1e-6 or cvar <= 0:
@@ -179,9 +184,8 @@ def tail(a, b, n_a, n_b, k: int, upper: bool = True, strata=None, log_tilt: floa
     zt = sy.z[sy.free_t - 1]
     w2 = 2 * ((k0 - t0[sy.free_t] @ zt) - (kh - s * x - th[sy.free_t] @ zt))
     w = np.sign(s) * np.sqrt(max(w2, 0.0))
-    joint = np.concatenate([[0], sy.free_t])
-    _, ld_joint = np.linalg.slogdet(hh[np.ix_(joint, joint)])
-    ld_null = np.linalg.slogdet(h0[np.ix_(sy.free_t, sy.free_t)])[1] if sy.free_t.size else 0.0
+    _, ld_joint = np.linalg.slogdet(hh)
+    ld_null = np.linalg.slogdet(h0[1:, 1:])[1] if sy.free_t.size else 0.0
     u = 2 * np.sinh(s / 2) * np.exp(0.5 * (ld_joint - ld_null))
     if abs(w) < 1e-8:
         zc = (x - cmean) / np.sqrt(cvar)
