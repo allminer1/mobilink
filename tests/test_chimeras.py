@@ -3,7 +3,7 @@ import pandas as pd
 import pytest
 from click.testing import CliRunner
 
-from mobilink.chimeras import LSK_CORE, adapter_hits, chimera_flags, overlap_breakpoints
+from mobilink.chimeras import LSK_CORE, adapter_hits, chimera_flags, overlap_breakpoints, overlap_breakpoints_stream
 from mobilink.cli import main
 from mobilink.loci import PAF_COLS
 
@@ -79,3 +79,47 @@ def test_tiny_input_is_reported_not_raised():
                           "end": [900, 900, 900, 3900], "class": ["ARG", "ARG", "ARG", "MGE"]})
     t = net_test_pairs(reads, feats, [("ARG", "MGE")], n_mc=99, oe=False)
     assert len(t) == 1 and isinstance(t["flags"].iloc[0], str)
+
+
+def random_paf(n_reads=400, n_overlaps=6000, seed=5):
+    """Random overlaps among reads of fixed lengths; coordinates are valid but arbitrary (the two functions must agree
+    on any table, sensible or not)."""
+    g = np.random.default_rng(seed)
+    length = g.integers(3000, 30000, n_reads)
+    q, t = g.integers(0, n_reads, n_overlaps), g.integers(0, n_reads, n_overlaps)
+    rows = []
+    for a, b in zip(q, t, strict=True):
+        block = int(g.integers(500, min(length[a], length[b])))
+        qs, ts = int(g.integers(0, length[a] - block + 1)), int(g.integers(0, length[b] - block + 1))
+        rows.append((f"r{a:04d}", int(length[a]), qs, qs + block, "+-"[int(g.integers(2))], f"r{b:04d}", int(length[b]), ts,
+                     ts + block, int(block * g.uniform(0.1, 0.9)), block, 60))
+    return pd.DataFrame(rows, columns=PAF_COLS)
+
+
+@pytest.mark.parametrize("chunksize,buckets", [(10**6, 64), (700, 5), (97, 1)])
+def test_streamed_paf_gives_the_same_breakpoints_as_the_table_in_memory(tmp_path, chunksize, buckets):
+    for k, paf in enumerate((paf_rows(), random_paf())):
+        path = tmp_path / f"ava{k}.paf.gz"
+        paf.to_csv(path, sep="\t", header=False, index=False)
+        a0, b0 = overlap_breakpoints(paf)
+        a1, b1 = overlap_breakpoints_stream(path, chunksize=chunksize, buckets=buckets, tmp_dir=tmp_path)
+        assert a0 == a1 and len(b0) > 0
+        pd.testing.assert_frame_equal(b0.sort_values(["read_id", "x"]).reset_index(drop=True), b1, check_dtype=False)
+        pd.testing.assert_frame_equal(chimera_flags(paf=paf), chimera_flags(paf=str(path), tmp_dir=tmp_path))
+    assert not list(tmp_path.glob("mobilink_chimeras_*"))  # temporary files are removed
+
+
+def test_streamed_paf_without_overlaps(tmp_path):
+    (tmp_path / "empty.paf").write_text("")
+    assessed, bp = overlap_breakpoints_stream(tmp_path / "empty.paf")
+    assert assessed == set() and bp.empty and list(bp.columns) == ["read_id", "x", "support", "edge"]
+
+
+@pytest.mark.parametrize("first", [True, False])
+def test_spanning_overlap_that_starts_where_another_starts_still_vetoes(first):
+    # P4 covers R from 0 to 9 kb and so spans the junction at 5 kb; P1 starts at the same position and ends at the
+    # junction. The veto must not depend on which of the two rows comes first.
+    span = pd.DataFrame([("R", 10000, 0, 9000, "+", "P4", 9000, 0, 9000, 8800, 9000, 60)], columns=PAF_COLS)
+    paf = pd.concat([span, paf_rows()] if first else [paf_rows(), span], ignore_index=True)
+    _, bp = overlap_breakpoints(paf)
+    assert (bp.read_id == "R").sum() == 0

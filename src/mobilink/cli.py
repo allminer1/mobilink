@@ -467,14 +467,16 @@ def test_cmd(lengths_path, features_path, pairs, kraken_path, taxonomy_path, ran
               help="Native barcodes to scan for, as a TSV of name and sequence (e.g. NB01 CACAAAG...).")
 @click.option("--min-support", default=2, show_default=True, type=int, help="Partner reads supporting a breakpoint.")
 @click.option("--min-edge", default=500, show_default=True, type=int, help="Breakpoint distance from read ends (bp).")
+@click.option("--tmp-dir", type=click.Path(exists=True, file_okay=False),
+              help="Directory for temporary files while the PAF is read (44 bytes per usable overlap; default: the "
+                   "system's temporary directory).")
 @click.option("--out", "out_path", required=True, help="Flag table (TSV) for `mobilink test --exclude`.")
-def chimeras_cmd(paf_path, reads_path, barcodes_path, min_support, min_edge, out_path):
+def chimeras_cmd(paf_path, reads_path, barcodes_path, min_support, min_edge, tmp_dir, out_path):
     """Flag likely chimeric reads without a reference: overlap breakpoints and adapters inside reads.
 
     Mock communities (P2 step 2.5): the defaults flag 0.6-2.2% of clean reads and 73-100% of reads joining two species.
     The registered test does not drop them by itself; use the table with `mobilink test --exclude`."""
     from .chimeras import chimera_flags, read_sequences
-    from .loci import read_paf
 
     if not paf_path and not reads_path:
         raise click.UsageError("give --paf, --reads, or both")
@@ -482,9 +484,9 @@ def chimeras_cmd(paf_path, reads_path, barcodes_path, min_support, min_edge, out
     if barcodes_path:
         b = pd.read_csv(barcodes_path, sep="\t", header=None, names=["name", "seq"], dtype=str)
         bc = dict(zip(b.name, b.seq, strict=True))
-    paf = read_paf(paf_path, min_block=1000) if paf_path else None
     reads = read_sequences(reads_path) if reads_path else None
-    t = chimera_flags(paf=paf, reads=reads, barcodes=bc, min_support=min_support, min_edge=min_edge)
+    t = chimera_flags(paf=paf_path or None, reads=reads, barcodes=bc, min_support=min_support, min_edge=min_edge,
+                      tmp_dir=tmp_dir)
     t.to_csv(out_path, sep="\t", index=False)
     click.echo(f"{len(t)} reads judged, {int(t.flag.sum())} flagged "
                f"({int(t.flag_overlap.sum())} overlap breakpoints, {int(t.flag_adapter.sum())} adapters inside)")
