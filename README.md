@@ -6,7 +6,7 @@ measures how strongly they are linked with a value that does not depend on read 
 It was built for antibiotic-resistance genes (ARG), metal-resistance genes (MRG) and mobile genetic elements (MGE) in
 nanopore metagenomes, but it accepts any two classes of features on any molecules.
 
-**Status: alpha (v0.5).** Not yet on PyPI or Bioconda.
+**Status: release candidate (v1.0.0.dev0).** Not yet on PyPI or Bioconda.
 
 ## Why
 
@@ -87,6 +87,7 @@ mobilink test --lengths contigs.lengths.tsv --features contigs.features.tsv --pa
 |---|---|
 | `mobilink prep` | Feature table from DIAMOND hits (one call per ORF and database) |
 | `mobilink test` | The net linked test: effect sizes, intervals, p and q values, flags |
+| `mobilink meta` | Estimates for groups of runs (e.g. environments) with a delete-one-project jackknife, and contrasts |
 | `mobilink chimeras` | Flags likely chimeric reads without a reference, for `test --exclude` |
 | `mobilink power` | What a given sequencing depth can detect, from a pilot dataset |
 | `mobilink simulate` | Reads from a community with known linkage |

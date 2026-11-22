@@ -125,12 +125,16 @@ Measured on 64 public runs of about 3 Gbp each (0.24–1.9 million reads), one t
 | `chimeras` | 0.2 min (0.01–21) | 1.0 GB (0.1–104) | overlap rows: about 0.34 GB and 4 s per million rows |
 | `test` | 3.0 min (0.6–13) | 7.8 GB (0.5–14) | host strata (the descriptive O/E columns) |
 
-- `mobilink test --no-oe` skips the descriptive O/E columns. The estimates, intervals and p values are the same. In a
-  soil run with about a million reads this lowered the peak from 12.9 GB to 0.5 GB and the CPU time from about 4 min to under
-  15 s.
-- `mobilink chimeras` holds all overlaps in memory. 53 of the 64 runs needed less than 4 GB, but two runs with 188
-  and 445 million overlap rows (deep coverage of a few abundant genomes) needed 85 and 104 GB. For such data, keep
-  only the overlaps of the reads you want judged before calling it.
+The table was measured with version 0.5. Version 1.0 removed the two large memory costs. The results of `test` did
+not change; the flags of `chimeras` changed only by the fix named in the changelog (a few reads in ten thousand):
+
+- `mobilink test`: the descriptive O/E columns no longer build a matrix over all host strata. A soil run with 0.98
+  million reads and 9,883 strata now needs 0.7 GB and 82 s of CPU time (before: 12.9 GB and 152 s). `--no-oe` still
+  skips these columns; the estimates, intervals and p values are the same with and without them.
+- `mobilink chimeras` reads the overlap file in one pass and keeps only small records on disk while it runs (44
+  bytes per usable overlap, in the system's temporary directory or in `--tmp-dir`). The run with 445 million overlap
+  rows now needs 0.65 GB and 7.5 CPU minutes (before: 104 GB and 21 CPU minutes). If the temporary directory of your
+  system is held in memory (a `tmpfs`), give a directory on disk with `--tmp-dir`.
 
 The direction of a pair matters. `ARG:MGE` asks what share of ARG are linked to an MGE; `MGE:ARG` asks what share of
 MGE are linked to an ARG.
@@ -153,8 +157,39 @@ mobilink test --lengths contigs.lengths.tsv --features contigs.features.tsv --pa
 ## Several samples
 
 Run each sample on its own. To pool samples, concatenate the tables and the overlap files (read names must be
-unique), make the host label unique per sample (for example `sample|species`), and pass it with `--strata-col`. Anchors then never leave their sample and host.
+unique), make the host label unique per sample (for example `sample|species`), and pass it with `--strata-col`.
+Anchors then never leave their sample and host.
 In Python, `mobilink.pairs.pool_runs` does this and keeps the overlaps of each sample apart.
+
+## Groups of runs: environments, treatments, studies
+
+To compare groups of runs, use `mobilink meta`. It needs a manifest with one row per run:
+
+| Column | Content |
+|---|---|
+| `run` | A unique name |
+| group column (default `group`) | What is compared, for example the environment |
+| cluster column (default `cluster`) | The unit whose runs are not independent, for example the project or the site |
+| `lengths`, `features` | The two tables of the run (paths; relative paths start at the manifest) |
+| `kraken` (optional) | Kraken2 labels per read, as for `mobilink test`; needs `--taxonomy` |
+
+```bash
+mobilink meta --manifest runs.tsv --pair ARG:MGE --group-col environment --cluster-col project \
+  --taxonomy k2_standard_16gb/ktaxonomy.tsv --out survey
+```
+
+- `survey.groups.tsv`: one row per group. `net_w` is the net linked fraction within 2 kb of the pooled runs of the
+  group. The interval (`lo95`, `hi95`) comes from leaving out each cluster in turn. `clusters_effective` shows how
+  evenly the class A units are spread over the clusters: a value near 1 means that one cluster carries the estimate.
+  `net_w_min_without_one_cluster` and `net_w_max_without_one_cluster` show how far one cluster can move it.
+- `survey.jackknife.tsv`: the estimate without each cluster.
+- `survey.contrasts.tsv`: the difference between every two groups, with a Welch test on the jackknife standard
+  errors and Holm-adjusted p values.
+
+A group needs at least two clusters for an interval, and the interval is only as good as the number of clusters: with
+fewer than about six it is very wide. Runs of one project share sampling site, extraction, library and basecalling,
+so the project, not the run, is the unit of replication. The command gives estimates and contrasts only; for the
+test of one run or one pooled group against chance, use `mobilink test`.
 
 ## Your own classes
 
