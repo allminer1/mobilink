@@ -13,12 +13,15 @@ Changes since commit 86e3696 (0.5.0.dev0), the version used for the survey of 24
   7.5 CPU minutes in place of 104 GB and 21 CPU minutes.
 - `mobilink chimeras`, fix: when two overlaps of a read started at the same position, the veto of a breakpoint by a
   spanning overlap depended on the order of the rows and could be missed. The result no longer depends on the row
-  order. Effect on two public runs: 1 of 13,012 and 5 of 42,392 flags removed; none added.
+  order. Effect on 64 public runs: 1,984 of 674,080 flags removed (0.3%; at most 0.9% of the flags of a run), none
+  added; the same reads are judged.
 - `mobilink test`: the descriptive O/E columns need far less memory and time when there are thousands of host strata
   (the saddlepoint system built a dense matrix over all strata). The result table is unchanged. A soil run with 0.98
   million reads and 9,883 strata: 0.7 GB and 82 s of CPU time in place of 12.9 GB and 152 s.
 - A pair in which every class A call shares its open reading frame with a class B call now gives the flag "no class A
   call is left after the same-ORF rule" (before: an error text from numpy).
+- Release check: `mobilink test` reproduces the registered per-run tables of 64 public runs exactly (192 pairs, 58
+  numeric columns, largest difference 0, flags equal).
 
 ## 0.5.0 (commit 86e3696)
 

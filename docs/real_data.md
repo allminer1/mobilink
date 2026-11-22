@@ -121,12 +121,14 @@ Measured on 64 public runs of about 3 Gbp each (0.24–1.9 million reads), one t
 
 | Command | CPU time, median (range) | Peak memory, median (range) | Grows with |
 |---|---|---|---|
-| `prep` | 0.4 min (0.1–11) | 1.2 GB (0.5–26) | DIAMOND hit rows: about 0.3 GB and 5 s per million rows |
-| `chimeras` | 0.2 min (0.01–21) | 1.0 GB (0.1–104) | overlap rows: about 0.34 GB and 4 s per million rows |
-| `test` | 3.0 min (0.6–13) | 7.8 GB (0.5–14) | host strata (the descriptive O/E columns) |
+| `prep` | 0.2 min (0.05–6.3) | 1.2 GB (0.5–26) | DIAMOND hit rows: about 0.3 GB per million rows |
+| `chimeras` | 0.08 min (0.02–7.2) | 0.5 GB (0.1–1.1) | overlap rows |
+| `test` | 0.8 min (0.2–7.7) | 1.2 GB (0.3–2.1) | reads and gene calls |
 
-The table was measured with version 0.5. Version 1.0 removed the two large memory costs. The results of `test` did
-not change; the flags of `chimeras` changed only by the fix named in the changelog (a few reads in ten thousand):
+The server was shared, so CPU times are approximate: `prep`, whose code did not change, took about twice as long in
+an earlier measurement under a higher load. Version 1.0 removed the two large memory costs of version 0.5 (`chimeras` up to 104 GB, `test` up to 14 GB). The
+results of `test` did not change; the flags of `chimeras` changed only by the fix named in the changelog (0.3% of
+the flags):
 
 - `mobilink test`: the descriptive O/E columns no longer build a matrix over all host strata. A soil run with 0.98
   million reads and 9,883 strata now needs 0.7 GB and 82 s of CPU time (before: 12.9 GB and 152 s). `--no-oe` still
