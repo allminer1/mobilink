@@ -1,0 +1,108 @@
+project	env	run	runs_selected	instrument	first_public	hits	design	protocol	attributes	error
+PRJDB11069	marine	DRR267103	1	GridION	2021-05-08					
+PRJDB12736	freshwater	DRR333391	2	GridION	2022-07-25					
+PRJEB104244	soil	ERR16963751	5		2026-11-06					ERROR HTTP Error 400: Bad Request
+PRJEB104930	soil	ERR15993834	3	PromethION	2026-02-04					
+PRJEB107287	soil	ERR16664731	5	PromethION	2026-06-27					
+PRJEB108219	human gut	ERR16691282	5	GridION	2026-02-19					
+PRJEB114667	soil	ERR17627246	2	PromethION	2026-07-30					
+PRJEB120797	livestock	ERR17600061	5	MinION	2026-07-27					
+PRJEB123233	human gut	ERR18016248	1		2026-10-08					ERROR HTTP Error 400: Bad Request
+PRJEB125553	soil	ERR18104482	2		2026-11-05					ERROR HTTP Error 400: Bad Request
+PRJEB29152	human gut	ERR3201938	1	MinION	2019-03-08					
+PRJEB33278	soil	ERR3407986	1	MinION	2019-09-01					
+PRJEB34573	activated sludge	ERR3561495	5	MinION	2019-11-20					
+PRJEB41762	soil	ERR5000342	2	MinION	2022-05-31					
+PRJEB42267	soil	ERR5029615	5	MinION	2021-03-23					
+PRJEB49168	human gut	ERR7625391	5	PromethION	2021-12-10					
+PRJEB49428	human gut	ERR7764818	5	MinION	2022-02-01		unspecified			
+PRJEB58701	freshwater	ERR11452376	1	MinION	2023-07-25		unspecified			
+PRJEB74343	human gut	ERR12982441	1	PromethION	2024-05-08					
+PRJEB74343	soil	ERR12983021	1	PromethION	2024-05-08					
+PRJEB74630	soil	ERR13194442	3	MinION	2024-06-05	amplified; SQK-RAD114	unamplified	SQK-RAD114		
+PRJEB76456	wastewater	ERR13248761	1	GridION	2024-06-10		unspecified			
+PRJEB85558	soil	ERR15459706	5	PromethION	2025-09-11					
+PRJEB86000	freshwater	ERR14822396	2	PromethION	2025-06-26					
+PRJEB86000	marine	ERR14822419	1	PromethION	2025-06-26					
+PRJEB86001	freshwater	ERR14822407	5	PromethION	2025-06-26					
+PRJEB86002	freshwater	ERR14822387	5	PromethION	2025-06-26					
+PRJEB86003	freshwater	ERR14822388	4	PromethION	2025-06-26					
+PRJEB86004	freshwater	ERR14822383	1	PromethION	2025-06-26					
+PRJEB86004	marine	ERR14822386	1	PromethION	2025-06-26					
+PRJEB88111	livestock	ERR15934505	5	PromethION	2025-11-21		unspecified			
+PRJEB88320	human gut	ERR14838508	5	PromethION	2025-10-09					
+PRJEB88618	human gut	ERR15285694	1	PromethION	2025-07-15					
+PRJEB88618	soil	ERR15289757	1	PromethION	2025-07-16					
+PRJEB89893	soil	ERR15076228	1	PromethION	2025-05-26		unspecified			
+PRJEB95916	freshwater	ERR15462202	1	GridION	2026-04-30		unspecified			
+PRJNA1000750	human gut	SRR25508142	2	MinION	2024-08-15	FLO-MIN107; ligation; R9.5; SQK-LSK108	The DNA was extracted from each sample using the ZymoBIOMICS DNA extraction protocol (Zymo Research, USA). The DNA purity was quantified using a Nanodrop Spectrophotometer (NanoDrop Technology, USA) by measuring the A260/280 and A260/230 ratios. The DNA concentration was quantified using a Qubit 3.0 Fluorometer (Invitrogen, USA). The integrity of the extracted DNA was evaluated with agarose gel electrophoresis (Thermo Scientific, USA). Extracted DNA samples were stored at 4 C for 24 hours before			
+PRJNA1005436	activated sludge	SRR25822716	1	PromethION	2024-10-27	SQK-LSK112	SQK-LSK112			
+PRJNA1028177	wastewater	SRR26387400	1	PromethION	2024-07-29		not applicable			
+PRJNA1031997	livestock	SRR26512904	2	GridION	2023-10-31	Guppy v5; Ligation; SQK-LSK109	Ligation sequencing gDNA (SQK-LSK109); basecalled with Guppy v5; filtered with NanoFilt min q 10 min l 500			
+PRJNA1033532	human gut	SRR26750159	1	PromethION	2024-09-24	ligation; SQK-LSK112	Libraries were prepared using the ligation sequencing kit (SQK-LSK112) according to the manufacturers protocol.			
+PRJNA1062397	activated sludge	SRR27534537	1	PromethION	2026-03-22	FLO-PRO114M; LSK114	Sequenced using LSK114 on a FLO-PRO114M at 400 bp/s			
+PRJNA1082082	activated sludge	SRR28161539	1	MinION	2024-03-01	Ligation; R10.4	Library preparation of the extracted DNA was performed using the Ligation Sequencing Kit V14 (Oxford Nanopore Technologies Ltd). The NEBNext Companion Module for Oxford Nanopore Technologies Ligation Sequencing (New England BioLabs Inc.) and UltraPureTM BSA (50 mg/mL) (Thermo Fisher Scientific) were additionally used for the DNA repair and end-prep and the flow cell priming steps. All steps were performed as instructed by the manufacturer, except the incubations in the Hula mixer were replaced w			
+PRJNA1090675	soil	SRR28415697	4	PromethION	2024-04-28	SQK-LSK114	SQK-LSK114 with EXP-PBC096			
+PRJNA1101514	activated sludge	SRR28714048	1	MinION	2024-08-31	FLO-MIN106; SQK-LSK109	DNA extraction performed with DNeasy PowerSoil Kit. Libraries were prepared with kit SQK-LSK109 and sequenced with a FLO-MIN106 R9 flow cell on a MinION device			
+PRJNA1104006	soil	SRR28998464	5	MinION	2024-07-29		Metagenomics-TGS_P-L-3			
+PRJNA1112760	human gut	SRR39274849	5	PromethION	2026-06-25		WGS of DNA from new borns			
+PRJNA1117518	livestock	SRR33171852	4	PromethION	2025-05-23	Guppy v6.5.7; Ligation; SQK-LSK109.	Bovine rumen fluid DNA extracted from QIAamp PowerFecal Pro kit and sequenced with Nanopore Ligation Sequencing Kit SQK-LSK109. Basecalling was performed using Guppy v6.5.7 under fast basecalling model.			
+PRJNA1123871	livestock	SRR32380206	1	PromethION	2025-02-19		Lagation			
+PRJNA1130143	soil	SRR29660129	2	GridION	2024-07-29	Native barcoding; SQK-NBD114.24	Native barcoding kit: SQK-NBD114.24 according to manufacturers instructions			
+PRJNA1158533	activated sludge	SRR32609003	1	PromethION	2025-03-30	SQK-LSK114.24	SQK-LSK114.24			
+PRJNA1158533	freshwater	SRR32608987	1	PromethION	2025-03-30	SQK-LSK114.24	SQK-LSK114.24			
+PRJNA1158533	marine	SRR32608983	3	PromethION	2025-03-30	SQK-LSK114.24	SQK-LSK114.24			
+PRJNA1158533	wastewater	SRR32608974	1	PromethION	2025-03-30	SQK-LSK114.24	SQK-LSK114.24			
+PRJNA1171364	soil	SRR31242236	4	MinION	2024-11-08		control B1 60-100cm soil			
+PRJNA1219082	soil	SRR35158912	2	MinION	2025-08-28	Guppy v6.5.7; Ligation; R9.4.1; SQK-LSK109	To simultaneously isolate RNA and DNA from soil samples, the PowerSoil total RNA kit (Qiagen) and PowerSoil DNA elution kit (Qiagen) was used following the manufacturer's recommendations with minor modifications. Briefly, 3 g of soil were used as an initial sample, and the mechanical lysis was performed with a mixture of glass beads and bead solution that was processed for three pulses of 30 s at 6 m/s in a FastPrep-24 (MP Biomedicals). For both soil types (BS and RZ), DNA from the five correspo			
+PRJNA1224817	activated sludge	SRR32867089	1	PromethION	2025-09-28	LSK109	SQK_LSK109 DNA library preparation kit			
+PRJNA1231276	marine	SRR32726892	5	MinION	2025-03-23	SQK-RPB114.24	150um-0.22um marine metagenome;Nanopore SQK-RPB114.24 (R10 flow cells)			
+PRJNA1232215	activated sludge	SRR32610091	1	MinION	2026-04-19	Kit 24; Native Barcoding; R10.4.1	Libraries prepared using Oxford Nanopore Native Barcoding Kit 24 V14 and run on MinION Flow Cell (R10.4.1).			
+PRJNA1236243	freshwater	SRR32696687	2	MinION	2025-12-21		unspecified			
+PRJNA1249224	human gut	SRR33101879	5	PromethION	2026-05-24	SQK-NBD114.96	SQK-NBD114.96			
+PRJNA1260441	human gut	SRR33541077	2	GridION	2025-05-28	Guppy; Kit 96; R10.4.1; Rapid; SQK-RBK114-96	Sample libraries were prepared using the Oxford Nanopore Technologies Rapid Barcoding Kit 96 V14 (SQK-RBK114-96) and sequenced on a GridION platform with R10.4.1 flow cells for shotgun metagenomics. Bases were called using Guppy (v6.4.6) using High-accuracy model at 400 bps.Classification and downstream analyses were performed after filtering for poor quality reads. Before uploading, human read content was excluded from the fastq reads. Filtered read sequences aligning to the Human genome (GRCh3			
+PRJNA1260691	freshwater	SRR33480271	1	MinION	2025-05-11	FLO-MIN111; Rapid; SQK-RAD004	A total volume of 900 mL of pooled sample water was filtered using 0.22m pore bottle-top vacuum filter system (KASVI). Total genomic DNA was extracted with DNeasy PowerWater kit (QIAGEN), followed by an additional step of clean up using DNeasy columns (QIAGEN). Sequencing library was prepared from 450ng of genomic DNA with the Rapid DNA Sequencing kit (SQK-RAD004) acquired from Oxford Nanopore Technologies (ONT). DNA sequencing was performed using the minION device (ONT) with the FLO-MIN111 flow			
+PRJNA1285875	human gut	SRR34354861	5	MinION	2025-07-04	Dorado v7.6.7; R10.4.1; r104; SQK-RBK114-24	Library preparation was performed using the SQK-RBK114-24 kit in accordance with the Nanopore protocol (version RBK_9176_v114_revP_27Dec2024). The prepared libraries were loaded onto R10.4.1 flow cells and sequenced on a MinION Mk1B instrument. Data acquisition and demultiplexing were performed using MinKNOW software (v24.11.8) for 72 hours [Q-score = 10, barcode splitting = on, basecalling = super-accurate mode (r1041_e82_400bps_sup_v4.3.0), using Dorado v7.6.7]. The resulting raw reads were pr			
+PRJNA1293540	freshwater	SRR34704838	1	MinION	2026-03-23		Groundwater filtered and whole metagenome DNA extracted with Qiagen DNeasy Power Water Kit			
+PRJNA1293540	soil	SRR34704833	1	MinION	2026-03-23		Agricultural soil whole metagenome DNA extracted with Qiagen DNeasy Powermax Soil Kit			
+PRJNA1320681	marine	SRR35559058	5	MinION	2025-09-24	R9.4.1	gDNA sequencing of metagenomic samples with ONT R9.4.1			
+PRJNA1320681	wastewater	SRR35559056	2	MinION	2025-09-24	R9.4.1	gDNA sequencing of metagenomic samples with ONT R9.4.1			
+PRJNA1337107	livestock	SRR35699657	5	GridION	2026-03-22		Rumen liquid, Flash Frozen, DDZ, replicate 3, cow 2			
+PRJNA1353574	freshwater	SRR35908923	3	PromethION	2025-11-01	ligation; LSK110; R9.4	Total genomic DNA was extracted using the DNeasy PowerSoil/Water Kits. For second-generation sequencing, DNA library was constructed using VAHTS Universal Plus DNA Library Prep Kit for MGI V2 , and then sequenced on the MGI DNBSEQ-T7 (PE=150 bp). For Oxford Nanopore sequencing, the libraries were prepared using the SQKLSK110 ligation kit and using the standard protocol. The purified library was loaded onto primed R9.4 Spot-On Flow Cells and sequenced using a PromethION sequencer.			
+PRJNA1377628	human gut	SRR36365458	5	GridION	2026-06-28	R9.4.1; SQK-LSK109.24	The FastDNA Spin Kit for Soil (MP Biomedicals) was used to extract DNA. Samples were pooled, with up to 400 ng of DNA input per sample, using the SQK-LSK109.24 ONT kit. Sequencing was performed on MinION R9.4.1 flowcells on an ONT GridION sequencer.			
+PRJNA1405063	livestock	SRR41229816	4	PromethION	2026-10-19		Shotgun metagenomic sequencing of rumen microbiome samples from dairy cows (rumen content swap experiment). Oxford Nanopore long reads; super-accuracy basecalling, adapters trimmed with Porechop, reads 1 kb retained.			
+PRJNA1430400	human gut	SRR37422917	1	PromethION	2026-06-02	Guppy v4.0.11; Ligation; R9.4.1; SQK-LSK110	Human gut metagenomic DNA extracted using Three-Peaks method (magnetic bead and manual extraction), technical replicate 2. Library prepared using Oxford Nanopore Ligation Sequencing Kit (SQK-LSK110) with NEBNext Companion Module and Agencourt AMPure XP beads. Targeted 100-200 fmol DNA in 47 L per sample. Loaded onto PromethION R9.4.1 flow cell with 72-hour run length. Basecalling performed using Guppy v4.0.11 with minimum quality score threshold of 7.			
+PRJNA1435553	marine	SRR37628518	1	PromethION	2026-04-02	Dorado 0.9.6; R10.4.1; r10.4.1; sup; SUP	Genomic DNA extracted from 10L surface water filtered through 0.1um PES membranes. Size selected for fragments &gt;10 kbp. Sequenced on PromethION R10.4.1. Basecalled with Dorado 0.9.6 SUP model dna_r10.4.1_e8.2_400bps_sup@v4.1.0. Split 1 of 2 due to file size limit.			
+PRJNA1437919	activated sludge	SRR39465748	1	MinION	2026-07-12		Nanopore metagenomic sequencing of activated sludge collected from the anaerobic tank of a municipal wastewater treatment plant.			
+PRJNA1441618	wastewater	SRR37734951	2	PromethION	2026-06-02	Ligation; Native Barcoding	Library prep was Ligation Sequencing with Native Barcoding (96 barcode version)			
+PRJNA1444478	wastewater	SRR37829900	5	PromethION	2026-08-01		wastewater metagenome			
+PRJNA1469454	human gut	SRR38799243	5	PromethION	2026-09-01		DNA was used for library preparation according to the manufacturers protocol			
+PRJNA1470913	human gut	SRR38849373	5	PromethION	2026-05-28	Ligation	Ligation based sequencing			
+PRJNA1522089	livestock	SRR40466152	1	MinION	2026-09-03	FLO-MIN114; Ligation; SQK-LSK114	DNA extracted from the pooled fecal material (Pool 1) was used to prepare a sequencing library with the Oxford Nanopore Ligation Sequencing Kit (SQK-LSK114), followed by sequencing on a MinION platform using an FLO-MIN114 flow cell.			
+PRJNA508395	human gut	SRR8427258	2	MinION	2019-12-11	ligation	High molecular weight stool DNA extraction sequenced by ligation library prep			
+PRJNA527877	activated sludge	SRR11626796	5	MinION	2021-07-04	native barcoding; NBD103; SQK-LSK108	At least 1000 ng DNA was used for each library preparation using the 1D native barcoding genomic DNA kit (SQK-LSK108, EXP-NBD103, Oxford Nanopore Technologies) following the manufacturers protocol (v103_21Dec2016).			
+PRJNA527877	wastewater	SRR11626799	3	MinION	2021-07-04	native barcoding; NBD103; SQK-LSK108	At least 1000 ng DNA was used for each library preparation using the 1D native barcoding genomic DNA kit (SQK-LSK108, EXP-NBD103, Oxford Nanopore Technologies) following the manufacturers protocol (v103_21Dec2016).			
+PRJNA553237	activated sludge	SRR9655291	2	PromethION	2019-07-09	LSK108	DNA was extracted using DNeasy PowerSoil Kits (Qiagen, DE) and libraries were prepared for sequencing using the LSK108 kit (Oxford Nanopore Technologies, UK) following the manufacturers protocol.			
+PRJNA672704	wastewater	SRR12917046	2	MinION	2021-11-02	ligation; SQK-LSK109	SQK-LSK109 ligation sequencing kit			
+PRJNA674982	marine	SRR13009788	1	MinION	2021-06-24		DNA extraction was performed from the 0.22 m filter (free-living bacteria) following the phenol:chloroform extraction. Metagenome was sequenced using Oxford Nanopore (one MinIon flowcell run, chemistry version 9.4R).			
+PRJNA675130	marine	SRR13002033	1	PromethION	2020-11-08	ligation; LSK109	Genomic DNA ligation (LSK109)			
+PRJNA678365	human gut	SRR13059359	5	MinION	2021-12-02	ligation; SQK-LSK109	SQK-LSK109 ligation sequencing kit			
+PRJNA678365	livestock	SRR13059286	4	MinION	2021-12-02	ligation; SQK-LSK109	SQK-LSK109 ligation sequencing kit			
+PRJNA678454	human gut	SRR17456360	3	MinION	2022-01-07		DNA extracted from stool and sequenced on MinION, basecalling performed			
+PRJNA708254	soil	SRR13912725	5	MinION	2021-03-13		Random metagenomic sequencing			
+PRJNA716890	freshwater	SRR14072898	3	MinION	2021-03-29	SQK-LSK	SQK-LSK 109			
+PRJNA717813	soil	SRR14085589	2	PromethION	2021-09-27	ligation; SQK-LSK109	Library preparation (native ligation sequencing kit, SQK-LSK109) and sequencing was performed by the NGS Competence Center Tbingen (NCCT) on a PromethION device			
+PRJNA727938	soil	SRR24860173	3	MinION	2023-06-21		Nodata			
+PRJNA728386	wastewater	SRR14493008	3	GridION	2021-12-09	SQK-LSK109	Library preparation kit: SQK-LSK109			
+PRJNA745436	activated sludge	SRR15882950	1	GridION	2021-09-15		Follow manufacturer's descriptions			
+PRJNA753671	marine	SRR15422107	3	MinION	2022-04-10		LSK-SQK108 nanopore metagenomic seawater sample			
+PRJNA767267	soil	SRR16133582	1	MinION	2021-10-06		LSK-109			
+PRJNA769424	soil	SRR16235685	1	MinION	2021-10-08	Ligation	NEBNext Companion Module for Oxford Nanopore Technologies Ligation Sequencing was used for ONT sequencing libraries preparation.			
+PRJNA787609	freshwater	SRR17230300	1	MinION	2024-01-01	FLO-MIN111; Rapid; SQK-RAD004	A total volume of 900 mL of pooled sample water was filtered using 0.22m pore bottle-top vacuum filter system (KASVI). Total genomic DNA was extracted with DNeasy PowerWater kit (QIAGEN), followed by an additional step of clean up using DNeasy columns (QIAGEN). Sequencing library was prepared from 450ng of genomic DNA with the Rapid DNA Sequencing kit (SQK-RAD004) acquired from Oxford Nanopore Technologies (ONT). DNA sequencing was performed using the minION device (ONT) with the FLO-MIN111 flow			
+PRJNA833246	soil	SRR18969718	5	MinION	2022-05-01	Guppy v.4.3.4; Ligation; Native Barcoding; NBD104; R9.4.1; SQK-LSK109	Whole metagenomic DNA extracted from each of the twelve samples were multiplexed into three sequencing libraries using the ONT Ligation Sequencing Kit (SQK-LSK109) and the ONT Native Barcoding Expansion Kit (EXP-NBD104). Each DNA library was sequenced using a MinION MK 1B on an R9.4.1 flow cell for 48 hours. After 24 hours, each flow cell was washed using the ONT Flow Cell Wash Kit (EXP-WSH004) and the same DNA library was re-loaded and sequenced for a further 24 hours. Basecalling was carried o			
+PRJNA842493	wastewater	SRR19412966	1	MinION	2022-08-22	ligation; Native barcoding; NBD104; NBD114; SQK-LSK; SQK-LSK-109	"Extracted DNA from samples were checked using Qubit and electrophoresis to ensure 1.5 ug DNA (&gt; 3 kbps) for library prep. Library was prepared and sequenced as instructed by the ONT protocol ""Native barcoding amplicons (with EXP-NBD104, EXP-NBD114, and SQK-LSK 109)""."		sequencing method=Oxford Nanopore, MinION (R9), genomic ligation sequencing with SQK-LSK-109	
+PRJNA932835	marine	SRR23374856	1	MinION	2023-03-19		IonExpress Plus gDNA Fragment Library preparation kit (Thermo)			
+PRJNA940499	human gut	SRR23690010	5	PromethION	2023-03-17	SQK-NBD112.24	Nanopore metagenomic sequencing on a PromethION following library preparation with Q20+ SQK-NBD112.24 kit.			
+PRJNA942915	livestock	SRR23823225	5	GridION	2024-01-28	RPB004	RPB004 library prep			
+PRJNA952799	marine	SRR24091366	1	GridION	2023-06-16		normal DNAseq of marine sample			
+PRJNA998834	freshwater	SRR25429078	1	MinION	2023-10-31	Ligation; Rapid	Ligation Seq Kit v109 on Flongle cell			

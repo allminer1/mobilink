@@ -1,0 +1,97 @@
+project	class	kit	chemistry	basecaller	source
+PRJDB11069	marine	from the read-end probe	not stated	not stated	publication, doi 10.1093/nar/gkab1292: 'GridION Mk1 ... according to the manufacturer's standard protocols'; no kit or chemistry in the main text or the record
+PRJDB12736	freshwater	from the read-end probe	not stated	not stated	no kit or chemistry in the archive record
+PRJEB104244	soil	from the read-end probe	not stated	not stated	no kit or chemistry in the archive record
+PRJEB104930	soil	from the read-end probe	R10.4.1 (sample description in the ENA record)	not stated	ENA sample description: 'generated from R10.4.1 chemistry flow cells'; preprint doi 10.64898/2026.02.02.703227
+PRJEB107287	soil	from the read-end probe	not stated	not stated	no kit or chemistry in the archive record
+PRJEB108219	human gut	from the read-end probe	not stated	not stated	no publication found (Europe PMC accession and title search, 2026-11-20); nothing in the ENA records or file names
+PRJEB114667	soil	from the read-end probe	not stated	not stated	no kit or chemistry in the archive record
+PRJEB120797	livestock	from the read-end probe	not stated	not stated	no publication found (Europe PMC accession and title search, 2026-11-20); nothing in the ENA records or file names
+PRJEB123233	human gut	from the read-end probe	not stated	not stated	no kit or chemistry in the archive record
+PRJEB125553	soil	from the read-end probe	not stated	not stated	no kit or chemistry in the archive record
+PRJEB29152	human gut	from the read-end probe	not stated	not stated	no kit or chemistry in the archive record
+PRJEB33278	soil	from the read-end probe	not stated	not stated	no kit or chemistry in the archive record
+PRJEB34573	activated sludge	from the read-end probe	not stated	not stated	no kit or chemistry in the archive record
+PRJEB41762	soil	from the read-end probe	not stated	not stated	no kit or chemistry in the archive record
+PRJEB42267	soil	SQK-LSK109 with EXP-NBD104 (native barcoding)	R9.4.1 (FLO-MIN106)	Guppy 3.2.2	publication, doi 10.1093/femsec/fiab127 (Methods)
+PRJEB49168	human gut	SQK-LSK108 or SQK-LSK109; native barcoding EXP-NBD103/104/114 for multiplexed samples	R9.4.1 (FLO-MIN106D, FLO-PRO002)	Guppy 3.0.4 to 3.2.6	publication, doi 10.1038/s41467-022-33782-z (Methods)
+PRJEB49428	human gut	from the read-end probe	not stated	not stated	NCBI experiment record: unspecified
+PRJEB58701	freshwater	from the read-end probe	not stated	not stated	NCBI experiment record: unspecified
+PRJEB74343	human gut; soil	from the read-end probe	not stated	not stated	no kit or chemistry in the archive record
+PRJEB74630	soil	SQK-RAD114	not stated	not stated	NCBI experiment record: unamplified | SQK-RAD114
+PRJEB76456	wastewater	from the read-end probe	not stated	not stated	NCBI experiment record: unspecified
+PRJEB85558	soil	from the read-end probe	R10.4.1 (library names: Dorado 1.0.0, model 5.2.0 sup; ENA records)	Dorado 1.0.0, model 5.2.0 sup	ENA run records (library name) and the study record; publication doi 10.1038/s41587-026-03053-z uses the data as R10.4
+PRJEB86000	freshwater; marine	from the read-end probe	not stated	not stated	no kit or chemistry in the archive record
+PRJEB86001	freshwater	from the read-end probe	not stated	not stated	no kit or chemistry in the archive record
+PRJEB86002	freshwater	from the read-end probe	not stated	not stated	no kit or chemistry in the archive record
+PRJEB86003	freshwater	from the read-end probe	not stated	not stated	no kit or chemistry in the archive record
+PRJEB86004	freshwater; marine	from the read-end probe	not stated	not stated	no kit or chemistry in the archive record
+PRJEB88111	livestock	SQK-NBD114.96 (native barcoding)	R10.4.1 (FLO-PRO114M)	Guppy 7.2.13, super-accurate	publication, doi 10.1186/s42523-026-00577-2 (Methods)
+PRJEB88320	human gut	SQK-NBD114.24 (native barcoding)	R10.4.1 (FLO-PRO114M)	Dorado 0.5.3, super-accurate	publication, doi 10.1038/s41586-025-09786-2 (Methods)
+PRJEB88618	human gut; soil	LSK-114 (ligation)	R10.4.1 (FLO-PRO114M)	Dorado, SUP v5 model	publication, doi 10.1038/s41467-026-69760-y (Methods)
+PRJEB89893	soil	from the read-end probe	not stated	not stated	NCBI experiment record: unspecified
+PRJEB95916	freshwater	from the read-end probe	not stated	not stated	NCBI experiment record: unspecified
+PRJNA1000750	human gut	from the read-end probe	not stated	not stated	NCBI experiment record: The DNA was extracted from each sample using the ZymoBIOMICS DNA extraction protocol (Zymo Research, USA). The DNA purity was quantified using a Nanodrop Spectr
+PRJNA1005436	activated sludge	SQK-LSK112	not stated	not stated	NCBI experiment record: SQK-LSK112
+PRJNA1028177	wastewater	SQK-NBD114 (native barcoding)	R10.4.1	Guppy 6.5.7, super-accurate	publication, doi 10.1186/s13059-024-03363-y (Methods; the project record names this study)
+PRJNA1031997	livestock	SQK-LSK109	not stated	guppy v5	NCBI experiment record: Ligation sequencing gDNA (SQK-LSK109); basecalled with Guppy v5; filtered with NanoFilt min q 10 min l 500
+PRJNA1033532	human gut	SQK-LSK112	not stated	not stated	NCBI experiment record: Libraries were prepared using the ligation sequencing kit (SQK-LSK112) according to the manufacturers protocol.
+PRJNA1062397	activated sludge	LSK114	(FLO-PRO114M)	not stated	NCBI experiment record: Sequenced using LSK114 on a FLO-PRO114M at 400 bp/s
+PRJNA1082082	activated sludge	ligation (kit not named)	not stated	not stated	NCBI experiment record: Library preparation of the extracted DNA was performed using the Ligation Sequencing Kit V14 (Oxford Nanopore Technologies Ltd). The NEBNext Companion Module fo
+PRJNA1090675	soil	SQK-LSK114	not stated	not stated	NCBI experiment record: SQK-LSK114 with EXP-PBC096
+PRJNA1101514	activated sludge	SQK-LSK109	R9 (FLO-MIN106)	not stated	NCBI experiment record: DNA extraction performed with DNeasy PowerSoil Kit. Libraries were prepared with kit SQK-LSK109 and sequenced with a FLO-MIN106 R9 flow cell on a MinION device
+PRJNA1104006	soil	SQK-LSK109 (ligation)	not stated	Albacore 2.1.10	publication, doi 10.1186/s40168-025-02030-z (Methods)
+PRJNA1112760	human gut	from the read-end probe	not stated	not stated	NCBI experiment record: WGS of DNA from new borns
+PRJNA1117518	livestock	SQK-LSK109	not stated	guppy v6.5.7	NCBI experiment record: Bovine rumen fluid DNA extracted from QIAamp PowerFecal Pro kit and sequenced with Nanopore Ligation Sequencing Kit SQK-LSK109. Basecalling was performed using 
+PRJNA1123871	livestock	from the read-end probe	not stated	not stated	NCBI experiment record: Lagation
+PRJNA1130143	soil	SQK-NBD114.24	not stated	not stated	NCBI experiment record: Native barcoding kit: SQK-NBD114.24 according to manufacturers instructions
+PRJNA1158533	activated sludge; freshwater; marine; wastewater	SQK-LSK114.24	not stated	not stated	NCBI experiment record: SQK-LSK114.24
+PRJNA1171364	soil	from the read-end probe	not stated	not stated	NCBI experiment record: control B1 60-100cm soil
+PRJNA1219082	soil	from the read-end probe	not stated	not stated	NCBI experiment record: To simultaneously isolate RNA and DNA from soil samples, the PowerSoil total RNA kit (Qiagen) and PowerSoil DNA elution kit (Qiagen) was used following the manu
+PRJNA1224817	activated sludge	from the read-end probe	not stated	not stated	NCBI experiment record: SQK_LSK109 DNA library preparation kit
+PRJNA1231276	marine	SQK-RPB114.24	R10	not stated	NCBI experiment record: 150um-0.22um marine metagenome;Nanopore SQK-RPB114.24 (R10 flow cells)
+PRJNA1232215	activated sludge	native barcoding (kit not named)	R10.4.1	not stated	NCBI experiment record: Libraries prepared using Oxford Nanopore Native Barcoding Kit 24 V14 and run on MinION Flow Cell (R10.4.1).
+PRJNA1236243	freshwater	from the read-end probe	not stated	not stated	NCBI experiment record: unspecified
+PRJNA1249224	human gut	SQK-NBD114.96	not stated	not stated	NCBI experiment record: SQK-NBD114.96
+PRJNA1260441	human gut	SQK-RBK114-96	R10.4.1	guppy	NCBI experiment record: Sample libraries were prepared using the Oxford Nanopore Technologies Rapid Barcoding Kit 96 V14 (SQK-RBK114-96) and sequenced on a GridION platform with R10.4.
+PRJNA1260691	freshwater	SQK-RAD004	(FLO-MIN111)	not stated	NCBI experiment record: A total volume of 900 mL of pooled sample water was filtered using 0.22m pore bottle-top vacuum filter system (KASVI). Total genomic DNA was extracted with DNea
+PRJNA1285875	human gut	SQK-RBK114-24	R10.4.1	dorado v7.6.7	NCBI experiment record: Library preparation was performed using the SQK-RBK114-24 kit in accordance with the Nanopore protocol (version RBK_9176_v114_revP_27Dec2024). The prepared libr
+PRJNA1293540	freshwater; soil	from the read-end probe	not stated	not stated	no publication found (Europe PMC accession and title search, 2026-11-20); nothing in the NCBI record
+PRJNA1320681	marine; wastewater	from the read-end probe	R9.4.1	not stated	NCBI experiment record: gDNA sequencing of metagenomic samples with ONT R9.4.1
+PRJNA1337107	livestock	SQK-NBD114.96 (native barcoding)	R10.4.1 (PromethION flow cells)	Dorado, version not stated	publication, doi 10.3389/fcimb.2026.1907783 (Methods)
+PRJNA1353574	freshwater	SQKLSK110	R9.4	not stated	NCBI experiment record: Total genomic DNA was extracted using the DNeasy PowerSoil/Water Kits. For second-generation sequencing, DNA library was constructed using VAHTS Universal Plus 
+PRJNA1377628	human gut	SQK-LSK109.24	R9.4.1	not stated	NCBI experiment record: The FastDNA Spin Kit for Soil (MP Biomedicals) was used to extract DNA. Samples were pooled, with up to 400 ng of DNA input per sample, using the SQK-LSK109.24 
+PRJNA1405063	livestock	SQK-LSK110 (ligation)	R9.4.1 (FLO-MIN106D)	Guppy 5.0.12, high accuracy	preprint, doi 10.64898/2026.04.07.716947 (Methods; it names this BioProject; it says GridION where the archive record says PromethION)
+PRJNA1430400	human gut	SQK-LSK110	R9.4.1	guppy v4.0.11	NCBI experiment record: Human gut metagenomic DNA extracted using Three-Peaks method (magnetic bead and manual extraction), technical replicate 2. Library prepared using Oxford Nanopor
+PRJNA1435553	marine	from the read-end probe	R10.4.1	dorado 0.9.6	NCBI experiment record: Genomic DNA extracted from 10L surface water filtered through 0.1um PES membranes. Size selected for fragments &gt;10 kbp. Sequenced on PromethION R10.4.1. Base
+PRJNA1437919	activated sludge	from the read-end probe	not stated	not stated	NCBI experiment record: Nanopore metagenomic sequencing of activated sludge collected from the anaerobic tank of a municipal wastewater treatment plant.
+PRJNA1441618	wastewater	native barcoding (kit not named)	not stated	not stated	NCBI experiment record: Library prep was Ligation Sequencing with Native Barcoding (96 barcode version)
+PRJNA1444478	wastewater	from the read-end probe	not stated	not stated	no publication found (Europe PMC accession and title search, 2026-11-21); the NCBI record states neither kit nor chemistry
+PRJNA1469454	human gut	from the read-end probe	not stated	not stated	no publication found (Europe PMC accession and title search, 2026-11-21); the NCBI record states neither kit nor chemistry
+PRJNA1470913	human gut	ligation (kit not named)	not stated	not stated	NCBI experiment record: Ligation based sequencing
+PRJNA1522089	livestock	SQK-LSK114	(FLO-MIN114)	not stated	NCBI experiment record: DNA extracted from the pooled fecal material (Pool 1) was used to prepare a sequencing library with the Oxford Nanopore Ligation Sequencing Kit (SQK-LSK114), fo
+PRJNA508395	human gut	ligation (kit not named)	not stated	not stated	NCBI experiment record: High molecular weight stool DNA extraction sequenced by ligation library prep
+PRJNA527877	activated sludge; wastewater	SQK-LSK108	not stated	not stated	NCBI experiment record: At least 1000 ng DNA was used for each library preparation using the 1D native barcoding genomic DNA kit (SQK-LSK108, EXP-NBD103, Oxford Nanopore Technologies) 
+PRJNA553237	activated sludge	LSK108	not stated	not stated	NCBI experiment record: DNA was extracted using DNeasy PowerSoil Kits (Qiagen, DE) and libraries were prepared for sequencing using the LSK108 kit (Oxford Nanopore Technologies, UK) fo
+PRJNA672704	wastewater	SQK-LSK109	not stated	not stated	NCBI experiment record: SQK-LSK109 ligation sequencing kit
+PRJNA674982	marine	from the read-end probe	not stated	not stated	NCBI experiment record: DNA extraction was performed from the 0.22 m filter (free-living bacteria) following the phenol:chloroform extraction. Metagenome was sequenced using Oxford Nan
+PRJNA675130	marine	LSK109	not stated	not stated	NCBI experiment record: Genomic DNA ligation (LSK109)
+PRJNA678365	human gut; livestock	SQK-LSK109	not stated	not stated	NCBI experiment record: SQK-LSK109 ligation sequencing kit
+PRJNA678454	human gut	from the read-end probe	not stated	not stated	NCBI experiment record: DNA extracted from stool and sequenced on MinION, basecalling performed
+PRJNA708254	soil	from the read-end probe	not stated	not stated	NCBI experiment record: Random metagenomic sequencing
+PRJNA716890	freshwater	SQK-LSK-109	not stated	not stated	NCBI experiment record: SQK-LSK 109
+PRJNA717813	soil	SQK-LSK109	not stated	not stated	NCBI experiment record: Library preparation (native ligation sequencing kit, SQK-LSK109) and sequencing was performed by the NGS Competence Center Tbingen (NCCT) on a PromethION device
+PRJNA727938	soil	from the read-end probe	not stated	not stated	NCBI experiment record: Nodata
+PRJNA728386	wastewater	SQK-LSK109	not stated	not stated	NCBI experiment record: Library preparation kit: SQK-LSK109
+PRJNA745436	activated sludge	from the read-end probe	not stated	not stated	NCBI experiment record: Follow manufacturer's descriptions
+PRJNA753671	marine	from the read-end probe	not stated	not stated	NCBI experiment record: LSK-SQK108 nanopore metagenomic seawater sample
+PRJNA767267	soil	LSK-109	not stated	not stated	NCBI experiment record: LSK-109
+PRJNA769424	soil	ligation (kit not named)	not stated	not stated	NCBI experiment record: NEBNext Companion Module for Oxford Nanopore Technologies Ligation Sequencing was used for ONT sequencing libraries preparation.
+PRJNA787609	freshwater	SQK-RAD004	(FLO-MIN111)	not stated	NCBI experiment record: A total volume of 900 mL of pooled sample water was filtered using 0.22m pore bottle-top vacuum filter system (KASVI). Total genomic DNA was extracted with DNea
+PRJNA833246	soil	SQK-LSK109	R9.4.1	not stated	NCBI experiment record: Whole metagenomic DNA extracted from each of the twelve samples were multiplexed into three sequencing libraries using the ONT Ligation Sequencing Kit (SQK-LSK1
+PRJNA842493	wastewater	SQK-LSK-109	R9	not stated	NCBI experiment record: Extracted DNA from samples were checked using Qubit and electrophoresis to ensure 1.5 ug DNA (&gt; 3 kbps) for library prep. Library was prepared and sequenced 
+PRJNA932835	marine	from the read-end probe	not stated	not stated	NCBI experiment record: IonExpress Plus gDNA Fragment Library preparation kit (Thermo)
+PRJNA940499	human gut	SQK-NBD112.24	not stated	not stated	NCBI experiment record: Nanopore metagenomic sequencing on a PromethION following library preparation with Q20+ SQK-NBD112.24 kit.
+PRJNA942915	livestock	RPB004	not stated	not stated	NCBI experiment record: RPB004 library prep
+PRJNA952799	marine	from the read-end probe	not stated	not stated	NCBI experiment record: normal DNAseq of marine sample
+PRJNA998834	freshwater	ligation (kit not named)	not stated	not stated	NCBI experiment record: Ligation Seq Kit v109 on Flongle cell

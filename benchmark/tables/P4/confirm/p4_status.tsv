@@ -1,0 +1,356 @@
+run_accession	env	project	unit	rank	role	status	subsample_n50	subsample_bases
+DRR267103	marine	PRJDB11069	SAMD00271742	1	selected	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; record states neither; the publication, doi 10.1093/nar/gkab1292, says only GridION and standard protocols)	3499.0	2942630766.0
+DRR333391	freshwater	PRJDB12736	eplilimnion	1	selected	accepted	5777.0	2953446022.0
+DRR333402	freshwater	PRJDB12736	hypolimnion	2	selected	accepted	5287.0	3004295007.0
+ERR16963751	soil	PRJEB104244	SAMEA120589819	1	selected	rejected: fetch failed		
+ERR16963748	soil	PRJEB104244	SAMEA120589816	15	selected	rejected: fetch failed		
+ERR16963716	soil	PRJEB104244	SAMEA120589784	29	selected	rejected: fetch failed		
+ERR16963754	soil	PRJEB104244	SAMEA120589822	44	selected	rejected: fetch failed		
+ERR16963732	soil	PRJEB104244	SAMEA120589800	58	selected	rejected: fetch failed		
+ERR16963749	soil	PRJEB104244	SAMEA120589817	2	replaces ERR16963751	rejected: fetch failed		
+ERR16963722	soil	PRJEB104244	SAMEA120589790	14	replaces ERR16963748	rejected: fetch failed		
+ERR16963719	soil	PRJEB104244	SAMEA120589787	28	replaces ERR16963716	rejected: fetch failed		
+ERR16963742	soil	PRJEB104244	SAMEA120589810	43	replaces ERR16963754	rejected: fetch failed		
+ERR16963731	soil	PRJEB104244	SAMEA120589799	57	replaces ERR16963732	rejected: fetch failed		
+ERR16963752	soil	PRJEB104244	SAMEA120589820	3	replaces ERR16963749	rejected: fetch failed		
+ERR16963725	soil	PRJEB104244	SAMEA120589793	13	replaces ERR16963722	rejected: fetch failed		
+ERR16963717	soil	PRJEB104244	SAMEA120589785	27	replaces ERR16963719	rejected: fetch failed		
+ERR16963746	soil	PRJEB104244	SAMEA120589814	42	replaces ERR16963742	rejected: fetch failed		
+ERR16963733	soil	PRJEB104244	SAMEA120589801	56	replaces ERR16963731	rejected: fetch failed		
+ERR16963710	soil	PRJEB104244	SAMEA120589778	4	replaces ERR16963752	rejected: fetch failed		
+ERR16963727	soil	PRJEB104244	SAMEA120589795	12	replaces ERR16963725	rejected: fetch failed		
+ERR16963712	soil	PRJEB104244	SAMEA120589780	26	replaces ERR16963717	rejected: fetch failed		
+ERR16963736	soil	PRJEB104244	SAMEA120589804	41	replaces ERR16963746	rejected: fetch failed		
+ERR16963734	soil	PRJEB104244	SAMEA120589802	55	replaces ERR16963733	rejected: fetch failed		
+ERR16963709	soil	PRJEB104244	SAMEA120589777	5	replaces ERR16963710	rejected: fetch failed		
+ERR16963721	soil	PRJEB104244	SAMEA120589789	11	replaces ERR16963727	rejected: fetch failed		
+ERR16963718	soil	PRJEB104244	SAMEA120589786	25	replaces ERR16963712	rejected: fetch failed		
+ERR16963737	soil	PRJEB104244	SAMEA120589805	40	replaces ERR16963736	rejected: fetch failed		
+ERR16963730	soil	PRJEB104244	SAMEA120589798	54	replaces ERR16963734	rejected: fetch failed		
+ERR16963711	soil	PRJEB104244	SAMEA120589779	6	replaces ERR16963709	rejected: fetch failed		
+ERR16963724	soil	PRJEB104244	SAMEA120589792	10	replaces ERR16963721	rejected: fetch failed		
+ERR16963720	soil	PRJEB104244	SAMEA120589788	24	replaces ERR16963718	rejected: fetch failed		
+ERR16963743	soil	PRJEB104244	SAMEA120589811	39	replaces ERR16963737	rejected: fetch failed		
+ERR16963706	soil	PRJEB104244	SAMEA120589774	53	replaces ERR16963730	rejected: fetch failed		
+ERR16963726	soil	PRJEB104244	SAMEA120589794	7	replaces ERR16963711	rejected: fetch failed		
+ERR16963708	soil	PRJEB104244	SAMEA120589776	9	replaces ERR16963724	rejected: fetch failed		
+ERR16963728	soil	PRJEB104244	SAMEA120589796	23	replaces ERR16963720	rejected: fetch failed		
+ERR16963735	soil	PRJEB104244	SAMEA120589803	38	replaces ERR16963743	rejected: fetch failed		
+ERR16963759	soil	PRJEB104244	SAMEA120589827	52	replaces ERR16963706	rejected: fetch failed		
+ERR16963705	soil	PRJEB104244	SAMEA120589773	8	replaces ERR16963726	rejected: fetch failed		
+ERR16963715	soil	PRJEB104244	SAMEA120589783	16	replaces ERR16963708	rejected: fetch failed		
+ERR16963703	soil	PRJEB104244	SAMEA120589771	22	replaces ERR16963728	rejected: fetch failed		
+ERR16963745	soil	PRJEB104244	SAMEA120589813	37	replaces ERR16963735	rejected: fetch failed		
+ERR16963755	soil	PRJEB104244	SAMEA120589823	51	replaces ERR16963759	rejected: fetch failed		
+ERR16963714	soil	PRJEB104244	SAMEA120589782	17	replaces ERR16963705	rejected: fetch failed		
+ERR16963723	soil	PRJEB104244	SAMEA120589791	18	replaces ERR16963715	rejected: fetch failed		
+ERR16963713	soil	PRJEB104244	SAMEA120589781	21	replaces ERR16963703	rejected: fetch failed		
+ERR16963747	soil	PRJEB104244	SAMEA120589815	36	replaces ERR16963745	rejected: fetch failed		
+ERR16963739	soil	PRJEB104244	SAMEA120589807	50	replaces ERR16963755	rejected: fetch failed		
+ERR16963758	soil	PRJEB104244	SAMEA120589826	19	replaces ERR16963714	rejected: fetch failed		
+ERR16963704	soil	PRJEB104244	SAMEA120589772	20	replaces ERR16963723	rejected: fetch failed		
+ERR16963729	soil	PRJEB104244	SAMEA120589797	30	replaces ERR16963713	rejected: fetch failed		
+ERR16963738	soil	PRJEB104244	SAMEA120589806	35	replaces ERR16963747	rejected: fetch failed		
+ERR16963757	soil	PRJEB104244	SAMEA120589825	49	replaces ERR16963739	rejected: fetch failed		
+ERR16963707	soil	PRJEB104244	SAMEA120589775	31	replaces ERR16963758	rejected: fetch failed		
+ERR16963750	soil	PRJEB104244	SAMEA120589818	32	replaces ERR16963704	rejected: fetch failed		
+ERR16963702	soil	PRJEB104244	SAMEA120589770	33	replaces ERR16963729	rejected: fetch failed		
+ERR16963744	soil	PRJEB104244	SAMEA120589812	34	replaces ERR16963738	rejected: fetch failed		
+ERR16963756	soil	PRJEB104244	SAMEA120589824	48	replaces ERR16963757	rejected: fetch failed		
+ERR16963740	soil	PRJEB104244	SAMEA120589808	45	replaces ERR16963707	rejected: fetch failed		
+ERR16963741	soil	PRJEB104244	SAMEA120589809	46	replaces ERR16963750	rejected: fetch failed		
+ERR16963753	soil	PRJEB104244	SAMEA120589821	47	replaces ERR16963702	rejected: fetch failed		
+ERR15993834	soil	PRJEB104930	mfd04830	1	selected	accepted	12571.0	3184338479.0
+ERR15993626	soil	PRJEB104930	mfd10821	2	selected	accepted	9076.0	2953827968.0
+ERR15993836	soil	PRJEB104930	mfd06157	3	selected	accepted	8825.0	2901660202.0
+ERR16664731	soil	PRJEB107287	SAMEA121311637	1	selected	accepted	9462.0	1434359521.0
+ERR16664736	soil	PRJEB107287	SAMEA121311642	5	selected	accepted	8445.0	1251268323.0
+ERR16664743	soil	PRJEB107287	SAMEA121311649	9	selected	accepted	6118.0	1980831539.0
+ERR16664745	soil	PRJEB107287	SAMEA121311651	12	selected	accepted	5139.0	1085070802.0
+ERR16664726	soil	PRJEB107287	SAMEA121311632	16	selected	accepted	4533.0	1033494042.0
+ERR16691282	human gut	PRJEB108219	dh0003	1	selected	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; ENA records and file names state neither; no publication found, 2026-11-20)	5786.0	1760377959.0
+ERR16691304	human gut	PRJEB108219	dh0009	3	selected	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; ENA records and file names state neither; no publication found, 2026-11-20)	5129.0	1911185729.0
+ERR16691354	human gut	PRJEB108219	dh00023	5	selected	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; ENA records and file names state neither; no publication found, 2026-11-20)	5972.0	1118276406.0
+ERR16691336	human gut	PRJEB108219	dh00017	7	selected	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; ENA records and file names state neither; no publication found, 2026-11-20)	5763.0	1674374773.0
+ERR16691330	human gut	PRJEB108219	dh00016	9	selected	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; ENA records and file names state neither; no publication found, 2026-11-20)	4528.0	1681392607.0
+ERR16691288	human gut	PRJEB108219	dh0006	2	replaces ERR16691282	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; ENA records and file names state neither; no publication found, 2026-11-20)	5329.0	1128167945.0
+ERR16691348	human gut	PRJEB108219	dh00022	4	replaces ERR16691304	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; ENA records and file names state neither; no publication found, 2026-11-20)	6185.0	2263652956.0
+ERR16691342	human gut	PRJEB108219	dh00018	6	replaces ERR16691354	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; ENA records and file names state neither; no publication found, 2026-11-20)	6314.0	1572166287.0
+ERR16691300	human gut	PRJEB108219	dh0008	8	replaces ERR16691336	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; ENA records and file names state neither; no publication found, 2026-11-20)	5684.0	1508185163.0
+ERR17627246	soil	PRJEB114667	mfd03634	1	selected	accepted	8783.0	3331737658.0
+ERR17627245	soil	PRJEB114667	mfd01515	2	selected	accepted	4912.0	3011961936.0
+ERR17600061	livestock	PRJEB120797	pa	1	selected	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; ENA records and file names state neither; no publication found, 2026-11-20)	4733.0	3003855796.0
+ERR17600063	livestock	PRJEB120797	pb	2	selected	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; ENA records and file names state neither; no publication found, 2026-11-20)	4353.0	2997503515.0
+ERR17600073	livestock	PRJEB120797	pe	3	selected	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; ENA records and file names state neither; no publication found, 2026-11-20)	4240.0	3009913942.0
+ERR17600070	livestock	PRJEB120797	pd	5	selected	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; ENA records and file names state neither; no publication found, 2026-11-20)	4286.0	2995029547.0
+ERR17600066	livestock	PRJEB120797	pc	6	selected	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; ENA records and file names state neither; no publication found, 2026-11-20)	3654.0	3006293437.0
+ERR17600076	livestock	PRJEB120797	pf	4	replaces ERR17600061	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; ENA records and file names state neither; no publication found, 2026-11-20)	4188.0	1406070303.0
+ERR18016248	human gut	PRJEB123233	SAMEA123432588	1	selected	rejected: fetch failed		
+ERR18104482	soil	PRJEB125553	mfd16500	1	selected	rejected: fetch failed		
+ERR18104478	soil	PRJEB125553	mfd15138	2	selected	rejected: fetch failed		
+ERR3201938	human gut	PRJEB29152	capes	1	selected	accepted	6383.0	3000746159.0
+ERR3407986	soil	PRJEB33278	SAMEA5747353	1	selected	accepted	4190.0	3004256353.0
+ERR3561495	activated sludge	PRJEB34573	SAMEA5977106	1	selected	accepted	8499.0	3001018050.0
+ERR3662306	activated sludge	PRJEB34573	SAMEA6224981	5	selected	accepted	6296.0	2961933879.0
+ERR3662307	activated sludge	PRJEB34573	SAMEA6224982	10	selected	accepted	5919.0	3014841785.0
+ERR3662321	activated sludge	PRJEB34573	SAMEA6224995	15	selected	accepted	4033.0	2980753848.0
+ERR3662319	activated sludge	PRJEB34573	SAMEA6224993	19	selected	accepted	3836.0	2973027944.0
+ERR5000342	soil	PRJEB41762	SAMEA7722292	1	selected	accepted	6040.0	3042334625.0
+ERR5000343	soil	PRJEB41762	SAMEA7722298	2	selected	accepted	4132.0	3018735000.0
+ERR5029615	soil	PRJEB42267	SAMEA7750917	1	selected	accepted	9053.0	2983085585.0
+ERR5029600	soil	PRJEB42267	SAMEA7750902	3	selected	accepted	7866.0	2665151090.0
+ERR5029598	soil	PRJEB42267	SAMEA7750900	5	selected	accepted	6476.0	1827156892.0
+ERR5029602	soil	PRJEB42267	SAMEA7750904	7	selected	accepted	4625.0	3216350716.0
+ERR5029616	soil	PRJEB42267	SAMEA7750919	9	selected	accepted	3951.0	2986408728.0
+ERR7625391	human gut	PRJEB49168	SAMEA11358334	1	selected	accepted	10865.0	2161664743.0
+ERR7625327	human gut	PRJEB49168	SAMEA11358312	28	selected	accepted	8987.0	2995851898.0
+ERR7625409	human gut	PRJEB49168	SAMEA11358315	55	selected	accepted	7701.0	2997166841.0
+ERR7625345	human gut	PRJEB49168	SAMEA11358341	81	selected	accepted	6783.0	2995170588.0
+ERR7625398	human gut	PRJEB49168	SAMEA11358286	108	selected	accepted	6148.0	3011238337.0
+ERR7764818	human gut	PRJEB49428	SAMEA11879264	1	selected	accepted	5645.0	1207111330.0
+ERR7764209	human gut	PRJEB49428	SAMEA11879127	13	selected	accepted	3638.0	1073900387.0
+ERR7764573	human gut	PRJEB49428	SAMEA11879218	25	selected	accepted	3639.0	2685045311.0
+ERR7764557	human gut	PRJEB49428	SAMEA11879200	38	selected	accepted	3617.0	2893133178.0
+ERR7764829	human gut	PRJEB49428	SAMEA11879281	50	selected	accepted	2722.0	1011695873.0
+ERR11452376	freshwater	PRJEB58701	SAMEA113474341	1	selected	accepted	7100.0	3010261562.0
+ERR12982441	human gut	PRJEB74343	SAMEA115490942	1	selected	accepted	10330.0	2983942601.0
+ERR12983021	soil	PRJEB74343	SAMEA115490948	1	selected	accepted	9770.0	3010370757.0
+ERR13194442	soil	PRJEB74630	SAMEA115414646	1	selected	accepted	179139.0	1684557830.0
+ERR13194441	soil	PRJEB74630	SAMEA115414645	2	selected	accepted	129953.0	1493104452.0
+ERR13341318	soil	PRJEB74630	SAMEA115414644	3	selected	accepted	4211.0	3020046339.0
+ERR13248761	wastewater	PRJEB76456	SAMEA115717961	1	selected	accepted	14225.0	3021612698.0
+ERR15459706	soil	PRJEB85558	mfd00392	1	selected	accepted	9722.0	3083052685.0
+ERR15459712	soil	PRJEB85558	mfd06229	2	selected	accepted	8693.0	2985880121.0
+ERR15459713	soil	PRJEB85558	mfd06742	3	selected	accepted	8182.0	3106283055.0
+ERR15459709	soil	PRJEB85558	mfd02360	4	selected	accepted	7272.0	2973494390.0
+ERR15459708	soil	PRJEB85558	mfd02242	5	selected	accepted	7342.0	2945944047.0
+ERR14822396	freshwater	PRJEB86000	SAMEA117739272	1	selected	accepted	14225.0	3023241546.0
+ERR14822393	freshwater	PRJEB86000	SAMEA117739274	2	selected	accepted	8463.0	3006958002.0
+ERR14822419	marine	PRJEB86000	SAMEA117739275	1	selected	accepted	6802.0	3059709026.0
+ERR14822407	freshwater	PRJEB86001	SAMEA117739276	1	selected	accepted	16221.0	2981699771.0
+ERR14822406	freshwater	PRJEB86001	SAMEA117739284	4	selected	accepted	7680.0	3040645292.0
+ERR14822413	freshwater	PRJEB86001	SAMEA117739279	7	selected	accepted	7565.0	3044513075.0
+ERR14822405	freshwater	PRJEB86001	SAMEA117739283	9	selected	accepted	5890.0	2938025215.0
+ERR14822409	freshwater	PRJEB86001	SAMEA117739286	12	selected	accepted	4246.0	2988329998.0
+ERR14822387	freshwater	PRJEB86002	lake baroon	1	selected	accepted	11435.0	2930766759.0
+ERR14822418	freshwater	PRJEB86002	lake samsonvale	2	selected	accepted	10534.0	2968298050.0
+ERR14822423	freshwater	PRJEB86002	lake wievenhoe	3	selected	accepted	10683.0	2974743161.0
+ERR14822404	freshwater	PRJEB86002	lake monduran	4	selected	accepted	9469.0	3034266662.0
+ERR14822403	freshwater	PRJEB86002	lake mckenzie	5	selected	accepted	7938.0	2992252738.0
+ERR14822388	freshwater	PRJEB86003	lake biwa	1	selected	accepted	16075.0	3048622176.0
+ERR14822390	freshwater	PRJEB86003	lake chuzenji	2	selected	accepted	12671.0	2996064719.0
+ERR14822420	freshwater	PRJEB86003	lake toya	3	selected	accepted	11247.0	2987388427.0
+ERR14822395	freshwater	PRJEB86003	lake inawashiro	4	selected	accepted	11447.0	3061990648.0
+ERR14822383	freshwater	PRJEB86004	SAMEA117739297	1	selected	accepted	9268.0	2996014571.0
+ERR14822386	marine	PRJEB86004	SAMEA117739300	1	selected	accepted	8755.0	3010174169.0
+ERR15934505	livestock	PRJEB88111	SAMEA120577450	1	selected	accepted	9634.0	3004151374.0
+ERR15935830	livestock	PRJEB88111	SAMEA120577423	8	selected	accepted	6393.0	3012826493.0
+ERR15935218	livestock	PRJEB88111	SAMEA120577426	15	selected	accepted	7524.0	3000863478.0
+ERR15934764	livestock	PRJEB88111	SAMEA120577445	22	selected	accepted	3614.0	2988043259.0
+ERR15934516	livestock	PRJEB88111	SAMEA120577437	29	selected	accepted	2586.0	2996710128.0
+ERR14838508	human gut	PRJEB88320	d04	1	selected	accepted	13066.0	2992681986.0
+ERR14838509	human gut	PRJEB88320	d05	2	selected	accepted	11539.0	2992561538.0
+ERR14838506	human gut	PRJEB88320	d09	3	selected	accepted	19202.0	3040192203.0
+ERR14838505	human gut	PRJEB88320	d08	5	selected	accepted	17804.0	3025644903.0
+ERR14838507	human gut	PRJEB88320	d02	6	selected	accepted	9011.0	2974819867.0
+ERR15285694	human gut	PRJEB88618	SAMEA118767328	1	selected	accepted	7504.0	2857143198.0
+ERR15289757	soil	PRJEB88618	SAMEA118770165	1	selected	rejected: fetch failed		
+ERR15076228	soil	PRJEB89893	ultra-deep-schoenbuch	1	selected	accepted	13355.0	2963260088.0
+ERR15462202	freshwater	PRJEB95916	lake zurich	1	selected	accepted	7680.0	2994252643.0
+SRR25508142	human gut	PRJNA1000750	SAMN36779489	1	selected	accepted	10648.0	3000573120.0
+SRR25508141	human gut	PRJNA1000750	SAMN36779491	2	selected	accepted	11177.0	2995109211.0
+SRR25822716	activated sludge	PRJNA1005436	SAMN37127320	1	selected	accepted	11840.0	3007578755.0
+SRR26387400	wastewater	PRJNA1028177	SAMN37814516	1	selected	accepted	9498.0	2998314227.0
+SRR26512904	livestock	PRJNA1031997	SAMN37977840	1	selected	accepted	12764.0	2991326285.0
+SRR26512901	livestock	PRJNA1031997	SAMN37977843	2	selected	accepted	8763.0	3057210204.0
+SRR26750159	human gut	PRJNA1033532	SAMN38167982	1	selected	accepted	9420.0	3145637363.0
+SRR27534537	activated sludge	PRJNA1062397	fredericia	1	selected	accepted	4559.0	2995957060.0
+SRR28161539	activated sludge	PRJNA1082082	activated sludge	1	selected	accepted	6758.0	3027367990.0
+SRR28415697	soil	PRJNA1090675	SAMN40572369	1	selected	accepted	7279.0	1343898172.0
+SRR28415591	soil	PRJNA1090675	SAMN40572371	2	selected	accepted	5665.0	1489662045.0
+SRR28415592	soil	PRJNA1090675	SAMN40572370	3	selected	accepted	5349.0	1031717215.0
+SRR28415622	soil	PRJNA1090675	SAMN40572368	4	selected	accepted	5273.0	2997115352.0
+SRR28714048	activated sludge	PRJNA1101514	SAMN40942472	1	selected	accepted	11346.0	3003578009.0
+SRR28998464	soil	PRJNA1104006	SAMN41069623	1	selected	accepted	7238.0	3000156091.0
+SRR28998459	soil	PRJNA1104006	SAMN41069628	5	selected	accepted	6560.0	2999277519.0
+SRR28998472	soil	PRJNA1104006	SAMN41069616	9	selected	accepted	4827.0	3000126272.0
+SRR28998463	soil	PRJNA1104006	SAMN41069624	13	selected	accepted	8417.0	2992249968.0
+SRR28998474	soil	PRJNA1104006	SAMN41069614	17	selected	accepted	6565.0	3005668614.0
+SRR39274849	human gut	PRJNA1112760	SAMN18325632	1	selected	accepted	5911.0	1972354226.0
+SRR39274961	human gut	PRJNA1112760	SAMN18325708	3	selected	accepted	5435.0	3006437876.0
+SRR39274855	human gut	PRJNA1112760	SAMN18325602	4	selected	accepted	5359.0	2370927024.0
+SRR39274950	human gut	PRJNA1112760	SAMN18325568	5	selected	accepted	4228.0	2913908509.0
+SRR39274943	human gut	PRJNA1112760	SAMN18325525	7	selected	accepted	5306.0	2232797059.0
+SRR33171852	livestock	PRJNA1117518	SAMN48022480	1	selected	accepted	7970.0	3012781926.0
+SRR33171803	livestock	PRJNA1117518	SAMN48022483	2	selected	accepted	5423.0	1220004632.0
+SRR33171822	livestock	PRJNA1117518	SAMN48022482	3	selected	accepted	4755.0	1358861468.0
+SRR33171823	livestock	PRJNA1117518	SAMN48022481	4	selected	accepted	3358.0	1588158728.0
+SRR32380206	livestock	PRJNA1123871	SAMN46859988	1	selected	accepted	7036.0	3005780086.0
+SRR29660129	soil	PRJNA1130143	arable	1	selected	accepted	5737.0	1528036601.0
+SRR29660144	soil	PRJNA1130143	heathland	2	selected	accepted	3474.0	1153033464.0
+SRR32609003	activated sludge	PRJNA1158533	as of wwtps	1	selected	accepted	6312.0	2999965771.0
+SRR32608987	freshwater	PRJNA1158533	river water	1	selected	accepted	7296.0	3008732448.0
+SRR32608983	marine	PRJNA1158533	marine water	1	selected	accepted	6128.0	2993415292.0
+SRR32608993	marine	PRJNA1158533	bathing beach water	2	selected	accepted	5730.0	2997918785.0
+SRR32608990	marine	PRJNA1158533	fishery water	3	selected	accepted	5087.0	3004477246.0
+SRR32608974	wastewater	PRJNA1158533	influent of wwtps	1	selected	accepted	5329.0	3000058264.0
+SRR31242236	soil	PRJNA1171364	SAMN44599700	1	selected	accepted	6115.0	2985694327.0
+SRR31256859	soil	PRJNA1171364	SAMN44614440	2	selected	accepted	5730.0	3003937114.0
+SRR31243334	soil	PRJNA1171364	SAMN44601341	3	selected	accepted	5268.0	2971355139.0
+SRR31246069	soil	PRJNA1171364	SAMN44603751	4	selected	accepted	5195.0	3033727854.0
+SRR35158912	soil	PRJNA1219082	SAMN50811275	1	selected	accepted	6136.0	2999451273.0
+SRR35158911	soil	PRJNA1219082	SAMN50811276	2	selected	accepted	5403.0	2996428667.0
+SRR32867089	activated sludge	PRJNA1224817	ags system	1	selected	accepted	6838.0	3011322983.0
+SRR32726892	marine	PRJNA1231276	SAMN47385657	1	selected	rejected: kit rule: amplified library (record: Nanopore SQK-RPB114.24, the rapid PCR barcoding kit)	5537.0	1224111667.0
+SRR32726885	marine	PRJNA1231276	SAMN47385654	3	selected	rejected: kit rule: amplified library (record: Nanopore SQK-RPB114.24, the rapid PCR barcoding kit)	4751.0	1509873176.0
+SRR32726887	marine	PRJNA1231276	SAMN47385652	6	selected	rejected: kit rule: amplified library (record: Nanopore SQK-RPB114.24, the rapid PCR barcoding kit)	4493.0	1576352515.0
+SRR32726894	marine	PRJNA1231276	SAMN47385647	9	selected	rejected: kit rule: amplified library (record: Nanopore SQK-RPB114.24, the rapid PCR barcoding kit)	4425.0	1705057925.0
+SRR32726891	marine	PRJNA1231276	SAMN47385658	11	selected	rejected: kit rule: amplified library (record: Nanopore SQK-RPB114.24, the rapid PCR barcoding kit)	3889.0	2450742207.0
+SRR32726890	marine	PRJNA1231276	SAMN47385649	2	replaces SRR32726892	rejected: kit rule: amplified library (record: Nanopore SQK-RPB114.24, the rapid PCR barcoding kit)	4958.0	1065271729.0
+SRR32726884	marine	PRJNA1231276	SAMN47385655	4	replaces SRR32726885	rejected: kit rule: amplified library (record: Nanopore SQK-RPB114.24, the rapid PCR barcoding kit)	4745.0	1804290125.0
+SRR32726889	marine	PRJNA1231276	SAMN47385650	5	replaces SRR32726887	rejected: kit rule: amplified library (record: Nanopore SQK-RPB114.24, the rapid PCR barcoding kit)	4712.0	1573612498.0
+SRR32726886	marine	PRJNA1231276	SAMN47385653	8	replaces SRR32726894	rejected: kit rule: amplified library (record: Nanopore SQK-RPB114.24, the rapid PCR barcoding kit)	4423.0	1278590158.0
+SRR32726883	marine	PRJNA1231276	SAMN47385656	10	replaces SRR32726891	rejected: kit rule: amplified library (record: Nanopore SQK-RPB114.24, the rapid PCR barcoding kit)	4374.0	1889600666.0
+SRR32726893	marine	PRJNA1231276	SAMN47385648	7	replaces SRR32726890	rejected: kit rule: amplified library (record: Nanopore SQK-RPB114.24, the rapid PCR barcoding kit)	4447.0	1508785024.0
+SRR32610091	activated sludge	PRJNA1232215	activated sludge	1	selected	accepted	7310.0	2121463716.0
+SRR32696687	freshwater	PRJNA1236243	h32	1	selected	accepted	5359.0	2991567010.0
+SRR32696688	freshwater	PRJNA1236243	h14	2	selected	accepted	5413.0	3029356549.0
+SRR33101879	human gut	PRJNA1249224	SAMN47883644	1	selected	accepted	6746.0	3000245194.0
+SRR33101155	human gut	PRJNA1249224	SAMN47883619	6	selected	accepted	6447.0	3006477933.0
+SRR33101419	human gut	PRJNA1249224	SAMN47883669	11	selected	accepted	5350.0	2623439413.0
+SRR33101845	human gut	PRJNA1249224	SAMN47883759	17	selected	accepted	6067.0	2651583655.0
+SRR33101422	human gut	PRJNA1249224	SAMN47883666	22	selected	accepted	6231.0	2998144661.0
+SRR33541077	human gut	PRJNA1260441	5	1	selected	accepted	4896.0	1669777322.0
+SRR33541080	human gut	PRJNA1260441	4	2	selected	accepted	3770.0	1245443394.0
+SRR33480271	freshwater	PRJNA1260691	SAMN48401278	1	selected	accepted	3841.0	3004553560.0
+SRR34354861	human gut	PRJNA1285875	s1-bel-01	1	selected	accepted	5507.0	1127861293.0
+SRR34354833	human gut	PRJNA1285875	s1-eth-06	4	selected	accepted	5486.0	1662961875.0
+SRR34354865	human gut	PRJNA1285875	s1-gha-01	7	selected	accepted	5347.0	1082014892.0
+SRR34354902	human gut	PRJNA1285875	s1-sud-02	10	selected	accepted	4559.0	1204805183.0
+SRR34354858	human gut	PRJNA1285875	s1-ivc-01	13	selected	accepted	4600.0	1006422482.0
+SRR34704838	freshwater	PRJNA1293540	SAMN50024802	1	selected	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; NCBI record states neither; no publication found, 2026-11-20)	6322.0	2999534426.0
+SRR34704833	soil	PRJNA1293540	SAMN50024807	1	selected	accepted	4432.0	3003724882.0
+SRR35559058	marine	PRJNA1320681	SAMN51758060	1	selected	accepted	7134.0	3010919506.0
+SRR35559065	marine	PRJNA1320681	SAMN51758053	3	selected	accepted	6916.0	2996690734.0
+SRR35559059	marine	PRJNA1320681	SAMN51758059	4	selected	accepted	5896.0	3006246568.0
+SRR35559062	marine	PRJNA1320681	SAMN51758056	5	selected	accepted	4933.0	2989095212.0
+SRR35559060	marine	PRJNA1320681	SAMN51758058	7	selected	accepted	4988.0	2998918246.0
+SRR35559056	wastewater	PRJNA1320681	SAMN51758062	1	selected	accepted	7501.0	2991385086.0
+SRR35559057	wastewater	PRJNA1320681	SAMN51758061	2	selected	accepted	6450.0	2992458086.0
+SRR35699657	livestock	PRJNA1337107	SAMN52102659	1	selected	accepted	9643.0	1162072567.0
+SRR35699659	livestock	PRJNA1337107	SAMN52102657	3	selected	accepted	9377.0	1916251857.0
+SRR35699654	livestock	PRJNA1337107	SAMN52102662	5	selected	accepted	8852.0	1406350227.0
+SRR35699655	livestock	PRJNA1337107	SAMN52102661	6	selected	accepted	8908.0	1376281106.0
+SRR35699603	livestock	PRJNA1337107	SAMN52102633	8	selected	accepted	7984.0	1454018830.0
+SRR35908923	freshwater	PRJNA1353574	cy	1	selected	accepted	7015.0	3002712047.0
+SRR35908888	freshwater	PRJNA1353574	lx	2	selected	accepted	6551.0	2989169562.0
+SRR35908912	freshwater	PRJNA1353574	hx	3	selected	accepted	5117.0	3009156130.0
+SRR36365458	human gut	PRJNA1377628	SAMN53796512	1	selected	accepted	6984.0	1317286290.0
+SRR36365475	human gut	PRJNA1377628	SAMN53796497	3	selected	accepted	7102.0	1544030091.0
+SRR36365476	human gut	PRJNA1377628	SAMN53796496	5	selected	accepted	6174.0	1941995790.0
+SRR36365438	human gut	PRJNA1377628	SAMN53796530	8	selected	accepted	5436.0	1224602774.0
+SRR36365454	human gut	PRJNA1377628	SAMN53796516	10	selected	accepted	4386.0	1000492552.0
+SRR41229816	livestock	PRJNA1405063	6650	1	selected	accepted	5019.0	2970198583.0
+SRR41229815	livestock	PRJNA1405063	6682	2	selected	accepted	4883.0	3055801201.0
+SRR41229817	livestock	PRJNA1405063	6640	3	selected	accepted	4456.0	2979618980.0
+SRR41229818	livestock	PRJNA1405063	6616	4	selected	accepted	3256.0	2982141205.0
+SRR37422917	human gut	PRJNA1430400	SAMN56287848	1	selected	accepted	4126.0	3009589084.0
+SRR37628518	marine	PRJNA1435553	station 36	1	selected	accepted	14321.0	2960787239.0
+SRR39465748	activated sludge	PRJNA1437919	SAMN61421553	1	selected	accepted	11202.0	3027976262.0
+SRR37734951	wastewater	PRJNA1441618	community	1	selected	accepted	3848.0	1327234487.0
+SRR37734929	wastewater	PRJNA1441618	university	2	selected	accepted	2803.0	3023167707.0
+SRR37829900	wastewater	PRJNA1444478	municipal wastewater3	1	selected	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; NCBI record states neither; no publication found, 2026-11-21)	13804.0	2918553986.0
+SRR37829895	wastewater	PRJNA1444478	livestock wastewater1	3	selected	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; NCBI record states neither; no publication found, 2026-11-21)	13534.0	3009299407.0
+SRR37829894	wastewater	PRJNA1444478	livestock wastewater2	5	selected	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; NCBI record states neither; no publication found, 2026-11-21)	5308.0	2976679535.0
+SRR37829898	wastewater	PRJNA1444478	hospital wastewater2	7	selected	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; NCBI record states neither; no publication found, 2026-11-21)	8240.0	3003778433.0
+SRR37829901	wastewater	PRJNA1444478	municipal wastewater2	9	selected	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; NCBI record states neither; no publication found, 2026-11-21)	3651.0	3005629206.0
+SRR37829902	wastewater	PRJNA1444478	municipal wastewater1	2	replaces SRR37829900	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; NCBI record states neither; no publication found, 2026-11-21)	12108.0	2965865765.0
+SRR37829897	wastewater	PRJNA1444478	hospital wastewater3	4	replaces SRR37829895	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; NCBI record states neither; no publication found, 2026-11-21)	12474.0	3046490167.0
+SRR37829896	wastewater	PRJNA1444478	hospital wastewater4	6	replaces SRR37829894	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; NCBI record states neither; no publication found, 2026-11-21)	8618.0	3005145621.0
+SRR37829899	wastewater	PRJNA1444478	hospital wastewater1	8	replaces SRR37829898	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; NCBI record states neither; no publication found, 2026-11-21)	3634.0	3010608797.0
+SRR38799243	human gut	PRJNA1469454	SAMN60358239	1	selected	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; NCBI record states neither; no publication found, 2026-11-21)	8471.0	3011841130.0
+SRR38799236	human gut	PRJNA1469454	SAMN60358245	3	selected	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; NCBI record states neither; no publication found, 2026-11-21)	8568.0	3001400657.0
+SRR38799234	human gut	PRJNA1469454	SAMN60358247	4	selected	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; NCBI record states neither; no publication found, 2026-11-21)	7291.0	2936046995.0
+SRR38799261	human gut	PRJNA1469454	SAMN60358223	5	selected	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; NCBI record states neither; no publication found, 2026-11-21)	7286.0	1213171789.0
+SRR38799254	human gut	PRJNA1469454	SAMN60358229	7	selected	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; NCBI record states neither; no publication found, 2026-11-21)	6782.0	1285040705.0
+SRR38799241	human gut	PRJNA1469454	SAMN60358241	2	replaces SRR38799243	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; NCBI record states neither; no publication found, 2026-11-21)	9154.0	2996113620.0
+SRR38799258	human gut	PRJNA1469454	SAMN60358225	6	replaces SRR38799236	rejected: kit rule: kit and chemistry both unknown (no pattern at 5% of read starts; NCBI record states neither; no publication found, 2026-11-21)	7480.0	1663337251.0
+SRR38849373	human gut	PRJNA1470913	SAMN60430677	1	selected	accepted	4252.0	2644344984.0
+SRR38849376	human gut	PRJNA1470913	SAMN60430674	3	selected	accepted	3685.0	1722657278.0
+SRR38849366	human gut	PRJNA1470913	SAMN60430683	5	selected	accepted	3483.0	1359123231.0
+SRR38849369	human gut	PRJNA1470913	SAMN60430681	6	selected	accepted	3258.0	1830184333.0
+SRR38849362	human gut	PRJNA1470913	SAMN60430687	8	selected	accepted	3051.0	3298480372.0
+SRR40466152	livestock	PRJNA1522089	SAMN62826810	1	selected	accepted	3441.0	3022583416.0
+SRR8427258	human gut	PRJNA508395	SAMN10720447	1	selected	accepted	4664.0	3000237898.0
+SRR9847854	human gut	PRJNA508395	SAMN12384724	2	selected	accepted	5251.0	3013160521.0
+SRR11626796	activated sludge	PRJNA527877	sweden	1	selected	accepted	6292.0	2407925553.0
+SRR11626798	activated sludge	PRJNA527877	switzerland	2	selected	accepted	5950.0	3144937368.0
+SRR11626800	activated sludge	PRJNA527877	united states	3	selected	accepted	5973.0	2032957399.0
+SRR11626794	activated sludge	PRJNA527877	india	4	selected	accepted	4599.0	2999918164.0
+SRR11626792	activated sludge	PRJNA527877	hong kong	5	selected	accepted	3391.0	3001578765.0
+SRR11626799	wastewater	PRJNA527877	switzerland	1	selected	accepted	4707.0	1595100249.0
+SRR11626797	wastewater	PRJNA527877	sweden	2	selected	accepted	3828.0	2527086557.0
+SRR11626793	wastewater	PRJNA527877	hong kong	3	selected	accepted	3859.0	2993119656.0
+SRR9655291	activated sludge	PRJNA553237	SAMN12232358	1	selected	accepted	13123.0	3018066040.0
+SRR9655292	activated sludge	PRJNA553237	SAMN12232357	2	selected	accepted	8300.0	2985191708.0
+SRR12917046	wastewater	PRJNA672704	SAMN16575660	1	selected	accepted	6061.0	3010468790.0
+SRR12917048	wastewater	PRJNA672704	SAMN16575658	2	selected	accepted	5143.0	1318290169.0
+SRR13009788	marine	PRJNA674982	SAMN16686072	1	selected	accepted	4638.0	1376518652.0
+SRR13002033	marine	PRJNA675130	SAMN16690139	1	selected	accepted	6580.0	3019867363.0
+SRR13059359	human gut	PRJNA678365	SAMN16794390	1	selected	accepted	5213.0	2992038810.0
+SRR13059362	human gut	PRJNA678365	SAMN16794387	3	selected	accepted	4156.0	2124597074.0
+SRR13059282	human gut	PRJNA678365	SAMN16794392	5	selected	accepted	3982.0	3000635116.0
+SRR13059281	human gut	PRJNA678365	SAMN16794393	6	selected	accepted	3572.0	2994597840.0
+SRR13059283	human gut	PRJNA678365	SAMN16794391	8	selected	accepted	3519.0	2999876380.0
+SRR13059286	livestock	PRJNA678365	SAMN16794383	1	selected	accepted	7769.0	3004338436.0
+SRR13059284	livestock	PRJNA678365	SAMN16794385	2	selected	accepted	8064.0	3000872911.0
+SRR13059364	livestock	PRJNA678365	SAMN16794380	3	selected	accepted	4776.0	2991209543.0
+SRR13059366	livestock	PRJNA678365	SAMN16794378	4	selected	accepted	4645.0	2879024534.0
+SRR17456360	human gut	PRJNA678454	SAMN16797072	1	selected	accepted	9427.0	3000843085.0
+SRR17456358	human gut	PRJNA678454	SAMN16797079	2	selected	accepted	9884.0	2988749972.0
+SRR17456359	human gut	PRJNA678454	SAMN16797074	3	selected	accepted	5579.0	3014071707.0
+SRR13912725	soil	PRJNA708254	SAMN18221839	1	selected	accepted	6803.0	2064275671.0
+SRR13912728	soil	PRJNA708254	SAMN18221836	2	selected	accepted	4960.0	2618065933.0
+SRR13912724	soil	PRJNA708254	SAMN18221840	3	selected	accepted	5964.0	2549764658.0
+SRR13912727	soil	PRJNA708254	SAMN18221837	5	selected	accepted	5105.0	1695694730.0
+SRR13912726	soil	PRJNA708254	SAMN18221838	6	selected	accepted	4614.0	2677809803.0
+SRR14072898	freshwater	PRJNA716890	SAMN18472202	1	selected	accepted	10369.0	3186192830.0
+SRR14072897	freshwater	PRJNA716890	SAMN18472203	2	selected	accepted	11739.0	1693907112.0
+SRR14072895	freshwater	PRJNA716890	SAMN18472205	3	selected	accepted	12228.0	1038955927.0
+SRR14085589	soil	PRJNA717813	SAMN18514596	1	selected	accepted	14894.0	2931590800.0
+SRR14085590	soil	PRJNA717813	SAMN18514595	2	selected	accepted	6257.0	2995979025.0
+SRR24860173	soil	PRJNA727938	SAMN35557056	1	selected	accepted	12510.0	2985994316.0
+SRR24860172	soil	PRJNA727938	SAMN35557057	2	selected	accepted	11450.0	3003406914.0
+SRR24860171	soil	PRJNA727938	SAMN35557058	3	selected	accepted	11032.0	3017960327.0
+SRR14493008	wastewater	PRJNA728386	SAMN19078998	1	selected	accepted	4788.0	3000317268.0
+SRR14493006	wastewater	PRJNA728386	SAMN19079000	2	selected	accepted	6137.0	2995981373.0
+SRR14493004	wastewater	PRJNA728386	SAMN19079002	3	selected	accepted	5193.0	3019884136.0
+SRR15882950	activated sludge	PRJNA745436	SAMN20165958	1	selected	accepted	9940.0	2993542875.0
+SRR15422107	marine	PRJNA753671	SAMN20704185	1	selected	accepted	9414.0	2885759045.0
+SRR15422108	marine	PRJNA753671	SAMN20704184	2	selected	accepted	7343.0	1649453007.0
+SRR15422104	marine	PRJNA753671	SAMN20704189	3	selected	accepted	6266.0	3293235207.0
+SRR16133582	soil	PRJNA767267	SAMN21895588	1	selected	accepted	6017.0	2088412421.0
+SRR16235685	soil	PRJNA769424	SAMN22133373	1	selected	accepted	5584.0	1033216290.0
+SRR17230300	freshwater	PRJNA787609	SAMN24039389	1	selected	accepted	5940.0	2295066785.0
+SRR18969718	soil	PRJNA833246	SAMN27966077	1	selected	accepted	5540.0	2393097326.0
+SRR18969726	soil	PRJNA833246	SAMN27966079	2	selected	accepted	4995.0	2712360873.0
+SRR18969717	soil	PRJNA833246	SAMN27966078	3	selected	accepted	5479.0	3126782940.0
+SRR18969724	soil	PRJNA833246	SAMN27966071	5	selected	accepted	5528.0	3087870647.0
+SRR18969725	soil	PRJNA833246	SAMN27966080	6	selected	accepted	4451.0	2582203738.0
+SRR19412966	wastewater	PRJNA842493	SAMN28671382	1	selected	accepted	4761.0	3010713529.0
+SRR23374856	marine	PRJNA932835	SAMN33214201	1	selected	accepted	3115.0	2997178992.0
+SRR23690010	human gut	PRJNA940499	donor08	1	selected	accepted	13257.0	2997664177.0
+SRR23690011	human gut	PRJNA940499	donor04	2	selected	accepted	12124.0	3002316314.0
+SRR23690015	human gut	PRJNA940499	donor06	3	selected	accepted	10298.0	2978991701.0
+SRR23690005	human gut	PRJNA940499	donor02	5	selected	accepted	11765.0	2986166119.0
+SRR23690008	human gut	PRJNA940499	donor01	6	selected	accepted	6263.0	2996583166.0
+SRR23823225	livestock	PRJNA942915	c419	1	selected	rejected: kit rule: amplified library (record: RPB004 library prep, the rapid PCR barcoding kit)	4647.0	1775684497.0
+SRR23823224	livestock	PRJNA942915	c421	3	selected	rejected: kit rule: amplified library (record: RPB004 library prep, the rapid PCR barcoding kit)	3930.0	1428601265.0
+SRR23823261	livestock	PRJNA942915	c415	5	selected	rejected: kit rule: amplified library (record: RPB004 library prep, the rapid PCR barcoding kit)	3605.0	1111519990.0
+SRR23823239	livestock	PRJNA942915	c409	6	selected	rejected: kit rule: amplified library (record: RPB004 library prep, the rapid PCR barcoding kit)	3415.0	1207235364.0
+SRR23823255	livestock	PRJNA942915	c411	8	selected	rejected: kit rule: amplified library (record: RPB004 library prep, the rapid PCR barcoding kit)	3289.0	1079743553.0
+SRR23823249	livestock	PRJNA942915	c423	2	replaces SRR23823225	rejected: kit rule: amplified library (record: RPB004 library prep, the rapid PCR barcoding kit)	4083.0	1011275709.0
+SRR23823226	livestock	PRJNA942915	c417	4	replaces SRR23823224	rejected: kit rule: amplified library (record: RPB004 library prep, the rapid PCR barcoding kit)	3772.0	1807972888.0
+SRR23823254	livestock	PRJNA942915	c413	7	replaces SRR23823261	rejected: kit rule: amplified library (record: RPB004 library prep, the rapid PCR barcoding kit)	3294.0	1066138754.0
+SRR24091366	marine	PRJNA952799	SAMN34087057	1	selected	accepted	8377.0	3007990711.0
+SRR25429078	freshwater	PRJNA998834	SAMN36715173	1	selected	accepted	9327.0	1222155114.0

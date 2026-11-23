@@ -1,0 +1,5 @@
+analysis	n	estimate	p	groups	se
+across runs: Spearman of the share with the mean read length of the run	40	0.3624765478424016	0.021527783486937197		
+across runs: Spearman of the share with the median length of the ARG reads	40	-0.013696060037523454	0.9331529821824159		
+within runs: log odds of an MGE call per doubling of read length (run fixed effects)	3443876	0.8826735404391088	0.0	40.0	0.0035605555964550667
+environments: Spearman of the native share with the share after the cut	8	0.8333333333333335	0.010175540123456752		

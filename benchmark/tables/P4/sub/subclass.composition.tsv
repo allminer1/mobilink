@@ -1,0 +1,99 @@
+sub	env	share_of_arg_units
+mech_alteration	activated sludge	0.2247774480712166
+mech_efflux	activated sludge	0.2522255192878338
+mech_inactivation	activated sludge	0.2959940652818991
+mech_other	activated sludge	0.00370919881305638
+mech_protection	activated sludge	0.1016320474777448
+mech_replacement	activated sludge	0.12166172106824925
+mech_alteration	freshwater	0.002642007926023778
+mech_efflux	freshwater	0.6169088507265522
+mech_inactivation	freshwater	0.2404227212681638
+mech_other	freshwater	0.01453104359313078
+mech_protection	freshwater	0.09907529722589167
+mech_replacement	freshwater	0.026420079260237782
+mech_alteration	human gut	0.13956883000224568
+mech_efflux	human gut	0.419686421819815
+mech_inactivation	human gut	0.18903497131657923
+mech_other	human gut	0.041136720903170484
+mech_protection	human gut	0.1738664434599759
+mech_replacement	human gut	0.036706612498213664
+mech_alteration	livestock	0.2817534657174972
+mech_efflux	livestock	0.12143541068231964
+mech_inactivation	livestock	0.29320178177428086
+mech_other	livestock	0.004870738104158861
+mech_protection	livestock	0.2789642396236626
+mech_replacement	livestock	0.019774364098080845
+mech_alteration	marine	0.007700770077007701
+mech_efflux	marine	0.7348734873487349
+mech_inactivation	marine	0.1782178217821782
+mech_other	marine	0.0
+mech_protection	marine	0.041804180418041806
+mech_replacement	marine	0.0374037403740374
+mech_alteration	soil	0.23096576392437404
+mech_efflux	soil	0.3344404701073071
+mech_inactivation	soil	0.270056208482371
+mech_other	soil	0.016096065406234032
+mech_protection	soil	0.05058763413387839
+mech_replacement	soil	0.09785385794583547
+mech_alteration	wastewater	0.09293998991427131
+mech_efflux	wastewater	0.49062027231467475
+mech_inactivation	wastewater	0.2719616742309632
+mech_other	wastewater	0.02783661119515885
+mech_protection	wastewater	0.08280383257690369
+mech_replacement	wastewater	0.03383761976802824
+fam_MLS	activated sludge	0.30687830687830686
+fam_aminoglycoside	activated sludge	0.13529856386999245
+fam_beta_lactam	activated sludge	0.08390022675736962
+fam_fluoroquinolone	activated sludge	0.0022675736961451248
+fam_multidrug	activated sludge	0.15721844293272866
+fam_other	activated sludge	0.2328042328042328
+fam_peptide	activated sludge	0.003779289493575208
+fam_tetracycline	activated sludge	0.07785336356764928
+fam_MLS	freshwater	0.036
+fam_aminoglycoside	freshwater	0.024
+fam_beta_lactam	freshwater	0.188
+fam_fluoroquinolone	freshwater	0.016
+fam_multidrug	freshwater	0.5853333333333334
+fam_other	freshwater	0.13066666666666665
+fam_peptide	freshwater	0.005333333333333333
+fam_tetracycline	freshwater	0.014666666666666666
+fam_MLS	human gut	0.11246114721672788
+fam_aminoglycoside	human gut	0.09232834133936141
+fam_beta_lactam	human gut	0.08312477293827958
+fam_fluoroquinolone	human gut	0.06322407459734389
+fam_multidrug	human gut	0.27571347838372423
+fam_other	human gut	0.13330036733540548
+fam_peptide	human gut	0.06699834497234892
+fam_tetracycline	human gut	0.17284947321680863
+fam_MLS	livestock	0.3900619547351119
+fam_aminoglycoside	livestock	0.12331942512749189
+fam_beta_lactam	livestock	0.01567834113035782
+fam_fluoroquinolone	livestock	0.002486618620137396
+fam_multidrug	livestock	0.07771736839887049
+fam_other	livestock	0.09702027226366587
+fam_peptide	livestock	0.005478990179963754
+fam_tetracycline	livestock	0.2882370295444009
+fam_MLS	marine	0.0707182320441989
+fam_aminoglycoside	marine	0.06298342541436464
+fam_beta_lactam	marine	0.0718232044198895
+fam_fluoroquinolone	marine	0.009944751381215469
+fam_multidrug	marine	0.6784530386740332
+fam_other	marine	0.0718232044198895
+fam_peptide	marine	0.0022099447513812156
+fam_tetracycline	marine	0.032044198895027624
+fam_MLS	soil	0.0046814044213263975
+fam_aminoglycoside	soil	0.2611183355006502
+fam_beta_lactam	soil	0.013263979193758128
+fam_fluoroquinolone	soil	0.002860858257477243
+fam_multidrug	soil	0.30507152145643696
+fam_other	soil	0.3903771131339402
+fam_peptide	soil	0.00494148244473342
+fam_tetracycline	soil	0.017685305591677504
+fam_MLS	wastewater	0.13525091799265607
+fam_aminoglycoside	wastewater	0.09215626274989801
+fam_beta_lactam	wastewater	0.1319359445124439
+fam_fluoroquinolone	wastewater	0.04763361893104855
+fam_multidrug	wastewater	0.3116075071399429
+fam_other	wastewater	0.1218890248878009
+fam_peptide	wastewater	0.08190534475724194
+fam_tetracycline	wastewater	0.07762137902896776

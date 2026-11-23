@@ -1,0 +1,11 @@
+hypothesis	verdict	detail
+H3a	not supported	wastewater - soil -0.0197 (SE 0.0598, t -0.33, df 23.8, Holm p 0.7938); human gut - soil 0.0158 (SE 0.0599, t 0.26, df 38.9, Holm p 0.7938); smallest wastewater - soil difference without one project -0.0341; smallest human gut - soil difference without one project -0.0065
+H3b	supported	Q 18.12, df 6, p 0.005935; classes by net_w: livestock > activated sludge > human gut > soil > marine > wastewater > freshwater; cut to 3 kb: livestock > activated sludge > soil > human gut > marine > wastewater > freshwater; by naive share: livestock > soil > wastewater > activated sludge > human gut > marine > freshwater
+H1c	not determined for the net linked fraction	naive share slope 0.1168 per doubling of N50 (SE 0.0190, one-sided p 1.23e-06; 96 runs, 25 projects); net_w slope 0.0162 (90% -0.0114 to 0.0438; 91 runs, 24 projects)
+H4b activated sludge	above chance	
+H4b freshwater	not determined	
+H4b human gut	not determined	
+H4b livestock	not determined	
+H4b marine	not determined	
+H4b soil	not determined	
+H4b wastewater	not determined	

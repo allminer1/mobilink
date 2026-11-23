@@ -1,0 +1,482 @@
+gene	n	cls	run	env	project
+integration/excision	469	MGE	DRR333391	freshwater	PRJDB12736
+transfer	18	MGE	DRR333391	freshwater	PRJDB12736
+integration/excision	4064	MGE	DRR333402	freshwater	PRJDB12736
+transfer	151	MGE	DRR333402	freshwater	PRJDB12736
+integration/excision	4614	MGE	ERR15993834	soil	PRJEB104930
+transfer	293	MGE	ERR15993834	soil	PRJEB104930
+integration/excision	9006	MGE	ERR15993626	soil	PRJEB104930
+transfer	391	MGE	ERR15993626	soil	PRJEB104930
+integration/excision	13530	MGE	ERR15993836	soil	PRJEB104930
+transfer	508	MGE	ERR15993836	soil	PRJEB104930
+integration/excision	1291	MGE	ERR16664731	soil	PRJEB107287
+transfer	80	MGE	ERR16664731	soil	PRJEB107287
+integration/excision	988	MGE	ERR16664736	soil	PRJEB107287
+transfer	86	MGE	ERR16664736	soil	PRJEB107287
+integration/excision	1527	MGE	ERR16664743	soil	PRJEB107287
+transfer	170	MGE	ERR16664743	soil	PRJEB107287
+integration/excision	789	MGE	ERR16664745	soil	PRJEB107287
+transfer	98	MGE	ERR16664745	soil	PRJEB107287
+integration/excision	649	MGE	ERR16664726	soil	PRJEB107287
+transfer	26	MGE	ERR16664726	soil	PRJEB107287
+integration/excision	11623	MGE	ERR17627246	soil	PRJEB114667
+transfer	248	MGE	ERR17627246	soil	PRJEB114667
+integration/excision	8657	MGE	ERR17627245	soil	PRJEB114667
+transfer	357	MGE	ERR17627245	soil	PRJEB114667
+integration/excision	10374	MGE	ERR3201938	human gut	PRJEB29152
+transfer	7090	MGE	ERR3201938	human gut	PRJEB29152
+integration/excision	812	MGE	ERR3407986	soil	PRJEB33278
+transfer	33	MGE	ERR3407986	soil	PRJEB33278
+integration/excision	5004	MGE	ERR3561495	activated sludge	PRJEB34573
+transfer	3	MGE	ERR3561495	activated sludge	PRJEB34573
+integration/excision	1331	MGE	ERR3662306	activated sludge	PRJEB34573
+transfer	141	MGE	ERR3662306	activated sludge	PRJEB34573
+integration/excision	1411	MGE	ERR3662307	activated sludge	PRJEB34573
+transfer	162	MGE	ERR3662307	activated sludge	PRJEB34573
+integration/excision	4182	MGE	ERR3662321	activated sludge	PRJEB34573
+transfer	266	MGE	ERR3662321	activated sludge	PRJEB34573
+integration/excision	8937	MGE	ERR3662319	activated sludge	PRJEB34573
+transfer	208	MGE	ERR3662319	activated sludge	PRJEB34573
+integration/excision	9791	MGE	ERR5000342	soil	PRJEB41762
+transfer	464	MGE	ERR5000342	soil	PRJEB41762
+integration/excision	1204	MGE	ERR5000343	soil	PRJEB41762
+transfer	36	MGE	ERR5000343	soil	PRJEB41762
+integration/excision	4222	MGE	ERR5029615	soil	PRJEB42267
+transfer	130	MGE	ERR5029615	soil	PRJEB42267
+integration/excision	3369	MGE	ERR5029600	soil	PRJEB42267
+transfer	135	MGE	ERR5029600	soil	PRJEB42267
+integration/excision	2960	MGE	ERR5029598	soil	PRJEB42267
+transfer	90	MGE	ERR5029598	soil	PRJEB42267
+integration/excision	2226	MGE	ERR5029602	soil	PRJEB42267
+transfer	91	MGE	ERR5029602	soil	PRJEB42267
+integration/excision	2701	MGE	ERR5029616	soil	PRJEB42267
+transfer	94	MGE	ERR5029616	soil	PRJEB42267
+integration/excision	8078	MGE	ERR7625391	human gut	PRJEB49168
+transfer	4856	MGE	ERR7625391	human gut	PRJEB49168
+integration/excision	21995	MGE	ERR7625327	human gut	PRJEB49168
+transfer	7321	MGE	ERR7625327	human gut	PRJEB49168
+integration/excision	11542	MGE	ERR7625409	human gut	PRJEB49168
+transfer	5030	MGE	ERR7625409	human gut	PRJEB49168
+integration/excision	10585	MGE	ERR7625345	human gut	PRJEB49168
+transfer	4776	MGE	ERR7625345	human gut	PRJEB49168
+integration/excision	9724	MGE	ERR7625398	human gut	PRJEB49168
+transfer	5768	MGE	ERR7625398	human gut	PRJEB49168
+integration/excision	4727	MGE	ERR7764818	human gut	PRJEB49428
+transfer	3297	MGE	ERR7764818	human gut	PRJEB49428
+integration/excision	4894	MGE	ERR7764209	human gut	PRJEB49428
+transfer	2964	MGE	ERR7764209	human gut	PRJEB49428
+integration/excision	12983	MGE	ERR7764573	human gut	PRJEB49428
+transfer	10478	MGE	ERR7764573	human gut	PRJEB49428
+integration/excision	11310	MGE	ERR7764557	human gut	PRJEB49428
+transfer	9698	MGE	ERR7764557	human gut	PRJEB49428
+transfer	5920	MGE	ERR7764829	human gut	PRJEB49428
+integration/excision	4899	MGE	ERR7764829	human gut	PRJEB49428
+integration/excision	3074	MGE	ERR11452376	freshwater	PRJEB58701
+transfer	113	MGE	ERR11452376	freshwater	PRJEB58701
+integration/excision	15289	MGE	ERR12982441	human gut	PRJEB74343
+transfer	9356	MGE	ERR12982441	human gut	PRJEB74343
+integration/excision	14842	MGE	ERR12983021	soil	PRJEB74343
+transfer	366	MGE	ERR12983021	soil	PRJEB74343
+integration/excision	292	MGE	ERR13194442	soil	PRJEB74630
+transfer	2	MGE	ERR13194442	soil	PRJEB74630
+integration/excision	828	MGE	ERR13194441	soil	PRJEB74630
+transfer	18	MGE	ERR13194441	soil	PRJEB74630
+integration/excision	6851	MGE	ERR13341318	soil	PRJEB74630
+transfer	167	MGE	ERR13341318	soil	PRJEB74630
+integration/excision	29013	MGE	ERR13248761	wastewater	PRJEB76456
+transfer	10477	MGE	ERR13248761	wastewater	PRJEB76456
+integration/excision	10289	MGE	ERR15459706	soil	PRJEB85558
+transfer	328	MGE	ERR15459706	soil	PRJEB85558
+integration/excision	8715	MGE	ERR15459712	soil	PRJEB85558
+transfer	268	MGE	ERR15459712	soil	PRJEB85558
+integration/excision	7630	MGE	ERR15459713	soil	PRJEB85558
+transfer	272	MGE	ERR15459713	soil	PRJEB85558
+integration/excision	6315	MGE	ERR15459709	soil	PRJEB85558
+transfer	135	MGE	ERR15459709	soil	PRJEB85558
+integration/excision	6848	MGE	ERR15459708	soil	PRJEB85558
+transfer	182	MGE	ERR15459708	soil	PRJEB85558
+integration/excision	894	MGE	ERR14822396	freshwater	PRJEB86000
+transfer	39	MGE	ERR14822396	freshwater	PRJEB86000
+integration/excision	803	MGE	ERR14822393	freshwater	PRJEB86000
+transfer	30	MGE	ERR14822393	freshwater	PRJEB86000
+integration/excision	540	MGE	ERR14822419	marine	PRJEB86000
+transfer	8	MGE	ERR14822419	marine	PRJEB86000
+integration/excision	2671	MGE	ERR14822407	freshwater	PRJEB86001
+transfer	38	MGE	ERR14822407	freshwater	PRJEB86001
+integration/excision	3668	MGE	ERR14822406	freshwater	PRJEB86001
+transfer	59	MGE	ERR14822406	freshwater	PRJEB86001
+integration/excision	2396	MGE	ERR14822413	freshwater	PRJEB86001
+transfer	27	MGE	ERR14822413	freshwater	PRJEB86001
+integration/excision	3643	MGE	ERR14822405	freshwater	PRJEB86001
+transfer	32	MGE	ERR14822405	freshwater	PRJEB86001
+integration/excision	2027	MGE	ERR14822409	freshwater	PRJEB86001
+transfer	74	MGE	ERR14822409	freshwater	PRJEB86001
+integration/excision	1007	MGE	ERR14822387	freshwater	PRJEB86002
+transfer	43	MGE	ERR14822387	freshwater	PRJEB86002
+integration/excision	6051	MGE	ERR14822418	freshwater	PRJEB86002
+transfer	144	MGE	ERR14822418	freshwater	PRJEB86002
+integration/excision	3005	MGE	ERR14822423	freshwater	PRJEB86002
+transfer	124	MGE	ERR14822423	freshwater	PRJEB86002
+integration/excision	3422	MGE	ERR14822404	freshwater	PRJEB86002
+transfer	137	MGE	ERR14822404	freshwater	PRJEB86002
+integration/excision	3627	MGE	ERR14822403	freshwater	PRJEB86002
+transfer	390	MGE	ERR14822403	freshwater	PRJEB86002
+integration/excision	858	MGE	ERR14822388	freshwater	PRJEB86003
+transfer	19	MGE	ERR14822388	freshwater	PRJEB86003
+integration/excision	294	MGE	ERR14822390	freshwater	PRJEB86003
+transfer	10	MGE	ERR14822390	freshwater	PRJEB86003
+integration/excision	1224	MGE	ERR14822420	freshwater	PRJEB86003
+transfer	38	MGE	ERR14822420	freshwater	PRJEB86003
+integration/excision	3554	MGE	ERR14822395	freshwater	PRJEB86003
+transfer	135	MGE	ERR14822395	freshwater	PRJEB86003
+integration/excision	2293	MGE	ERR14822383	freshwater	PRJEB86004
+transfer	114	MGE	ERR14822383	freshwater	PRJEB86004
+integration/excision	3349	MGE	ERR14822386	marine	PRJEB86004
+transfer	84	MGE	ERR14822386	marine	PRJEB86004
+integration/excision	32351	MGE	ERR15934505	livestock	PRJEB88111
+transfer	2027	MGE	ERR15934505	livestock	PRJEB88111
+integration/excision	38265	MGE	ERR15935830	livestock	PRJEB88111
+transfer	3842	MGE	ERR15935830	livestock	PRJEB88111
+integration/excision	31886	MGE	ERR15935218	livestock	PRJEB88111
+transfer	2254	MGE	ERR15935218	livestock	PRJEB88111
+integration/excision	14196	MGE	ERR15934764	livestock	PRJEB88111
+transfer	3519	MGE	ERR15934764	livestock	PRJEB88111
+integration/excision	28259	MGE	ERR15934516	livestock	PRJEB88111
+transfer	2339	MGE	ERR15934516	livestock	PRJEB88111
+integration/excision	12814	MGE	ERR14838508	human gut	PRJEB88320
+transfer	9134	MGE	ERR14838508	human gut	PRJEB88320
+integration/excision	18708	MGE	ERR14838509	human gut	PRJEB88320
+transfer	12519	MGE	ERR14838509	human gut	PRJEB88320
+integration/excision	14263	MGE	ERR14838506	human gut	PRJEB88320
+transfer	13415	MGE	ERR14838506	human gut	PRJEB88320
+integration/excision	16336	MGE	ERR14838505	human gut	PRJEB88320
+transfer	16071	MGE	ERR14838505	human gut	PRJEB88320
+integration/excision	20762	MGE	ERR14838507	human gut	PRJEB88320
+transfer	14824	MGE	ERR14838507	human gut	PRJEB88320
+transfer	19243	MGE	ERR15285694	human gut	PRJEB88618
+integration/excision	13403	MGE	ERR15285694	human gut	PRJEB88618
+integration/excision	7617	MGE	ERR15076228	soil	PRJEB89893
+transfer	297	MGE	ERR15076228	soil	PRJEB89893
+integration/excision	1404	MGE	ERR15462202	freshwater	PRJEB95916
+transfer	80	MGE	ERR15462202	freshwater	PRJEB95916
+integration/excision	14706	MGE	SRR25508142	human gut	PRJNA1000750
+transfer	12933	MGE	SRR25508142	human gut	PRJNA1000750
+transfer	22291	MGE	SRR25508141	human gut	PRJNA1000750
+integration/excision	14493	MGE	SRR25508141	human gut	PRJNA1000750
+integration/excision	11572	MGE	SRR25822716	activated sludge	PRJNA1005436
+transfer	2332	MGE	SRR25822716	activated sludge	PRJNA1005436
+integration/excision	14795	MGE	SRR26387400	wastewater	PRJNA1028177
+transfer	2697	MGE	SRR26387400	wastewater	PRJNA1028177
+integration/excision	24237	MGE	SRR26512904	livestock	PRJNA1031997
+transfer	7909	MGE	SRR26512904	livestock	PRJNA1031997
+integration/excision	23996	MGE	SRR26512901	livestock	PRJNA1031997
+transfer	7999	MGE	SRR26512901	livestock	PRJNA1031997
+integration/excision	17461	MGE	SRR26750159	human gut	PRJNA1033532
+transfer	11677	MGE	SRR26750159	human gut	PRJNA1033532
+integration/excision	1930	MGE	SRR27534537	activated sludge	PRJNA1062397
+transfer	170	MGE	SRR27534537	activated sludge	PRJNA1062397
+integration/excision	8942	MGE	SRR28161539	activated sludge	PRJNA1082082
+transfer	2605	MGE	SRR28161539	activated sludge	PRJNA1082082
+integration/excision	5978	MGE	SRR28415697	soil	PRJNA1090675
+transfer	189	MGE	SRR28415697	soil	PRJNA1090675
+integration/excision	7970	MGE	SRR28415591	soil	PRJNA1090675
+transfer	177	MGE	SRR28415591	soil	PRJNA1090675
+integration/excision	3121	MGE	SRR28415592	soil	PRJNA1090675
+transfer	130	MGE	SRR28415592	soil	PRJNA1090675
+integration/excision	16418	MGE	SRR28415622	soil	PRJNA1090675
+transfer	316	MGE	SRR28415622	soil	PRJNA1090675
+integration/excision	5080	MGE	SRR28714048	activated sludge	PRJNA1101514
+transfer	238	MGE	SRR28714048	activated sludge	PRJNA1101514
+integration/excision	5467	MGE	SRR28998464	soil	PRJNA1104006
+transfer	1598	MGE	SRR28998464	soil	PRJNA1104006
+integration/excision	6561	MGE	SRR28998459	soil	PRJNA1104006
+transfer	1720	MGE	SRR28998459	soil	PRJNA1104006
+integration/excision	3498	MGE	SRR28998472	soil	PRJNA1104006
+transfer	566	MGE	SRR28998472	soil	PRJNA1104006
+integration/excision	4955	MGE	SRR28998463	soil	PRJNA1104006
+transfer	914	MGE	SRR28998463	soil	PRJNA1104006
+integration/excision	4578	MGE	SRR28998474	soil	PRJNA1104006
+transfer	806	MGE	SRR28998474	soil	PRJNA1104006
+integration/excision	11756	MGE	SRR39274849	human gut	PRJNA1112760
+transfer	1656	MGE	SRR39274849	human gut	PRJNA1112760
+integration/excision	17308	MGE	SRR39274961	human gut	PRJNA1112760
+transfer	4110	MGE	SRR39274961	human gut	PRJNA1112760
+integration/excision	19514	MGE	SRR39274855	human gut	PRJNA1112760
+transfer	6348	MGE	SRR39274855	human gut	PRJNA1112760
+integration/excision	51740	MGE	SRR39274950	human gut	PRJNA1112760
+transfer	38021	MGE	SRR39274950	human gut	PRJNA1112760
+integration/excision	25815	MGE	SRR39274943	human gut	PRJNA1112760
+transfer	12410	MGE	SRR39274943	human gut	PRJNA1112760
+integration/excision	2743	MGE	SRR33171852	livestock	PRJNA1117518
+transfer	918	MGE	SRR33171852	livestock	PRJNA1117518
+integration/excision	1381	MGE	SRR33171803	livestock	PRJNA1117518
+transfer	471	MGE	SRR33171803	livestock	PRJNA1117518
+integration/excision	703	MGE	SRR33171822	livestock	PRJNA1117518
+transfer	349	MGE	SRR33171822	livestock	PRJNA1117518
+integration/excision	1117	MGE	SRR33171823	livestock	PRJNA1117518
+transfer	599	MGE	SRR33171823	livestock	PRJNA1117518
+integration/excision	26350	MGE	SRR32380206	livestock	PRJNA1123871
+transfer	2550	MGE	SRR32380206	livestock	PRJNA1123871
+integration/excision	3234	MGE	SRR29660129	soil	PRJNA1130143
+transfer	94	MGE	SRR29660129	soil	PRJNA1130143
+integration/excision	3775	MGE	SRR29660144	soil	PRJNA1130143
+transfer	65	MGE	SRR29660144	soil	PRJNA1130143
+integration/excision	4085	MGE	SRR32609003	activated sludge	PRJNA1158533
+transfer	404	MGE	SRR32609003	activated sludge	PRJNA1158533
+integration/excision	4425	MGE	SRR32608987	freshwater	PRJNA1158533
+transfer	465	MGE	SRR32608987	freshwater	PRJNA1158533
+integration/excision	1370	MGE	SRR32608983	marine	PRJNA1158533
+transfer	26	MGE	SRR32608983	marine	PRJNA1158533
+integration/excision	746	MGE	SRR32608993	marine	PRJNA1158533
+transfer	27	MGE	SRR32608993	marine	PRJNA1158533
+integration/excision	2878	MGE	SRR32608990	marine	PRJNA1158533
+transfer	118	MGE	SRR32608990	marine	PRJNA1158533
+integration/excision	34460	MGE	SRR32608974	wastewater	PRJNA1158533
+transfer	3262	MGE	SRR32608974	wastewater	PRJNA1158533
+integration/excision	887	MGE	SRR31242236	soil	PRJNA1171364
+transfer	363	MGE	SRR31242236	soil	PRJNA1171364
+integration/excision	1152	MGE	SRR31256859	soil	PRJNA1171364
+transfer	355	MGE	SRR31256859	soil	PRJNA1171364
+integration/excision	1239	MGE	SRR31243334	soil	PRJNA1171364
+transfer	312	MGE	SRR31243334	soil	PRJNA1171364
+integration/excision	953	MGE	SRR31246069	soil	PRJNA1171364
+transfer	360	MGE	SRR31246069	soil	PRJNA1171364
+integration/excision	2498	MGE	SRR35158912	soil	PRJNA1219082
+transfer	130	MGE	SRR35158912	soil	PRJNA1219082
+integration/excision	3497	MGE	SRR35158911	soil	PRJNA1219082
+transfer	306	MGE	SRR35158911	soil	PRJNA1219082
+integration/excision	1821	MGE	SRR32867089	activated sludge	PRJNA1224817
+transfer	562	MGE	SRR32867089	activated sludge	PRJNA1224817
+integration/excision	5261	MGE	SRR32610091	activated sludge	PRJNA1232215
+transfer	2001	MGE	SRR32610091	activated sludge	PRJNA1232215
+integration/excision	1420	MGE	SRR32696687	freshwater	PRJNA1236243
+transfer	100	MGE	SRR32696687	freshwater	PRJNA1236243
+integration/excision	3390	MGE	SRR32696688	freshwater	PRJNA1236243
+transfer	493	MGE	SRR32696688	freshwater	PRJNA1236243
+integration/excision	65729	MGE	SRR33101879	human gut	PRJNA1249224
+transfer	3454	MGE	SRR33101879	human gut	PRJNA1249224
+integration/excision	13954	MGE	SRR33101155	human gut	PRJNA1249224
+transfer	5832	MGE	SRR33101155	human gut	PRJNA1249224
+integration/excision	9446	MGE	SRR33101419	human gut	PRJNA1249224
+transfer	1625	MGE	SRR33101419	human gut	PRJNA1249224
+integration/excision	14283	MGE	SRR33101845	human gut	PRJNA1249224
+transfer	7539	MGE	SRR33101845	human gut	PRJNA1249224
+integration/excision	9413	MGE	SRR33101422	human gut	PRJNA1249224
+transfer	5046	MGE	SRR33101422	human gut	PRJNA1249224
+integration/excision	21646	MGE	SRR33541077	human gut	PRJNA1260441
+transfer	6177	MGE	SRR33541077	human gut	PRJNA1260441
+integration/excision	16070	MGE	SRR33541080	human gut	PRJNA1260441
+transfer	13007	MGE	SRR33541080	human gut	PRJNA1260441
+integration/excision	920	MGE	SRR33480271	freshwater	PRJNA1260691
+transfer	123	MGE	SRR33480271	freshwater	PRJNA1260691
+integration/excision	5439	MGE	SRR34354861	human gut	PRJNA1285875
+transfer	4880	MGE	SRR34354861	human gut	PRJNA1285875
+integration/excision	6645	MGE	SRR34354833	human gut	PRJNA1285875
+transfer	5864	MGE	SRR34354833	human gut	PRJNA1285875
+integration/excision	6791	MGE	SRR34354865	human gut	PRJNA1285875
+transfer	4226	MGE	SRR34354865	human gut	PRJNA1285875
+integration/excision	6782	MGE	SRR34354902	human gut	PRJNA1285875
+transfer	4957	MGE	SRR34354902	human gut	PRJNA1285875
+integration/excision	5039	MGE	SRR34354858	human gut	PRJNA1285875
+transfer	4843	MGE	SRR34354858	human gut	PRJNA1285875
+integration/excision	4007	MGE	SRR34704833	soil	PRJNA1293540
+transfer	81	MGE	SRR34704833	soil	PRJNA1293540
+integration/excision	344	MGE	SRR35559058	marine	PRJNA1320681
+transfer	15	MGE	SRR35559058	marine	PRJNA1320681
+integration/excision	3248	MGE	SRR35559065	marine	PRJNA1320681
+transfer	176	MGE	SRR35559065	marine	PRJNA1320681
+integration/excision	1220	MGE	SRR35559059	marine	PRJNA1320681
+transfer	81	MGE	SRR35559059	marine	PRJNA1320681
+integration/excision	1515	MGE	SRR35559062	marine	PRJNA1320681
+transfer	242	MGE	SRR35559062	marine	PRJNA1320681
+integration/excision	4587	MGE	SRR35559060	marine	PRJNA1320681
+transfer	630	MGE	SRR35559060	marine	PRJNA1320681
+integration/excision	16383	MGE	SRR35559056	wastewater	PRJNA1320681
+transfer	2563	MGE	SRR35559056	wastewater	PRJNA1320681
+integration/excision	9230	MGE	SRR35559057	wastewater	PRJNA1320681
+transfer	6097	MGE	SRR35559057	wastewater	PRJNA1320681
+integration/excision	865	MGE	SRR35699657	livestock	PRJNA1337107
+transfer	233	MGE	SRR35699657	livestock	PRJNA1337107
+integration/excision	1723	MGE	SRR35699659	livestock	PRJNA1337107
+transfer	530	MGE	SRR35699659	livestock	PRJNA1337107
+integration/excision	789	MGE	SRR35699654	livestock	PRJNA1337107
+transfer	275	MGE	SRR35699654	livestock	PRJNA1337107
+integration/excision	789	MGE	SRR35699655	livestock	PRJNA1337107
+transfer	226	MGE	SRR35699655	livestock	PRJNA1337107
+integration/excision	3167	MGE	SRR35699603	livestock	PRJNA1337107
+transfer	875	MGE	SRR35699603	livestock	PRJNA1337107
+integration/excision	2228	MGE	SRR35908923	freshwater	PRJNA1353574
+transfer	86	MGE	SRR35908923	freshwater	PRJNA1353574
+integration/excision	2228	MGE	SRR35908888	freshwater	PRJNA1353574
+transfer	106	MGE	SRR35908888	freshwater	PRJNA1353574
+integration/excision	1536	MGE	SRR35908912	freshwater	PRJNA1353574
+transfer	56	MGE	SRR35908912	freshwater	PRJNA1353574
+integration/excision	55265	MGE	SRR36365458	human gut	PRJNA1377628
+transfer	4597	MGE	SRR36365458	human gut	PRJNA1377628
+integration/excision	38119	MGE	SRR36365475	human gut	PRJNA1377628
+transfer	5810	MGE	SRR36365475	human gut	PRJNA1377628
+integration/excision	6874	MGE	SRR36365476	human gut	PRJNA1377628
+transfer	4296	MGE	SRR36365476	human gut	PRJNA1377628
+integration/excision	9568	MGE	SRR36365438	human gut	PRJNA1377628
+transfer	5233	MGE	SRR36365438	human gut	PRJNA1377628
+integration/excision	9806	MGE	SRR36365454	human gut	PRJNA1377628
+transfer	5108	MGE	SRR36365454	human gut	PRJNA1377628
+integration/excision	4276	MGE	SRR41229816	livestock	PRJNA1405063
+transfer	693	MGE	SRR41229816	livestock	PRJNA1405063
+integration/excision	4463	MGE	SRR41229815	livestock	PRJNA1405063
+transfer	797	MGE	SRR41229815	livestock	PRJNA1405063
+integration/excision	4585	MGE	SRR41229817	livestock	PRJNA1405063
+transfer	797	MGE	SRR41229817	livestock	PRJNA1405063
+integration/excision	3230	MGE	SRR41229818	livestock	PRJNA1405063
+transfer	640	MGE	SRR41229818	livestock	PRJNA1405063
+integration/excision	14210	MGE	SRR37422917	human gut	PRJNA1430400
+transfer	6722	MGE	SRR37422917	human gut	PRJNA1430400
+integration/excision	458	MGE	SRR37628518	marine	PRJNA1435553
+transfer	5	MGE	SRR37628518	marine	PRJNA1435553
+integration/excision	4703	MGE	SRR39465748	activated sludge	PRJNA1437919
+transfer	1833	MGE	SRR39465748	activated sludge	PRJNA1437919
+integration/excision	11714	MGE	SRR37734951	wastewater	PRJNA1441618
+transfer	2042	MGE	SRR37734951	wastewater	PRJNA1441618
+integration/excision	34592	MGE	SRR37734929	wastewater	PRJNA1441618
+transfer	5041	MGE	SRR37734929	wastewater	PRJNA1441618
+integration/excision	8210	MGE	SRR38849373	human gut	PRJNA1470913
+transfer	7562	MGE	SRR38849373	human gut	PRJNA1470913
+integration/excision	8730	MGE	SRR38849376	human gut	PRJNA1470913
+transfer	7715	MGE	SRR38849376	human gut	PRJNA1470913
+integration/excision	5295	MGE	SRR38849366	human gut	PRJNA1470913
+transfer	4272	MGE	SRR38849366	human gut	PRJNA1470913
+integration/excision	5444	MGE	SRR38849369	human gut	PRJNA1470913
+transfer	3579	MGE	SRR38849369	human gut	PRJNA1470913
+integration/excision	8592	MGE	SRR38849362	human gut	PRJNA1470913
+transfer	6375	MGE	SRR38849362	human gut	PRJNA1470913
+integration/excision	9993	MGE	SRR40466152	livestock	PRJNA1522089
+transfer	2994	MGE	SRR40466152	livestock	PRJNA1522089
+transfer	11065	MGE	SRR8427258	human gut	PRJNA508395
+integration/excision	8099	MGE	SRR8427258	human gut	PRJNA508395
+integration/excision	10007	MGE	SRR9847854	human gut	PRJNA508395
+transfer	9971	MGE	SRR9847854	human gut	PRJNA508395
+integration/excision	3799	MGE	SRR11626796	activated sludge	PRJNA527877
+transfer	814	MGE	SRR11626796	activated sludge	PRJNA527877
+integration/excision	4409	MGE	SRR11626798	activated sludge	PRJNA527877
+transfer	815	MGE	SRR11626798	activated sludge	PRJNA527877
+integration/excision	1844	MGE	SRR11626800	activated sludge	PRJNA527877
+transfer	467	MGE	SRR11626800	activated sludge	PRJNA527877
+integration/excision	2934	MGE	SRR11626794	activated sludge	PRJNA527877
+transfer	654	MGE	SRR11626794	activated sludge	PRJNA527877
+integration/excision	3185	MGE	SRR11626792	activated sludge	PRJNA527877
+transfer	686	MGE	SRR11626792	activated sludge	PRJNA527877
+integration/excision	13943	MGE	SRR11626799	wastewater	PRJNA527877
+transfer	2702	MGE	SRR11626799	wastewater	PRJNA527877
+integration/excision	23133	MGE	SRR11626797	wastewater	PRJNA527877
+transfer	4745	MGE	SRR11626797	wastewater	PRJNA527877
+integration/excision	7303	MGE	SRR11626793	wastewater	PRJNA527877
+transfer	2081	MGE	SRR11626793	wastewater	PRJNA527877
+integration/excision	65	MGE	SRR9655291	activated sludge	PRJNA553237
+transfer	29	MGE	SRR9655291	activated sludge	PRJNA553237
+integration/excision	1528	MGE	SRR9655292	activated sludge	PRJNA553237
+transfer	316	MGE	SRR9655292	activated sludge	PRJNA553237
+integration/excision	45012	MGE	SRR12917046	wastewater	PRJNA672704
+transfer	7017	MGE	SRR12917046	wastewater	PRJNA672704
+integration/excision	18548	MGE	SRR12917048	wastewater	PRJNA672704
+transfer	2328	MGE	SRR12917048	wastewater	PRJNA672704
+integration/excision	36	MGE	SRR13009788	marine	PRJNA674982
+transfer	1	MGE	SRR13009788	marine	PRJNA674982
+integration/excision	92	MGE	SRR13002033	marine	PRJNA675130
+transfer	3	MGE	SRR13002033	marine	PRJNA675130
+integration/excision	9565	MGE	SRR13059359	human gut	PRJNA678365
+transfer	8026	MGE	SRR13059359	human gut	PRJNA678365
+integration/excision	6549	MGE	SRR13059362	human gut	PRJNA678365
+transfer	4045	MGE	SRR13059362	human gut	PRJNA678365
+integration/excision	10835	MGE	SRR13059282	human gut	PRJNA678365
+transfer	5383	MGE	SRR13059282	human gut	PRJNA678365
+integration/excision	8881	MGE	SRR13059281	human gut	PRJNA678365
+transfer	4617	MGE	SRR13059281	human gut	PRJNA678365
+integration/excision	10218	MGE	SRR13059283	human gut	PRJNA678365
+transfer	5065	MGE	SRR13059283	human gut	PRJNA678365
+integration/excision	7736	MGE	SRR13059286	livestock	PRJNA678365
+transfer	2873	MGE	SRR13059286	livestock	PRJNA678365
+integration/excision	8089	MGE	SRR13059284	livestock	PRJNA678365
+transfer	3148	MGE	SRR13059284	livestock	PRJNA678365
+integration/excision	5005	MGE	SRR13059364	livestock	PRJNA678365
+transfer	2144	MGE	SRR13059364	livestock	PRJNA678365
+integration/excision	5900	MGE	SRR13059366	livestock	PRJNA678365
+transfer	2609	MGE	SRR13059366	livestock	PRJNA678365
+integration/excision	5519	MGE	SRR17456360	human gut	PRJNA678454
+transfer	5002	MGE	SRR17456360	human gut	PRJNA678454
+transfer	7638	MGE	SRR17456358	human gut	PRJNA678454
+integration/excision	6489	MGE	SRR17456358	human gut	PRJNA678454
+integration/excision	5238	MGE	SRR17456359	human gut	PRJNA678454
+transfer	3972	MGE	SRR17456359	human gut	PRJNA678454
+integration/excision	1595	MGE	SRR13912725	soil	PRJNA708254
+transfer	193	MGE	SRR13912725	soil	PRJNA708254
+integration/excision	1882	MGE	SRR13912728	soil	PRJNA708254
+transfer	165	MGE	SRR13912728	soil	PRJNA708254
+integration/excision	2198	MGE	SRR13912724	soil	PRJNA708254
+transfer	338	MGE	SRR13912724	soil	PRJNA708254
+integration/excision	1186	MGE	SRR13912727	soil	PRJNA708254
+transfer	121	MGE	SRR13912727	soil	PRJNA708254
+integration/excision	2059	MGE	SRR13912726	soil	PRJNA708254
+transfer	217	MGE	SRR13912726	soil	PRJNA708254
+integration/excision	461	MGE	SRR14072898	freshwater	PRJNA716890
+transfer	31	MGE	SRR14072898	freshwater	PRJNA716890
+integration/excision	957	MGE	SRR14072897	freshwater	PRJNA716890
+transfer	50	MGE	SRR14072897	freshwater	PRJNA716890
+integration/excision	956	MGE	SRR14072895	freshwater	PRJNA716890
+transfer	108	MGE	SRR14072895	freshwater	PRJNA716890
+integration/excision	3812	MGE	SRR14085589	soil	PRJNA717813
+transfer	196	MGE	SRR14085589	soil	PRJNA717813
+integration/excision	2713	MGE	SRR14085590	soil	PRJNA717813
+transfer	116	MGE	SRR14085590	soil	PRJNA717813
+integration/excision	5904	MGE	SRR24860173	soil	PRJNA727938
+transfer	21	MGE	SRR24860173	soil	PRJNA727938
+integration/excision	3984	MGE	SRR24860172	soil	PRJNA727938
+transfer	47	MGE	SRR24860172	soil	PRJNA727938
+integration/excision	5008	MGE	SRR24860171	soil	PRJNA727938
+transfer	50	MGE	SRR24860171	soil	PRJNA727938
+integration/excision	14410	MGE	SRR14493008	wastewater	PRJNA728386
+transfer	2932	MGE	SRR14493008	wastewater	PRJNA728386
+integration/excision	18892	MGE	SRR14493006	wastewater	PRJNA728386
+transfer	4558	MGE	SRR14493006	wastewater	PRJNA728386
+integration/excision	24123	MGE	SRR14493004	wastewater	PRJNA728386
+transfer	4361	MGE	SRR14493004	wastewater	PRJNA728386
+integration/excision	5755	MGE	SRR15882950	activated sludge	PRJNA745436
+transfer	1161	MGE	SRR15882950	activated sludge	PRJNA745436
+integration/excision	355	MGE	SRR15422107	marine	PRJNA753671
+transfer	34	MGE	SRR15422107	marine	PRJNA753671
+integration/excision	528	MGE	SRR15422108	marine	PRJNA753671
+transfer	93	MGE	SRR15422108	marine	PRJNA753671
+integration/excision	657	MGE	SRR15422104	marine	PRJNA753671
+transfer	36	MGE	SRR15422104	marine	PRJNA753671
+integration/excision	1407	MGE	SRR16133582	soil	PRJNA767267
+transfer	164	MGE	SRR16133582	soil	PRJNA767267
+integration/excision	182	MGE	SRR16235685	soil	PRJNA769424
+transfer	1	MGE	SRR16235685	soil	PRJNA769424
+integration/excision	3316	MGE	SRR17230300	freshwater	PRJNA787609
+transfer	106	MGE	SRR17230300	freshwater	PRJNA787609
+integration/excision	1926	MGE	SRR18969718	soil	PRJNA833246
+transfer	90	MGE	SRR18969718	soil	PRJNA833246
+integration/excision	1815	MGE	SRR18969726	soil	PRJNA833246
+transfer	44	MGE	SRR18969726	soil	PRJNA833246
+integration/excision	2119	MGE	SRR18969717	soil	PRJNA833246
+transfer	113	MGE	SRR18969717	soil	PRJNA833246
+integration/excision	5721	MGE	SRR18969724	soil	PRJNA833246
+transfer	83	MGE	SRR18969724	soil	PRJNA833246
+integration/excision	1650	MGE	SRR18969725	soil	PRJNA833246
+transfer	35	MGE	SRR18969725	soil	PRJNA833246
+integration/excision	25352	MGE	SRR19412966	wastewater	PRJNA842493
+transfer	5998	MGE	SRR19412966	wastewater	PRJNA842493
+integration/excision	23	MGE	SRR23374856	marine	PRJNA932835
+transfer	17310	MGE	SRR23690010	human gut	PRJNA940499
+integration/excision	16497	MGE	SRR23690010	human gut	PRJNA940499
+integration/excision	13059	MGE	SRR23690011	human gut	PRJNA940499
+transfer	7778	MGE	SRR23690011	human gut	PRJNA940499
+integration/excision	17339	MGE	SRR23690015	human gut	PRJNA940499
+transfer	15553	MGE	SRR23690015	human gut	PRJNA940499
+integration/excision	17171	MGE	SRR23690005	human gut	PRJNA940499
+transfer	14088	MGE	SRR23690005	human gut	PRJNA940499
+integration/excision	16224	MGE	SRR23690008	human gut	PRJNA940499
+transfer	12555	MGE	SRR23690008	human gut	PRJNA940499
+integration/excision	639	MGE	SRR24091366	marine	PRJNA952799
+transfer	18	MGE	SRR24091366	marine	PRJNA952799
+integration/excision	1828	MGE	SRR25429078	freshwater	PRJNA998834
+transfer	40	MGE	SRR25429078	freshwater	PRJNA998834

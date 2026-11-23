@@ -1,0 +1,235 @@
+class_auto	study_accession	runs	samples	median_mean_len	max_mean_len	gbp	names	instruments	first_public	title
+activated sludge	PRJNA953649	10	10	12077.67011712466	16407.03479013237	109.865465836	sludge metagenome	PromethION	2023-04-10	Metagenomes of CAP-degrading consortia
+activated sludge	PRJNA1137092	8	8	8090.271281215439	9018.887172563967	93.493229324	bioreactor metagenome	MinION	2024-07-19	Toward industrial C8 production: Oxygen intrusion drives renewable n-caprylate production from ethanol and acetate via intermediate metabolite production
+activated sludge	PRJNA1232215	8	8	5800.357377402086	5922.187341404656	15.895927835	activated sludge metagenome	MinION	2026-04-19	Full-Scale EBPR DNA and RNA Sequencing
+activated sludge	PRJNA1082082	5	5	4885.494793449115	5432.451978376077	101.705664437	activated sludge metagenome	MinION	2024-03-01	Activated sludge from a Dutch wastewater treatment plant
+activated sludge	PRJNA1016301	4	4	4140.080684434788	5931.565472352024	11.609644714	anaerobic digester metagenome	MinION	2023-11-07	VFA oxidizing enrichment culture Metagenomic assembly
+activated sludge	PRJNA1043470	4	4	3848.9779120252324	7597.807779706941	61.339114252	anaerobic digester metagenome	GridION	2024-12-29	Metatranscriptomics-guided genome-scale metabolic reconstruction reveals the carbon flux and trophic interaction in methanogenic communities
+activated sludge	PRJNA1132546	4	4	12090.068456526886	12789.745321885108	43.702268648	activated sludge metagenome	PromethION	2024-12-01	Consortium LIN treating antibiotic production wastewater from activated sludge
+activated sludge	PRJNA1224817	4	4	4552.931976790897	4883.0622288679015	53.560687995	sludge metagenome	PromethION	2025-09-28	Genome-Resolved Metatranscriptomics Provide Insights on Immigration Influence in Structuring Microbial Community Assembly of a Full-Scale Aerobic Granular Sludge Plant
+activated sludge	PRJNA1502585	3	3	7242.160998084619	7924.577763759607	293.269877374	activated sludge metagenome	PromethION	2026-08-05	Marine anammox bioreactor Genome sequencing and assembly
+activated sludge	PRJDB12108	2	2	3782.236235014715	4125.846966447075	12.133255023	bioreactor metagenome	MinION	2023-08-18	Bioreactor metagenome sequencing and assembly
+activated sludge	PRJNA1005948	2	2	5953.906940846091	6827.528117034563	7.835459406	bioreactor metagenome	MinION	2024-01-01	Optimizing hybrid assembly
+activated sludge	PRJNA1030159	2	2	7660.450917881482	8395.752205713048	28.586667743	activated sludge metagenome	PromethION	2023-10-24	Metagenomic and metatranscriptomic datasets of TAP-degrading consortium
+activated sludge	PRJNA1419612	2	2	4360.795305492035	4900.293492104059	9.779513712	bioreactor metagenome	MinION	2026-07-12	SBOB enrichment culture Genome sequencing and assembly
+activated sludge	PRJNA592266	2	2	10637.850240387543	11571.341638257449	7.953282948	bioreactor metagenome	MinION	2020-04-30	Comparative Genome-Resolved Analysis of Two Physiologically Distant ANAMMOX Cultures Hints Functional Redundancy in Both Ecosystems
+activated sludge	PRJNA944114	2	2	3483.582591408531	3711.3140005132227	4.547629915	bioreactor metagenome	MinION	2023-06-12	bioreactor metagenome Genome sequencing and assembly
+activated sludge	PRJNA977937	2	2	3943.551403213744	4455.394467846766	13.606718738	bioreactor metagenome	MinION	2023-06-25	Aerobic denitrifying microbial enrichments
+activated sludge	PRJDB17921	1	1	5981.077091390084	5981.077091390084	5.805939192	bioreactor metagenome	MinION	2025-04-20	Metagenomic of microaerophilic activated sludge for retaining ammonia from high-strength nitrogenous wastewater
+activated sludge	PRJEB74343	1	1	5183.486829492107	5183.486829492107	171.721273018	anaerobic digester metagenome	PromethION	2024-05-08	Nanomotif: A Novel Tool for Fast Identification and Exploitation of DNA Methylation Motifs in Metagenomes using Oxford Nanopore Sequencing
+activated sludge	PRJNA1005436	1	1	7074.113816588077	7074.113816588077	54.022814242	activated sludge metagenome	PromethION	2024-10-27	18S rRNA diversity in activated sludge
+activated sludge	PRJNA1101514	1	1	4421.412151766317	4421.412151766317	6.221532631	anaerobic digester metagenome	MinION	2024-08-31	Biogas plant reactors microbiome metagenome
+activated sludge	PRJNA1250843	1	1	3543.936230919602	3543.936230919602	5.112411528	bioreactor metagenome	PromethION	2025-10-23	Toluene Biodegrading culture under Sulfate-Reducing condition
+activated sludge	PRJNA1320513	1	1	3217.700109249254	3217.700109249254	11.430644746	anaerobic digester metagenome	GridION	2026-04-02	CLOMICS: Omics-assisted characterization and cultivation/enrichment of Cloacimonadota in the context of anaerobic digestion
+activated sludge	PRJNA1437919	1	1	7097.131314695838	7097.131314695838	23.872769643	activated sludge metagenome	MinION	2026-07-12	Metagenome of anaerobic reactor activated sludge
+activated sludge	PRJNA527877	1	1	2556.9824151878934	2556.9824151878934	4.923825061	activated sludge metagenome	MinION	2019-05-08	PIRE- Halting Environmental Antimicrobial Resistance Dissemination (HEARD)
+activated sludge	PRJNA556270	1	1	3985.935685279188	3985.935685279188	3.14091732	bioreactor metagenome	MinION	2021-11-03	metagenome of lab-scale nitritation-anammox sequencing batch reactor
+activated sludge	PRJNA745436	1	1	6964.8706314506435	6964.8706314506435	10.045418982	activated sludge metagenome	GridION	2021-09-15	Hi-C metagenomic sequencing in WWTPs
+activated sludge	PRJNA802347	1	1	6587.58621846129	6587.58621846129	37.831084734	bioreactor metagenome	PromethION	2022-09-29	Enrichment of anaerobic propane oxidation microorganism
+activated sludge	PRJNA803959	7	1	5247.494754363319	5488.790941433962	176.214792798	activated sludge metagenome	GridION	2022-11-14	HK_Shatin-Activated sludge sample Metagenome
+activated sludge	PRJNA814623	1	1	6390.392180007619	6390.392180007619	3.908766452	biogas fermenter metagenome	MinION	2023-01-11	Long-read metagenomic sequencing of anaerobic digestion communities
+activated sludge	PRJNA999073	1	1	4356.146873481997	4356.146873481997	25.58477883	biogas fermenter metagenome	MinION	2024-12-29	Syntrophic interactions in a simplified methanogenic microbial community
+freshwater	PRJEB95916	36	36	4021.1146117321355	5479.563460975202	387.695967561	lake water metagenome	GridION	2026-04-30	Lake Zurich Bacterial Integrated Time Series (LZ-BITS)
+freshwater	PRJDB12736	24	24	3964.0537724901183	4742.585467757209	465.201810186	lake water metagenome	GridION	2022-07-25	Ecogenomics of the microbial community in the water column of Lake Biwa (2018-2019)
+freshwater	PRJEB86001	12	12	4245.1776314553435	12268.561739809602	266.707603047	lake water metagenome	PromethION	2025-06-26	Freshwater metagenomes from four depth profiles in a N-S transect of Lake Malawi (Malawi)
+freshwater	PRJNA1353574	9	9	2980.536840211429	3631.7386080033507	94.448092185	freshwater metagenome	PromethION	2025-11-01	Aquaculture Modes Metagenomic Datasets
+freshwater	PRJEB86003	8	8	5189.4328184155165	6617.591410047699	234.453063544	lake water metagenome	PromethION	2025-06-26	Freshwater metagenomes from lakes in Japan
+freshwater	PRJNA1119519	9	8	4002.015740737228	8484.92469299723	399.625249208	wetland metagenome	PromethION	2024-06-19	Borg extrachromosomal elements of methane-oxidizing archaea have conserved and expressed genetic repertoires
+freshwater	PRJEB86002	6	6	4157.04378347244	4438.740831368421	132.044281695	lake water metagenome	PromethION	2025-06-26	Freshwater and brackish metagenomes from lakes in Australia
+freshwater	PRJNA540708	3	3	2719.590338649065	4961.766413196944	24.167017472	aquatic metagenome	MinION	2022-05-12	Arctic sea ice, cryopeg and massive ice (permafrost) microbial community sequencing
+freshwater	PRJNA716890	3	3	4908.694754595272	5200.2070001060865	5.919055869	aquatic metagenome	MinION	2021-03-29	Ganga Microbiome
+freshwater	PRJDB17794	2	2	4044.119775054466	4201.066064814815	2.68278439	aquatic metagenome	MinION	2024-03-31	Bacterial dynamics of the plastisphere microbiome exposed to sub-lethal antibiotic pollution
+freshwater	PRJEB86000	2	2	7928.318775762281	11451.036751124808	61.533094353	lake water metagenome	PromethION	2025-06-26	Freshwater, brackish and marine metagenomes from coastal lagoons and reservoirs and the South Atlantic Microbial Observatory (SAMO) in Uruguay
+freshwater	PRJNA1236243	2	2	2419.4249760524667	2474.0054838680444	20.417309046	groundwater metagenome	MinION	2025-12-21	Metagenomic assemblies of 34 groundwater samples from 2022: Hainich-Groundwater Virome Project
+freshwater	PRJEB58701	1	1	4536.185731965807	4536.185731965807	6.480231634	aquatic metagenome	MinION	2023-07-25	Long reads metagenomic sequencing of an environmental sample from the lake Kinneret in Israel
+freshwater	PRJNA1138194	1	1	2794.006248173611	2794.006248173611	1.453307938	freshwater metagenome	GridION	2025-01-02	Metagenomic insights for functional gene diversity from plastic contaminated sites from Ghaila dump site, Lucknow
+freshwater	PRJNA1158533	30	1	3713.217642914129	5532.816584102903	227.671003948	aquatic metagenome	PromethION	2025-03-30	Microbial Risk Assessment Across Multi-Environments Based on Metagenomic Absolute Quantification with Cellular Internal Standard
+freshwater	PRJNA1260691	1	1	2064.5494644206874	2064.5494644206874	4.345705265	freshwater metagenome	MinION	2025-05-11	Microbial communities in Lagoa Grande, Apiai, Aug 18 '21
+freshwater	PRJNA1293540	1	1	3924.2874014710146	3924.2874014710146	4.168079832	groundwater metagenome	MinION	2026-03-23	Nanopore MinION long-read metagenomics of Mock Communities and environmental samples
+freshwater	PRJNA622654	1	1	2230.224753274528	2230.224753274528	3.387024491	drinking water metagenome	MinION	2020-05-20	Metagenomic profiling of ammonia and methane-oxidizing microorganisms in a Dutch drinking water treatment plant
+freshwater	PRJNA678222	1	1	5343.643421308388	5343.643421308388	13.085920127	freshwater metagenome	GridION	2021-10-23	Sequencing of NRFeOx cultures originating from a karstified aquifer bacteria culture from Altingen, Germany
+freshwater	PRJNA720556	1	1	6301.0572555563385	6301.0572555563385	1.608622111	drinking water metagenome	MinION	2021-04-23	Hybrid genome sequencing of Vermamoeba vermiformis and its endosymbiont Vermiphilus pyriformis
+freshwater	PRJNA787609	1	1	2441.82537360437	2441.82537360437	2.295066785	lake water metagenome	MinION	2024-01-01	Microbial communities in Lagoa Vermelha, Apiai
+freshwater	PRJNA824509	1	1	9888.073785120489	9888.073785120489	18.987188051	freshwater metagenome	PromethION	2022-04-30	BIO290 non-axenic Amoebozoa culture sequencing
+freshwater	PRJNA998834	1	1	4901.698186762282	4901.698186762282	1.222155114	freshwater metagenome	MinION	2023-10-31	RosHAB: Rapid on-site detection of Harmful Algal Blooms
+human gut	PRJEB49168	108	108	4644.808771816855	6582.433999494518	637.468204141	human gut metagenome	GridION; MinION; PromethION	2021-12-10	Singapore Platinum Metagenomes Project
+human gut	PRJNA1249224	22	22	2152.1422725897855	3196.128210847529	95.814154244	human gut metagenome	PromethION	2026-05-24	Metagenomic Illumina and Nanopore sequencing data of MAC study cohort
+human gut	PRJNA722408	30	19	4112.743233846119	5056.693550362595	124.536407717	human gut metagenome	PromethION	2022-08-17	Metagenomics data from a colon model experiment linking carbohydrate structure with function in the human gut microbiome using short and long sequencing data
+human gut	PRJEB88320	10	10	4769.50910041494	8129.40563961756	325.253436949	human gut metagenome	PromethION	2025-10-09	Long read metagenomics reveals phage dynamics in the human gut microbiome
+human gut	PRJNA1377628	10	10	4542.3964892799695	5596.4478139511175	13.78590903	human gut metagenome	GridION	2026-06-28	Decoding the microbiome and resistome of advanced chronic liver disease through long-read metagenomics
+human gut	PRJNA678365	8	8	2478.9728195110347	3391.4354698547468	41.488797618	human gut metagenome	MinION	2021-12-02	Human, goat, and chicken gut microbiomes and resistomes in urban and rural Bangladesh
+human gut	PRJNA1112760	7	7	2210.5041092774104	2284.237108017367	17.691840588	human gut metagenome	PromethION	2026-06-25	Metagenomic signatures of early life brain damage
+human gut	PRJNA940499	6	6	3338.703904073304	4469.915533374786	66.448183033	human feces metagenome	PromethION	2023-03-17	Quantifying bias introduced by sample collection in relative and absolute microbiome measurements
+human gut	PRJNA1260441	3	3	2447.941399524447	2693.2152924060556	4.833204834	human gut metagenome	GridION	2025-05-28	Comparative evaluation of DNA extraction protocols for neonatal gut microbiota profiling in a resource-limited setting
+human gut	PRJNA678454	3	3	4116.456350105932	4976.896712118279	59.118513692	human gut metagenome	MinION	2022-01-07	Shotgun metagenomic sequencing of stool samples from two South African cohorts
+human gut	PRJNA1000750	2	2	7244.241256056293	7671.4376784952765	12.598951655	human gut metagenome	MinION	2024-08-15	Metagenomic analysis of gut microbiome
+human gut	PRJNA508395	2	2	2660.473050847315	2837.8842052470177	38.715578803	human gut metagenome	MinION	2019-12-11	Nanopore long read assembly of the human gut metagenome
+human gut	PRJNA554461	2	2	2484.547601663961	2606.04528125	2.539753589	human feces metagenome	MinION	2024-06-01	Metagenomic Identification of Severe Pneumonia Pathogens in Mechanically-Ventilated Patients
+human gut	PRJEB123233	1	1	3731.144318342948	3731.144318342948	64.389995474	human gut metagenome	MinION	2026-10-08	Micro-C metagenomics technique
+human gut	PRJEB74343	1	1	7741.506759818093	7741.506759818093	48.559793343	human gut metagenome	PromethION	2024-05-08	Nanomotif: A Novel Tool for Fast Identification and Exploitation of DNA Methylation Motifs in Metagenomes using Oxford Nanopore Sequencing
+human gut	PRJNA1033532	1	1	5762.081940607262	5762.081940607262	84.175489271	human gut metagenome	PromethION	2024-09-24	Evaluating the impact of pharmaceuticals on the human gut microbiome Raw sequence reads
+human gut	PRJNA1430400	3	1	2428.51441009873	2514.201931391809	235.510269195	human gut metagenome	PromethION	2026-06-02	The Human Gut Microbiome-in-a-Bottle Project
+livestock	PRJEB88111	29	29	3455.2041669048403	4680.040628572225	637.402112082	Sus scrofa	PromethION	2025-11-21	Metagenomics for detection of bacterial pathogens, antimicrobial resistance and virulence genes in diarrhoeal pigs
+livestock	PRJNA1041350	28	28	10412.822514516592	12831.589613224372	175.909138371	bovine gut metagenome	PromethION	2025-08-10	Acinetobacter spp. in Czech cattle farms
+livestock	PRJNA942915	20	20	2977.5921218910153	4201.49088805391	24.543185031	bovine gut metagenome	GridION	2024-01-03	Effects of a postbiotic program consisting of liquid and solid Saccharomyces cerevisiae fermentation products (SCFPs) on the rumen microbiome and rumen fermentation characteristics of beef steers
+livestock	PRJEB120797	12	12	2653.209477961058	3223.121098097765	59.322096232	Sus scrofa	MinION	2026-07-27	Longitudinal microbiome study in a Danish pig farm
+livestock	PRJEB93971	9	9	4950.909495405018	5690.7157899303675	14.066681524	Bos taurus	MinION	2025-09-30	Shotgun metagenomic profiling of bovine milk after antimicrobial dry cow therapy (DCT)
+livestock	PRJNA1290413	5	5	4404.531721156195	4726.218578574483	9.280380123	bovine gut metagenome	GridION; MinION	2025-08-29	Potential of Rumen Microbes to Synthesize Neuroactive Compounds
+livestock	PRJNA1117518	20	4	2783.301387651624	4630.293033526155	80.963971852	rumen metagenome	GridION; PromethION	2025-05-23	Bovine ear tissue, rumen fluid sample, and mock community raw sequence reads
+livestock	PRJNA1405063	4	4	3199.9322582226387	3411.9352024624313	113.32074446	bovine gut metagenome	PromethION	2026-10-19	Shotgun metagenomic sequencing of rumen microbiomes from low- and high-methane dairy cows
+livestock	PRJNA678365	4	4	3301.3148481473254	4438.598111206839	31.103731431	bovine metagenome	MinION	2021-12-02	Human, goat, and chicken gut microbiomes and resistomes in urban and rural Bangladesh
+livestock	PRJNA843932	2	2	12912.529403693814	13012.874427629893	25.133322808	manure metagenome	MinION	2024-06-30	manure metagenome Raw sequence reads nanopore Raw sequence reads
+livestock	PRJNA1123871	1	1	2606.2581817869686	2606.2581817869686	31.577812463	chicken gut metagenome	PromethION	2025-02-19	Chicken Faeces Metagenomics Raw sequence reads
+marine	PRJNA1231276	11	11	4022.5490904080084	4995.436232380859	17.58628769	seawater metagenome	MinION	2025-03-23	Seawater metagenomes Raw sequence reads
+marine	PRJNA1320681	8	8	2946.2500756061318	3874.5567146331346	97.886106747	seawater metagenome	MinION	2025-09-24	GERA_Environmental_Microbiome Raw sequence reads
+marine	PRJNA895741	8	8	2579.285423176282	3584.660866013173	99.072349386	marine metagenome	GridION	2023-03-17	QMRA of beach water by Nanopore sequencing-based viability-metagenomics absolute quantification
+marine	PRJNA529454	5	5	15087.942445832407	31558.16697980494	40.201927599	marine plankton metagenome	GridION	2019-04-20	Assembly Free Viral Genomes from Station ALOHA
+marine	PRJDB18612	3	3	3536.2346847229583	4347.4066897859175	171.046032281	seawater metagenome	PromethION	2026-11-10	Metagenomic Raw Reads from CO2-Rich Hydrothermal Fields of the Okinawa Trough
+marine	PRJNA753671	3	3	4450.007168236377	5584.3745307263	7.828447259	seawater metagenome	MinION	2022-04-10	shenzhen bay nanopore metagenomic sequencing Metagenome
+marine	PRJNA855972	4	2	11255.062866487304	20930.987144514696	30.182842726	marine metagenome	GridION	2022-08-11	HOT cruise 319 enriched seawater sequencing from Station ALOHA
+marine	PRJDB11069	1	1	2733.5741080176476	2733.5741080176476	67.142060909	marine metagenome	GridION	2021-05-08	Metaepigenomic anaysis of pelagic microbial communities
+marine	PRJEB110475	1	1	8134.337294539778	8134.337294539778	30.595780478	marine metagenome	MinION	2026-06-24	Multi-omics of microbiome mediated pathogen control
+marine	PRJEB86000	1	1	3734.245132583129	3734.245132583129	18.478979255	marine metagenome	PromethION	2025-06-26	Freshwater, brackish and marine metagenomes from coastal lagoons and reservoirs and the South Atlantic Microbial Observatory (SAMO) in Uruguay
+marine	PRJEB86004	1	1	4484.430277434312	4484.430277434312	11.605705558	marine metagenome	PromethION	2025-06-26	Freshwater and brackish metagenomes from the Baltic Sea, the Vistula River and Vistula Lagoon in Poland
+marine	PRJNA1229174	2	1	6354.4324199506045	9754.404473927294	68.626479477	marine metagenome	GridION	2026-03-22	Metagenomic profiling of a non-axenic marine dinoflagellate culture - Oxyrrhis marina DSM 119645
+marine	PRJNA1435553	8	1	8789.097094218647	9339.243690053538	861.121575955	estuary metagenome	PromethION	2026-03-17	Deep Nanopore metagenomics of South San Francisco Bay expanded sequencing
+marine	PRJNA674982	1	1	4117.922824022137	4117.922824022137	1.376518652	marine metagenome	MinION	2021-06-24	Long and short-read metagenomics from the Mediterranean Sea
+marine	PRJNA675130	1	1	3747.984702894815	3747.984702894815	78.773290981	marine metagenome	PromethION	2020-11-08	Fine-scale resolution of genomes in natural microbial communities
+marine	PRJNA911607	1	1	3738.335590169441	3738.335590169441	4.307321482	seawater metagenome	MinION	2024-12-13	Viromics of Arctic cryopeg brine, sea-ice brine, and seawater
+marine	PRJNA932835	1	1	2051.973999689826	2051.973999689826	6.615564175	marine metagenome	MinION	2023-03-19	Ocean Metaproteome Intercomparison Consortium: Metagenome Sequencing Reads for Proteome Informatics & Data Analysis Intercomparison
+marine	PRJNA952799	1	1	3449.790131102644	3449.790131102644	25.807383201	seawater metagenome	GridION	2023-06-16	seawater metagenome Raw sequence reads and Transcriptome expression
+sediment	PRJNA1353574	9	9	2933.672896377004	4374.398933120875	101.38555135	sediment metagenome	PromethION	2025-11-01	Aquaculture Modes Metagenomic Datasets
+sediment	PRJDB18612	8	8	2961.9801928588686	4190.631637268831	24.614992975	marine sediment metagenome	MinION	2026-09-09	Metagenomic Raw Reads from CO2-Rich Hydrothermal Fields of the Okinawa Trough
+sediment	PRJNA1335822	7	7	4244.321008614464	5011.5552287407245	153.843407682	sediment metagenome	PromethION	2025-11-29	Microbial community structure and functional potential in marine sediments during naproxen and caffeine degradation
+sediment	PRJNA1161573	4	4	2256.390732992472	2740.654982232636	13.031889828	sediment metagenome	MinION	2024-09-27	Assessing antimicrobial resistance in sewage and wastewater effluent in Antarctica
+sediment	PRJNA1126655	3	3	4327.351277472998	4484.170455399062	122.334720581	marine sediment metagenome	PromethION	2025-01-16	ANME nanopore metagenomic samples Raw sequence reads
+sediment	PRJNA1140524	3	3	6278.163140061691	6701.503293043634	74.608269281	sediment metagenome	PromethION	2025-08-13	DIET-SAO Baltic-Consortia- Bothnian Bay methanogenic zone Rotarulab, Danijel Jovicic Metagenomic assembly
+sediment	PRJNA814312	3	3	4147.739839676773	4464.234257647973	5.531160292	freshwater sediment metagenome	MinION	2022-03-18	Sediment metagenomes from Owens River, an arsenic-rich freshwater environment in California (USA)
+sediment	PRJEB52550	2	2	3359.622511120956	4209.481176807356	99.799327506	sediment metagenome	MinION	2022-10-26	Metagenome sequencing of samples suspected of featuring cable bacteria genomic DNA with short (Illumina NovaSeq) and long read (Nanopore R9.4.1) sequencing platforms.
+sediment	PRJNA1447869	1	1	3105.2997909128553	3105.2997909128553	4.574323963	sediment metagenome	PromethION	2026-07-02	Enrichment of nitrate-reducing bacteria with Fe(II) as electron donor from haloalkaline Lonar Lake sub-surface sediments
+sediment	PRJNA548524	1	1	2479.9876917012602	2479.9876917012602	1.006639404	sediment metagenome	MinION	2019-06-13	Metagenomic and metatranscriptomic sequencing of Quoyloo Meadow sediment
+sediment	PRJNA682552	1	1	10733.496866039257	10733.496866039257	53.823989448	freshwater sediment metagenome	PromethION	2021-05-18	Multi-omics of the nitrate-reducing iron(II)-oxidizing culture KS
+sediment	PRJNA909474	1	1	7672.992697050298	7672.992697050298	2.313576104	marine sediment metagenome	MinION	2023-02-27	VIRIDE project -deep sea sediment viromes
+soil	PRJEB90824	164	164	5604.769500222068	6752.167440622449	341.270707286	soil metagenome	PromethION	2026-06-19	Adler soil metabarcoding Brazil: Alto Paraíso de Goiás
+soil	PRJEB104244	58	58	11982.008271357208	20992.206031800943	3163.717991832	soil metagenome	PromethION	2026-11-06	Urban soil microbiome in Shanghai and Nanjing
+soil	PRJNA1104006	17	17	2838.8541930300116	6215.099302213894	61.88567692	soil metagenome	MinION	2024-07-29	Cr-polluted soil Raw sequence reads
+soil	PRJEB107287	16	16	3299.2702275941197	4902.485904613471	23.989685224	soil metagenome	PromethION	2026-06-27	Metagenomic profiling of the barley rhizosphere microbiome
+soil	PRJEB42267	9	9	4082.338847480651	5978.433102046327	75.365487713	permafrost metagenome	MinION	2021-03-23	Frozen soil to explore cold-adapted microbial trends and enzymes
+soil	PRJNA1129190	6	6	2230.4177976409546	2316.3359276653027	8.90721512	rhizosphere metagenome	MinION	2025-08-26	Inoculation with a rhizobacteria synthetic community enhances sugarcane stress resilience through targeted modulation of plant-microbe interactions
+soil	PRJNA1522458	6	6	2863.059492563009	3499.11886981982	106.454216721	soil metagenome	MinION	2026-10-02	Temporal dynamics of microbiome communities within urban compost piles undergoing the heat process
+soil	PRJNA708254	6	6	2342.6825786499026	2503.6393385162096	13.390113217	soil metagenome	MinION	2021-03-13	Soil acidification of a Christmas tree plantation
+soil	PRJNA1219158	5	5	4072.552566822484	5942.710958828093	15.004360383	soil metagenome	GridION	2025-02-06	Metagenomes of liquid enrichment cultures grown on lignin-derived compounds
+soil	PRJEB104930	4	4	7041.5740658351915	8278.050603563086	261.401472508	soil metagenome	PromethION	2026-02-04	A national baseline for methane sink habitats and methanotroph diversity
+soil	PRJNA1090675	30	4	2642.0851113163153	6266.8372084347575	71.375850455	soil metagenome	PromethION	2024-04-28	Comparison of soil DNA extraction for long read metagenomics
+soil	PRJNA1112790	45	4	3056.8531310259345	4457.886733494214	139.354603485	soil metagenome	PromethION	2024-07-05	Automated environmental metagenomics using Oxford Nanopore sequencing
+soil	PRJNA1171364	4	4	3508.276533773648	3796.894124830166	51.713837155	soil metagenome	MinION	2024-11-08	Haibei_warming Raw sequence reads
+soil	PRJEB74630	3	3	3746.050243237886	3844.0214454576158	9.784731883	soil metagenome	MinION	2024-06-05	Medical University Graz - MICROBE
+soil	PRJNA727938	3	3	9867.845404883603	10545.396689666915	37.928115729	soil metagenome	MinION	2023-06-21	Microbial communities in the Mars-anaolg Qaidam Basin desert
+soil	PRJEB41762	2	2	3330.7015590746955	4190.4771348440645	21.495452216	soil metagenome	MinION	2022-05-31	In-depth characterization of denitrifier communities across different soil ecosystems in the tundra
+soil	PRJNA1219082	2	2	4451.381107673769	4688.856362892191	17.026133476	soil metagenome	MinION	2025-08-28	Metagenome sequencing of soil samples sorrounding Pappostipa frigida plants from Paso de Jama, Atacama, Chile
+soil	PRJNA717813	2	2	6235.416119880305	8601.290881327006	14.796612031	soil metagenome	GridION; PromethION	2021-09-27	Mining short and long read soil metagenome
+soil	PRJEB74343	1	1	7647.321503718369	7647.321503718369	204.827319794	soil metagenome	PromethION	2024-05-08	Nanomotif: A Novel Tool for Fast Identification and Exploitation of DNA Methylation Motifs in Metagenomes using Oxford Nanopore Sequencing
+soil	PRJEB89893	4	1	6772.22067788685	7600.232503560706	147.528793544	soil metagenome	PromethION	2025-05-26	Ultra-deep sequencing of a soil sample from the Schönbuch forest
+soil	PRJNA1207952	1	1	5576.7153652868465	5576.7153652868465	25.700683131	soil metagenome	MinION	2025-02-19	DNA sequencing, genome assembly, and transcriptome involving sulfadiazine mineralization
+soil	PRJNA1293540	1	1	2890.121812722668	2890.121812722668	15.499162598	soil metagenome	MinION	2026-03-23	Nanopore MinION long-read metagenomics of Mock Communities and environmental samples
+soil	PRJNA466717	1	1	11741.568417307299	11741.568417307299	1.088995246	soil metagenome	MinION	2021-03-29	Thiabendazole degrading enriched bacterial consortium Metagenome
+soil	PRJNA767267	1	1	2761.2303836664755	2761.2303836664755	2.088412421	soil metagenome	MinION	2021-10-06	Diagnosis of Dieback disease in Egyptian mango using nanopore-generated metagenomic data
+soil	PRJNA769424	1	1	3448.4338109398936	3448.4338109398936	1.03321629	soil metagenome	MinION	2021-10-08	Metagenome-assembled genomes reconstructed from peaty black bog soil of the Durykino ravine, Chashnikovo village, Moscow region, Russia
+soil	PRJNA841641	1	1	2948.1589191251437	2948.1589191251437	6.321082679	soil metagenome	MinION	2022-05-29	Metagenome sequencing of cellulolytic community in various soils
+to read	PRJEB114667	167	160	5372.655208907488	10647.140094929393	28134.296347894	metagenome	PromethION	2026-07-29	MicroFlora Danica Unique
+to read	PRJNA788958	109	109	3567.576228669075	4275.0759979292625	171.29733671	gut metagenome	GridION	2021-12-16	Horse microbiome data - microbiome resilience
+to read	PRJEB31632	95	95	3227.0845551713537	6567.382483194457	114.263075523	metagenome	GridION	2019-05-22	Hospital Microbiome
+to read	PRJEB49428	50	50	2634.651564976165	4083.8596865157097	79.182597422	metagenome	MinION	2022-02-01	The human gut microbiota contributes to type-2 diabetes non-resolution 5-years after Roux-en-Y gastric bypass
+to read	PRJEB100857	40	40	6928.881333212335	9017.531978232566	352.269062966	metagenome	PromethION	2025-10-24	Soil carbon stabilization in boreal forests is primarily driven by root presence rather than by soil chemical quality itself
+to read	PRJNA1534682	20	20	3884.9226880795836	5314.81323005362	115.47214069	metagenome	PromethION	2026-09-26	Adaptive sampling and long-read assembly can improve the efficiency and effectiveness of metagenome assembled genome approaches in plant microbiomes
+to read	PRJNA942254	20	20	2400.0402873527364	6818.284049960529	251.539039088	gut metagenome	GridION; MinION	2023-08-08	Metagenomics of fecal samples from ant-eating mammal species
+to read	PRJEB34573	19	19	3331.5382221913533	5527.58846585163	381.29315988	metagenome	MinION	2019-11-20	Metagenomic analysis with long and short reads of 20 biogas reactors
+to read	PRJEB85558	42	19	5310.771600514567	7972.68468270654	4064.741260221	metagenome	PromethION	2025-02-06	MicroBench - Project for releasing benchmark data
+to read	PRJEB42966	34	17	2740.368237706012	5191.206942809729	44.879913222	metagenome	MinION	2021-12-15	Decreased microbial load in severe obesity links impaired gut microbiota biotin metabolism to host biotin status
+to read	PRJNA1104253	17	17	3177.3695767087215	3977.158632488746	33.834580482	metagenome	MinION	2025-06-23	A defined microbial community reproduces attributes of fine flavour chocolate fermentation
+to read	PRJNA1285875	15	15	2381.2026978152253	2930.9715312571466	19.241965792	gut metagenome	MinION	2025-07-04	Microbiota and Resistome Comparison of Swiss Expatriates living Abroad
+to read	PRJEB108219	13	13	2977.9103678870283	3895.2878442219394	20.498592538	Homo sapiens	GridION	2026-02-19	This project investigates the role of the human microbiota in breast cancer through multi-site and longitudinal microbiome profiling.
+to read	PRJNA1107355	12	12	2460.7138178626624	4293.599766092814	55.773359939	metagenome	PromethION	2024-07-11	Retail food long-read metagenomes
+to read	PRJNA865096	12	12	2951.9864546788967	3568.0227358977936	16.130888309	metagenome	MinION	2022-08-11	Short and long reads shotgun raw milk italian cheese samples
+to read	PRJEB33999	11	11	5408.2404077484725	8535.67127501688	105.809491708	metagenome	MinION	2025-11-06	Long Read Viromics Time Series from the Western English Channel
+to read	PRJEB41222	9	9	3263.807230505505	4040.3441451888352	90.257100494	metagenome	MinION	2021-07-29	CP562
+to read	PRJNA1147207	8	8	3802.680406596289	5297.772308116991	14.549438132	landfill metagenome	MinION	2024-08-14	Application of the nitrogen-to-argon ratio to understand nitrogen transformation pathways in landfills under in-situ stabilization
+to read	PRJNA1337107	8	8	3474.0094970944665	4470.283576003539	11.314079474	metagenome	GridION	2026-03-22	Impact of rumen microbiome sample handling and extraction procedures on downstream long-read sequencing
+to read	PRJNA1420060	8	8	4067.097596429112	4904.032595136129	86.983070994	metagenome	PromethION	2026-02-11	Nanopore third-generation sequencing cleandata
+to read	PRJNA1470913	8	8	2129.930171106307	2459.951908818763	15.656630666	gut metagenome	PromethION	2026-05-28	Gut Microbiome Composition and Functional Potential of the Baiga Tribe: Insights from an Indigenous Particularly Vulnerable Tribal Group in Central India
+to read	PRJNA833246	8	8	2600.2517083396824	2863.012089243863	21.974974943	metagenome	MinION	2022-05-01	Enriched functions of intgeron gene cassettes
+to read	PRJNA1469454	7	7	4158.082490447609	4836.945275310213	18.161992775	human metagenome	PromethION	2026-09-01	Human gut metagenome from melanoma patients collected at two timepoints
+to read	PRJEB97175	6	6	9200.580447882328	10750.27551889771	45.235922056	metagenome	MinION	2025-12-04	Omics Insights into Microbial Degradation of an Oxidized Low Molecular Weight Polyethylene (LMWPE)
+to read	PRJEB29152	5	5	3023.8399868511337	3247.7372808900504	24.385904922	gut metagenome	GridION; MinION	2019-03-08	CaPES
+to read	PRJEB41030	5	5	6426.815681337496	8420.965924920027	10.260600855	metagenome	MinION	2020-10-31	VirION2: a short- and long-read sequencing and informatics workflow to study the genomic diversity of viruses in nature
+to read	PRJEB86000	5	5	3975.450585447387	9712.275852687644	103.469909932	lagoon metagenome	PromethION	2025-06-26	Freshwater, brackish and marine metagenomes from coastal lagoons and reservoirs and the South Atlantic Microbial Observatory (SAMO) in Uruguay
+to read	PRJEB87256	5	5	6352.115367706407	12790.007969231163	141.856326177	mixed culture metagenome	GridION	2025-10-23	Detection of Bacillus production strains and contaminants in food enzyme products
+to read	PRJNA1031997	5	5	4028.37688906539	6217.516887334896	28.511398572	metagenome	GridION	2023-10-31	Determination of KMA confidence detetcion thresholds
+to read	PRJNA1130143	5	5	2449.395770931848	3509.7908899219965	6.875220748	metagenome	GridION	2024-07-29	Statistical design approach enables optimised mechanical lysis for enhanced long-read soil metagenomics.
+to read	PRJNA1257062	5	5	5064.833561083987	5530.680072075977	53.43396826	metagenome	PromethION	2025-07-24	Rhizosphere soil and washed root metagenomes metagenome
+to read	PRJNA655381	5	5	6706.644702137116	7385.381163260088	11.988605337	metagenome	MinION	2021-04-16	Microbiome of drawings by Leonardo Da Vinci
+to read	PRJNA1054491	4	4	2662.13501239403	3602.7662747465215	35.177698773	metagenome	MinION	2023-12-24	A range of samples and experiment types for the use of Nanopore Adaptive Sequencing.
+to read	PRJNA1353574	4	4	6131.571882775481	7969.426364065218	42.725517062	gut metagenome	PromethION	2025-11-01	Aquaculture Modes Metagenomic Datasets
+to read	PRJNA1395257	4	4	4685.761395580253	7233.703344963552	7.860279784	human metagenome	GridION	2026-06-02	Nanopore metagenomic sequencing of normally sterile body fluids from clinical patients
+to read	PRJNA553237	4	4	5404.910659635737	8051.696817711395	76.418767057	metagenome	MinION; PromethION	2019-07-09	Unlinked rRNA Metagenomic Nanopore Fastq Datasets
+to read	PRJNA665129	4	4	3301.5324744346462	3515.404285367197	16.646737199	gut metagenome	MinION	2020-10-01	Escherichia coli and faecal metagenomic samples Raw sequence reads
+to read	PRJNA811358	4	4	2590.0401162005764	2948.4652988384505	12.855010348	landfill metagenome	MinION	2023-03-03	Microplastics degradation metagenomics
+to read	PRJEB125553	18	3	7784.2385770079945	8141.800942447408	3350.437336993	metagenome	PromethION	2026-11-05	TeraBaseAnalysis - How much data is needed?
+to read	PRJEB34014	3	3	3973.7776603433404	8521.14791211032	68.329332219	metagenome	MinION	2023-01-03	metagenome fredericia AD
+to read	PRJEB48021	3	3	3567.1409008133496	3984.4494817145596	62.250912297	metagenome	GridION; MinION	2021-11-01	Metagenome sequencing of anaerobic digester at Fredericia WWTP with short and long read sequencing platforms.
+to read	PRJEB88618	3	3	3986.0336081656833	6570.363362625874	462.327021022	metagenome	PromethION	2025-07-15	Nano-MDBG benchmarking across HiFi and ONT and multiple biomes
+to read	PRJNA1073587	3	3	13232.469637676608	14110.880152161446	195.913512685	gut metagenome	GridION	2025-06-09	HiFi-Based Metagenomic Assembly Strategy Provides Accuracy Near Isolated Genome Resolution in MAGs Assembly
+to read	PRJNA1523843	3	3	10430.468171762683	11765.843048177616	5.86971839	gut metagenome	PromethION	2026-09-06	Microbiome of Cape horseshoe bat (Rhinolophus capensis) feces collected through rectal probe
+to read	PRJNA842493	3	3	3665.8161472736747	6212.809997502347	9.935079361	metagenome	MinION	2022-08-22	Wastewater sequencing using metagenomics and epicPCR
+to read	PRJNA992360	3	3	5728.101341749098	5999.956129549627	162.68032929	metagenome	PromethION	2023-07-12	Metagenomic sequencing reveals the immense potential of the microbial community for synthesizing secondary metabolites
+to read	PRJEB29504	7	2	4215.177003365617	4500.8441703840235	506.790807141	metagenome	GridION; PromethION	2018-11-19	Ultra-deep, long-read nanopore sequencing of mock microbial community standards
+to read	PRJEB42791	2	2	6126.809636752782	9120.843268528344	4.751013314	metagenome	MinION	2021-04-28	Analysis of volatile fatty acid degrading microbial communities producing biogas using Illumina and Oxford Nanopore metagenome sequencing approaches
+to read	PRJEB48692	2	2	3220.3571953939036	3614.53266568895	85.217313591	metagenome	MinION; PromethION	2021-11-10	Sequenced reads for ZymoBIOMICS HMW DNA Standard, including reads from Illumina, Nanopore R9.4.1 and R10.4
+to read	PRJEB77845	2	2	2963.6596319953546	3099.2820693853946	26.511553768	metagenome	MinION	2025-03-04	Long-read metagenomics of long-ripened Gouda cheeses
+to read	PRJEB86004	2	2	4033.876929653552	5698.535024186618	19.37606548	lagoon metagenome	PromethION	2025-06-26	Freshwater and brackish metagenomes from the Baltic Sea, the Vistula River and Vistula Lagoon in Poland
+to read	PRJEB95107	3	2	5303.615176854935	6143.395497479188	111.422346241	Homo sapiens	MinION; PromethION	2025-09-29	Recovery and host linking of MGEs in microbiomes
+to read	PRJNA1000750	2	2	4976.254235387947	5231.400086994064	10.796402811	gut metagenome	MinION	2024-08-15	Metagenomic analysis of gut microbiome
+to read	PRJNA1062397	2	2	2461.541400699821	2852.438600978992	17.340622812	metagenome	PromethION	2026-03-22	Fredericia anaerobic digester foaming samples Metagenome
+to read	PRJNA1133026	2	2	2326.4571435442767	2497.3166760019312	2.295478712	metagenome	GridION	2025-04-01	Effects of enrichment and DNA extraction method on long-read sequencing of rumen ciliate protozoa
+to read	PRJNA1161573	2	2	2349.5685424962294	2390.22143923838	4.801439841	biofilm metagenome	MinION	2024-09-27	Assessing antimicrobial resistance in sewage and wastewater effluent in Antarctica
+to read	PRJNA1336410	2	2	2640.155055395193	2722.48458328796	2.369402022	metagenome	PromethION	2025-10-05	Hybrid Assembly
+to read	PRJNA1338502	2	2	2839.6977315834797	2972.887517323352	5.938308736	metagenome	PromethION	2026-01-09	Molecular Approaches for Quantifying and Characterizing the Microbiome of Low-Biomass Spacecraft Environments
+to read	PRJNA630588	2	2	9829.707863559819	9896.029945638478	2.846074548	metagenome	GridION	2020-05-16	Enrichment Dynamics of Listeria from IceCream No. 3 Long and Short Reads and Correlating Metabolome.
+to read	PRJDB14322	1	1	2765.7431039246044	2765.7431039246044	2.652914614	metagenome	MinION	2025-11-02	Ichinokawa in situ enrichments
+to read	PRJEB29139	1	1	4591.870210620974	4591.870210620974	2.445919362	metagenome	MinION	2019-03-07	GIS20 mock microbiome community
+to read	PRJEB33278	1	1	2570.688452714324	2570.688452714324	6.624273398	metagenome	MinION	2019-09-01	Nanopore metagenomic sequencing of garden soil
+to read	PRJEB35617	1	1	3459.3896877670313	3459.3896877670313	20.517488025	metagenome	MinION	2025-11-06	Development of long read viral metagenomics
+to read	PRJEB36155	1	1	9048.181421045514	9048.181421045514	6.557524714	metagenome	MinION	2020-04-14	Metagenome of 1-adamantanecarboxylic acid degrading algal-bacterial community
+to read	PRJEB36644	1	1	2160.643312407202	2160.643312407202	5.995439489	metagenome	GridION	2020-02-27	Demonstrating the use of Adaptive Nanopore Sequencing (Read Until) for target enrichment, mixed samples and more.
+to read	PRJEB43406	1	1	3301.831643340436	3301.831643340436	17.950447351	metagenome	PromethION	2021-03-03	2021-Nanopore-Q20EA Zymo mock
+to read	PRJEB44146	1	1	10876.411152497447	10876.411152497447	3.290864846	metagenome	MinION	2022-02-16	Human and mouse fecal bacterial communities able to grow on Xanthan gum
+to read	PRJEB45868	1	1	5430.063489892717	5430.063489892717	74.685864309	metagenome	PromethION	2024-02-27	ONT reads of a High-Complexity mock consisting of bacterial 227 strains
+to read	PRJEB52550	1	1	7945.168288798465	7945.168288798465	62.568422739	metagenome	MinION	2022-10-26	Metagenome sequencing of samples suspected of featuring cable bacteria genomic DNA with short (Illumina NovaSeq) and long read (Nanopore R9.4.1) sequencing platforms.
+to read	PRJEB77847	1	1	2423.8591987223526	2423.8591987223526	19.08661624	metagenome	MinION	2024-11-28	RNAseq of Caeca samples from conventional (CV) and germ-free (GF) chickens at 21 days of age
+to read	PRJEB90061	1	1	2267.5624066298838	2267.5624066298838	2.434645475	metagenome	MinION	2025-08-03	Viral infections in farmed minks in Poland: metagenomic surveillance
+to read	PRJNA1092353	4	1	2122.4749890697403	2231.294169713296	52.277696804	metagenome	MinION	2026-01-01	Benzothiazole-degrading consortia Raw sequence reads and Metagenome
+to read	PRJNA1099385	1	1	3984.6730815749747	3984.6730815749747	1.301326489	Homo sapiens	MinION	2024-04-14	Homo sapiens Raw sequence reads
+to read	PRJNA1474522	1	1	2276.7370549234215	2276.7370549234215	1.628354216	metagenome	PromethION	2026-06-09	Metagenomes of microbial communities from decaying wood at late stages of decomposition
+to read	PRJNA1522089	1	1	2007.663048507442	2007.663048507442	23.08433459	feces metagenome	MinION	2026-09-03	Metagenome sequencing of pooled fecal samples from 110 Hanwoo cattle
+to read	PRJNA377096	2	1	3887.948272454532	5504.518339674794	2.81640804	metagenome	MinION	2021-10-08	Soda lake innocuated bioreactors
+to read	PRJNA649531	1	1	2006.1371482860147	2006.1371482860147	7.012644991	metagenome	MinION	2021-09-01	Bacterial shotgun sequences associated with shark feces
+to read	PRJNA669352	1	1	4748.078365800515	4748.078365800515	16.970942549	metagenome	MinION	2021-02-09	Microbiome assembly for sulfonamide subsistence and the transfer of genetic determinants
+to read	PRJNA762202	1	1	4813.380256697729	4813.380256697729	2.932306439	biofilm metagenome	MinION	2022-10-04	Carbon dioxide fixating microbiome in biofilm formed during ex-situ biogas upgrading
+to read	PRJNA869513	1	1	10975.696383352986	10975.696383352986	1.135611402	metagenome	GridION	2022-10-25	An ultra-sensitive bacterial pathogen and antimicrobial resistance diagnosis workflow using Oxford Nanopore adaptive sequencing method
+to read	PRJNA943380	5	1	4588.791838629307	6095.683736317778	93.704552714	human metagenome	GridION	2023-03-13	Host DNA depletion from human intestinal samples
+wastewater	PRJNA1441618	12	12	2154.1813102689684	2669.7882187994715	24.003730172	wastewater metagenome	PromethION	2026-06-02	Nanopore sequencing from a long-term study of Blacksburg and Christiansburg VA wastewater
+wastewater	PRJNA527877	10	10	2689.9083690096254	4399.266923907503	34.76996886	wastewater metagenome	MinION	2019-05-08	PIRE- Halting Environmental Antimicrobial Resistance Dissemination (HEARD)
+wastewater	PRJNA1444478	9	9	3201.0598227933933	4700.756207835323	135.710547101	wastewater metagenome	PromethION	2026-08-01	Wastewater microbiome
+wastewater	PRJNA853368	6	6	11726.955284524223	17759.9799039364	10.941783297	wastewater metagenome	GridION	2023-08-19	Wastewater Influent and Secondary Effluent Viral Metagenomes
+wastewater	PRJNA728386	5	5	2841.195359710215	3091.8597417237775	74.895345307	wastewater metagenome	GridION	2021-12-09	Rapid Absolute Quantification of Pathogen and ARG by Nanopore Sequencing
+wastewater	PRJNA1061829	4	4	6469.358149688769	7490.4141605761	62.282883849	wastewater metagenome	PromethION	2024-11-27	Shotgun metagenomes from ibuprofen-degrading microbial consortia
+wastewater	PRJNA743350	3	3	2905.312362335087	3225.6312672130603	4.323490651	wastewater metagenome	MinION	2021-09-16	Comparison of one-stage and two-stage Anammox bioreactor microbial communities Metagenomic assembly
+wastewater	PRJNA1028177	2	2	5885.251930680811	7158.982339719282	12.973972512	wastewater metagenome	PromethION	2024-07-29	long-read-based taxonomic profiling
+wastewater	PRJNA1320681	2	2	2831.803428191338	3395.3347973707287	22.827446986	wastewater metagenome	MinION	2025-09-24	GERA_Environmental_Microbiome Raw sequence reads
+wastewater	PRJNA1336410	2	2	3219.6423560362555	3293.617414321366	3.279180584	wastewater metagenome	PromethION	2025-10-05	Hybrid Assembly
+wastewater	PRJNA672704	2	2	3706.1786315265263	4155.325379331663	6.346055199	wastewater metagenome	MinION	2021-11-02	Surveillance of ARGs in Environmental Waters
+wastewater	PRJEB76456	1	1	3405.7774573649594	3405.7774573649594	4.952092379	wastewater metagenome	GridION	2024-06-10	Discovery of V. cholerae in Copenhagen sewage
+wastewater	PRJEB85528	1	1	3527.1301638489927	3527.1301638489927	1.583720242	wastewater metagenome	PromethION	2025-08-30	Application of antibiotics for the selective isolation of previously uncultured bacteria from activated sludge
+wastewater	PRJNA553237	1	1	4270.423217160202	4270.423217160202	14.360199127	wastewater metagenome	MinION	2019-07-12	Unlinked rRNA Metagenomic Nanopore Fastq Datasets
+wastewater	PRJNA627084	1	1	11569.259359265747	11569.259359265747	79.916972876	wastewater metagenome	PromethION	2020-10-09	PNA reactor metagenome
+wastewater	PRJNA743349	1	1	3669.5727133301443	3669.5727133301443	3.86652602	wastewater metagenome	MinION	2021-09-23	Anaerobic granular sludge Metagenomic assembly

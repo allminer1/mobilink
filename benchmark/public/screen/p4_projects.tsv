@@ -1,0 +1,218 @@
+project	class	include	reason	run_rule	unit_rule
+PRJEB74343	mixed	yes	one human faecal and one soil sample of a methods study; the digester sample is left out (Fredericia digester, same site as PRJNA1062397)	human fecal=>human gut ;; anaerobic_digester=> ;; \bsoil\b=>soil	
+PRJEB123233	human gut	yes	stool sample sequenced with long reads in a Micro-C methods study	stool_long=>human gut	
+PRJEB49168	human gut	yes	109 Singaporean subjects, stool		
+PRJEB88320	human gut	yes	six healthy volunteers, two time points; unit = donor		\b(d\d+)_t\d
+PRJNA1033532	human gut	yes	pooled stool of six volunteers (one pooled unit)		
+PRJNA1112760	human gut	yes	stool of extremely premature infants		
+PRJNA1249224	human gut	yes	stool, trial cohort in Cote d'Ivoire		
+PRJNA1260441	human gut	yes	neonatal stool, three extraction kits; unit = infant; also a candidate for step 4.7b		sample(\d+)_
+PRJNA1377628	human gut	yes	stool, liver disease cohorts and controls		
+PRJNA1430400	human gut	yes	one stool sample, several extractions; one unit; also a candidate for step 4.7b		
+PRJNA508395	human gut	yes	stool of healthy participants (2019, MinION)		
+PRJNA554461	human gut	no	class unclear: the study is on respiratory samples of pneumonia patients		
+PRJNA678454	human gut	yes	stool, two South African cohorts		
+PRJNA722408	human gut	no	in-vitro or microcosm experiment: colon model		
+PRJNA940499	human gut	yes	stool of ten donors under several collection conditions; unit = donor		(donor\d+)
+PRJNA678365	mixed	yes	human, goat and chicken faeces in Bangladesh; class by host	human=>human gut ;; goat|chicken=>livestock	
+PRJNA1000750	human gut	yes	human and dog stool; the dog samples are left out	homo sapiens|human gut=>human gut	
+PRJEB108219	human gut	yes	stool of breast cancer patients; unit = patient	stool=>human gut	(dh\d+)
+PRJEB29152	human gut	yes	stool of a patient carrying carbapenem-resistant bacteria (one unit)		(capes)
+PRJEB49428	human gut	yes	stool, type-2 diabetes cohort after gastric bypass		
+PRJNA1285875	human gut	yes	stool of Swiss expatriates; unit = person		stool from (s\d+-[a-z]+-\d+)
+PRJNA1469454	human gut	yes	stool of melanoma patients, two time points		
+PRJNA1470913	human gut	yes	stool, Baiga tribe and urban controls		
+PRJEB88618	mixed	yes	one human gut and one soil sample of an assembler benchmark; the mock is left out	human gut=>human gut ;; \bsoil\b=>soil	
+PRJEB120797	livestock	yes	pig farm, pens sampled over weeks; unit = pen		metagenome (p[a-z])_w
+PRJEB88111	livestock	yes	faeces of diarrhoeal pigs		
+PRJEB93971	livestock	no	class not defined: bovine milk		
+PRJNA1041350	livestock	no	enrichment culture (Acinetobacter enrichment from cattle faeces)		
+PRJNA1117518	livestock	yes	rumen fluid, two library kits; ear tissue and mock left out; also a candidate for step 4.7b	rumen fluid=>livestock	
+PRJNA1123871	livestock	yes	chicken faeces		
+PRJNA1290413	livestock	no	in-vitro or microcosm experiment: rumen fluid cultured in vitro		
+PRJNA1405063	livestock	yes	rumen content of dairy cows; unit = cow		cow (\d+)
+PRJNA843932	livestock	no	enrichment culture (cultured faeces)		
+PRJNA942915	livestock	yes	rumen, postbiotic trial; unit = animal		_(c\d+)\b
+PRJNA1031997	livestock	yes	chicken and buffalo faeces; spiked samples are left out	unspiked=>livestock	
+PRJNA1337107	livestock	yes	rumen samples, handling and extraction procedures; also a candidate for step 4.7b		
+PRJNA1522089	livestock	yes	pooled faeces of 110 cattle (one pooled unit)		
+PRJNA1133026	livestock	no	enrichment culture (rumen protozoa enrichment)		
+PRJNA665129	livestock	no	enrichment culture (targeted enrichment method on sheep faeces)		
+PRJNA788958	livestock	no	class not defined: horse faeces		
+PRJEB76456	wastewater	yes	Copenhagen sewage		
+PRJEB85528	wastewater	no	mock or isolate (isolate from activated sludge)		
+PRJNA1028177	wastewater	yes	influent of a Hong Kong plant; the effluent is left out	influent=>wastewater	
+PRJNA1061829	wastewater	no	enrichment culture (ibuprofen-degrading consortia)		
+PRJNA1441618	wastewater	yes	influent of two treatment plants, time series; unit = plant		sequencing: [\d/ ]*(university|community)
+PRJNA1444478	wastewater	yes	hospital and livestock wastewater; unit = source		((?:hospital|livestock|municipal|urban|domestic)[a-z ]*wastewater ?\d+)
+PRJNA627084	wastewater	no	laboratory reactor (partial-nitritation anammox reactor)		
+PRJNA672704	wastewater	yes	wastewater in Boston and Vellore; surface water left out	wastewater=>wastewater	
+PRJNA728386	wastewater	yes	influent of Hong Kong plants; effluent left out; an internal standard was added to the samples	influent=>wastewater	
+PRJNA743349	wastewater	no	class unclear: single anaerobic sludge granules		
+PRJNA743350	wastewater	no	laboratory reactor (anammox bioreactors)		
+PRJNA853368	wastewater	no	virus-enriched		
+PRJNA1320681	mixed	yes	Galapagos: sewage and coastal seawater; class by source	\d{4} sewage=>wastewater ;; pipe=> ;; seawater=>marine	
+PRJNA1336410	wastewater	no	class not defined: secondary effluent; mock or isolate		
+PRJNA842493	wastewater	yes	influent of a Houston plant; effluents left out	influent=>wastewater	
+PRJNA1161573	wastewater	no	class unclear: biofilm and sediment near a sewage outflow; no sewage sample among the eligible runs		
+PRJNA527877	mixed	yes	international transect of treatment plants (2019): influent and activated sludge; unit = plant	influent|\binf\b=>wastewater ;; activated sludge|\bas\b=>activated sludge	\| (india|switzerland|hong kong|sweden|united states)
+PRJDB12108	activated sludge	no	enrichment culture (Nitrospira)		
+PRJDB17921	activated sludge	no	laboratory reactor		
+PRJNA1005436	activated sludge	yes	activated sludge of a full-scale plant (Klosterneuburg)		
+PRJNA1005948	activated sludge	no	laboratory reactor		
+PRJNA1016301	activated sludge	no	enrichment culture		
+PRJNA1030159	activated sludge	no	enrichment culture (degrading consortium)		
+PRJNA1043470	activated sludge	no	laboratory reactor (anaerobic reactor; scale not stated)		
+PRJNA1082082	activated sludge	yes	activated sludge of a Dutch plant, time series; one unit		(activated sludge)
+PRJNA1101514	activated sludge	yes	six industrial-scale biogas fermenters, one pooled sample		
+PRJNA1132546	activated sludge	no	enrichment culture (consortium)		
+PRJNA1137092	activated sludge	no	laboratory reactor		
+PRJNA1224817	activated sludge	yes	full-scale aerobic granular sludge plant; one unit		(ags system)
+PRJNA1232215	activated sludge	yes	full-scale EBPR plant, time series; one unit		(activated sludge)
+PRJNA1250843	activated sludge	no	enrichment culture		
+PRJNA1320513	activated sludge	no	laboratory reactor		
+PRJNA1419612	activated sludge	no	enrichment culture		
+PRJNA1437919	activated sludge	yes	activated sludge from the anaerobic tank of a treatment plant		
+PRJNA1502585	activated sludge	no	laboratory reactor (marine anammox)		
+PRJNA556270	activated sludge	no	laboratory reactor		
+PRJNA592266	activated sludge	no	laboratory reactor		
+PRJNA745436	activated sludge	yes	activated sludge of the Shatin plant (Hi-C study)		
+PRJNA802347	activated sludge	no	enrichment culture		
+PRJNA803959	activated sludge	no	same site as another project (Shatin plant, PRJNA745436); two chemistries on one sample: candidate for step 4.7b		
+PRJNA814623	activated sludge	no	laboratory reactor		
+PRJNA944114	activated sludge	no	enrichment culture		
+PRJNA953649	activated sludge	no	enrichment culture (degrading consortia)		
+PRJNA977937	activated sludge	no	enrichment culture		
+PRJNA999073	activated sludge	no	laboratory reactor (mixed cultures)		
+PRJNA553237	mixed	yes	Danish digesters, activated sludge and sediment (2019); class by source	fredericia=> ;; sediment=>sediment ;; anaerobic digester|activated sludge|wastewater=>activated sludge	
+PRJEB34014	activated sludge	no	same site as another project (Fredericia digester, PRJNA1062397); two chemistries: candidate for step 4.7b		
+PRJEB48021	activated sludge	no	same site as another project (Fredericia digester, PRJNA1062397); three chemistries: candidate for step 4.7b		
+PRJNA1062397	activated sludge	yes	full-scale anaerobic digester (Fredericia), foaming samples; one unit		(fredericia)
+PRJEB34573	activated sludge	yes	20 full-scale biogas reactors in Germany and Sweden; unit = reactor		
+PRJEB42791	activated sludge	no	laboratory reactor		
+PRJNA1420060	activated sludge	no	laboratory reactor		
+PRJNA762202	activated sludge	no	laboratory reactor (biofilm of a biogas upgrading reactor)		
+PRJNA377096	activated sludge	no	laboratory reactor		
+PRJNA1293540	mixed	yes	one agricultural soil and one groundwater sample; mocks left out	\bsoil\b=>soil ;; groundwater=>freshwater	
+PRJEB104244	soil	yes	58 urban soils, Shanghai and Nanjing		
+PRJEB104930	soil	yes	Danish soils (methane sink habitats); unit = site		(mfd\d+)
+PRJEB107287	soil	yes	barley rhizosphere soil, field		
+PRJEB41762	soil	yes	tundra soils		
+PRJEB42267	soil	yes	permafrost soil, Greenland		
+PRJEB74630	soil	yes	soil samples of a biobanking project (rapid kit)		
+PRJEB89893	soil	yes	one forest soil, sequenced very deeply; one unit		(ultra-deep-schoenbuch)
+PRJEB90824	soil	no	amplified library (the title names metabarcoding; narrow read lengths)		
+PRJNA1090675	soil	yes	four soils, several extraction methods; unit = soil; also a candidate for step 4.7b		
+PRJNA1104006	soil	yes	chromium-polluted soil		
+PRJNA1112790	soil	no	same site as another project (the four soils of PRJNA1090675); candidate for step 4.7b		
+PRJNA1129190	soil	no	in-vitro or microcosm experiment: rhizosphere inoculated with a synthetic community		
+PRJNA1171364	soil	yes	alpine meadow soil, warming experiment in the field		
+PRJNA1207952	soil	no	enrichment culture		
+PRJNA1219082	soil	yes	bulk soil and rhizosphere pools, Atacama		
+PRJNA1219158	soil	no	enrichment culture		
+PRJNA1522458	soil	no	class not defined: compost		
+PRJNA466717	soil	no	enrichment culture		
+PRJNA708254	soil	yes	rhizosphere soil of a tree plantation		
+PRJNA717813	soil	yes	forest soil (Schoenbuch, 2016)		
+PRJNA727938	soil	yes	desert soils, Qaidam Basin		
+PRJNA767267	soil	yes	orchard soil, Egypt		
+PRJNA769424	soil	yes	bog soil, Moscow region		
+PRJNA841641	soil	no	enrichment culture (straw bags in soil)		
+PRJEB100857	soil	no	in-vitro or microcosm experiment: substrate mesh bags incubated in forest soil		
+PRJEB114667	soil	yes	Danish habitats; only the two runs whose source field says soil are used (the other records describe the site, not the material)	\| soil from (?:urban greenspaces|natural forests) \|=>soil	(mfd\d+)
+PRJEB125553	mixed	yes	one soil and one sediment sample sequenced very deeply; the faecal sample is left out (host not stated)	sediment=>sediment ;; \bsoil\b=>soil	(mfd\d+)
+PRJEB33278	soil	yes	garden soil		
+PRJNA1130143	soil	yes	arable and heathland soil, lysis conditions; unit = soil; also a candidate for step 4.7b		(arable|heathland) soil
+PRJNA1257062	soil	no	adaptive sampling		
+PRJNA1534682	soil	no	adaptive sampling		
+PRJNA833246	mixed	yes	soils and one estuarine sediment of an integron study; the biofilm is left out	sediment=>sediment ;; \bsoil\b=>soil	
+PRJNA1474522	soil	no	class not defined: decaying wood		
+PRJDB12736	freshwater	yes	Lake Biwa, one station, two depths, monthly; unit = depth layer		(epilimnion|eplilimnion|hypolimnion)
+PRJDB17794	freshwater	no	in-vitro or microcosm experiment: plastisphere exposed to antibiotics		
+PRJEB58701	freshwater	yes	Lake Kinneret		
+PRJEB86001	freshwater	yes	Lake Malawi, depth profiles		
+PRJEB86002	freshwater	yes	lakes and reservoirs in Queensland; brackish samples left out; unit = lake	freshwater metagenome=>freshwater	from (lake [a-z]+|[a-z ]+?),? australia
+PRJEB86003	freshwater	yes	four lakes in Japan; unit = lake		from (lake [a-z]+)
+PRJEB95916	freshwater	yes	Lake Zurich time series; one unit		(lake zurich)
+PRJNA1119519	freshwater	no	class unclear: wetland soil		
+PRJNA1138194	sediment	yes	river sediment (Gomti); dump-site samples are not among the eligible runs	sediment sample of gomti=>sediment	
+PRJNA1158533	mixed	yes	Hong Kong waters and sludge; class by source; an internal standard was added to the samples	^promethion sequencing: as of wwtps=>activated sludge ;; ^promethion sequencing: influent=>wastewater ;; ^promethion sequencing: river water=>freshwater ;; ^promethion sequencing: (?:marine water|bathing beach|fishery)=>marine	^promethion sequencing: ([a-z ]+?) \|
+PRJNA1236243	freshwater	yes	groundwater wells (Hainich); unit = well		well (h\d+)
+PRJNA1260691	freshwater	yes	pond water (Lagoa Grande)		
+PRJNA540708	freshwater	no	class not defined: sea-ice and cryopeg brines		
+PRJNA622654	freshwater	no	class not defined: sand filter of a drinking water plant		
+PRJNA678222	freshwater	no	enrichment culture		
+PRJNA716890	freshwater	yes	river water (Ganga)		
+PRJNA720556	freshwater	no	mock or isolate (amoeba isolate)		
+PRJNA787609	freshwater	yes	pond water (Lagoa Vermelha)		
+PRJNA824509	freshwater	no	enrichment culture (amoeba culture)		
+PRJNA998834	freshwater	yes	lake water, algal bloom		
+PRJEB86000	mixed	yes	Uruguay: freshwater lagoons and reservoir, and a marine station; brackish samples left out	freshwater metagenome=>freshwater ;; marine metagenome=>marine	
+PRJNA1353574	mixed	yes	aquaculture ponds: water and sediment; gut contents left out; unit = culture system	gut contents=> ;; pond sediment=>sediment ;; pond water=>freshwater	\b(hx|lx|cy)_
+PRJEB86004	mixed	yes	Poland: Vistula river and lagoon (fresh), coastal Baltic Sea; brackish samples left out	freshwater metagenome=>freshwater ;; coastal baltic sea=>marine	
+PRJDB11069	marine	yes	north-west Pacific, surface water		
+PRJEB110475	marine	no	class unclear: pooled sample of an aquaculture pathogen experiment		
+PRJNA1229174	marine	no	enrichment culture (dinoflagellate culture)		
+PRJNA1231276	marine	yes	Johor Strait seawater		
+PRJNA1435553	marine	yes	South San Francisco Bay surface water, one sample; one unit		(station 36)
+PRJNA529454	marine	no	virus-enriched		
+PRJNA674982	marine	yes	Mediterranean, winter water column		
+PRJNA675130	marine	yes	Port Hacking surface water		
+PRJNA753671	marine	yes	Shenzhen Bay seawater		
+PRJNA855972	marine	no	virus-enriched		
+PRJNA895741	marine	no	class unclear: samples treated with a viability dye before extraction		
+PRJNA911607	marine	no	virus-enriched		
+PRJNA932835	marine	yes	Bermuda Atlantic Time Series, filtered seawater		
+PRJNA952799	marine	yes	Yellow Sea seawater		
+PRJDB18612	marine	no	amplified library (rapid PCR barcoding kit)		
+PRJNA1126655	sediment	yes	marine sediment, Denmark		
+PRJNA1140524	sediment	no	enrichment culture		
+PRJNA1335822	sediment	no	in-vitro or microcosm experiment: sediment microcosms		
+PRJNA1447869	sediment	no	enrichment culture		
+PRJNA548524	sediment	yes	meadow sediment horizons, Orkney		
+PRJNA682552	sediment	no	enrichment culture		
+PRJNA814312	sediment	no	in-vitro or microcosm experiment: sediment microcosms		
+PRJNA909474	sediment	no	amplified library; virus-enriched		
+PRJEB52550	sediment	yes	marine and brackish sediment (Hou and Logten, Denmark); the enrichment sample is left out	sediment sample from (?:hou|logten)=>sediment	
+PRJEB85558	mixed	yes	benchmark data: Danish soil and sediment samples; mocks and treatment-plant samples (material not stated) left out	sediment_mfd=>sediment ;; soil_mfd=>soil	(mfd\d+)
+PRJDB14322	none	no	enrichment culture		
+PRJEB29139	none	no	mock or isolate		
+PRJEB29504	none	no	mock or isolate		
+PRJEB31632	none	no	class not defined: hospital surfaces		
+PRJEB33999	none	no	virus-enriched		
+PRJEB35617	none	no	virus-enriched; amplified library		
+PRJEB36155	none	no	enrichment culture		
+PRJEB36644	none	no	adaptive sampling; mock or isolate		
+PRJEB41030	none	no	virus-enriched; amplified library		
+PRJEB41222	none	no	no description		
+PRJEB42966	none	no	lab or wild animal (mouse)		
+PRJEB43406	none	no	mock or isolate		
+PRJEB44146	none	no	enrichment culture		
+PRJEB45868	none	no	mock or isolate		
+PRJEB48692	none	no	mock or isolate		
+PRJEB77845	none	no	class not defined: cheese		
+PRJEB77847	none	no	class unclear: record and sample names disagree		
+PRJEB87256	none	no	mock or isolate (strain mixes)		
+PRJEB90061	none	no	class not defined: mink, viral surveillance		
+PRJEB95107	none	no	spiked sample with a known plasmid: kept for step 4.8, not part of the sample		
+PRJEB97175	none	no	enrichment culture		
+PRJNA1054491	none	no	adaptive sampling; mock or isolate		
+PRJNA1073587	none	no	lab or wild animal (giant panda)		
+PRJNA1092353	none	no	enrichment culture		
+PRJNA1099385	none	no	class not defined: skin		
+PRJNA1104253	none	no	class not defined: cocoa fermentation		
+PRJNA1107355	none	no	class not defined: retail food		
+PRJNA1147207	none	no	class not defined: landfill leachate		
+PRJNA1338502	none	no	mock or isolate (lambda DNA)		
+PRJNA1395257	none	no	amplified library (rapid PCR barcoding kit)		
+PRJNA1523843	none	no	enrichment culture; lab or wild animal (bat)		
+PRJNA630588	none	no	enrichment culture		
+PRJNA649531	none	no	lab or wild animal (shark)		
+PRJNA655381	none	no	class not defined: drawings		
+PRJNA669352	none	no	enrichment culture		
+PRJNA811358	none	no	enrichment culture		
+PRJNA865096	none	no	class not defined: cheese		
+PRJNA869513	none	no	adaptive sampling; class not defined: lung fluid		
+PRJNA942254	none	no	lab or wild animal (ant-eating mammals)		
+PRJNA943380	none	no	adaptive sampling; class not defined: colon biopsies		
+PRJNA992360	none	no	no description		
