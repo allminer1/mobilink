@@ -55,15 +55,23 @@ Outside the registration (exploratory, reported as such):
 ## Package versions
 
 The package was called `linkstat` while these analyses ran. Each frozen folder names the commit it used
-(`frozen/*/PACKAGE_COMMIT`); all of them are in the history of this repository.
+(`frozen/*/PACKAGE_COMMIT`).
 
-| Analysis | Commit | Version |
+**Commit numbers.** On 2026-11-23 the commit messages of this repository were edited (a trailer line was removed from
+each). No file changed, but every commit got a new number. The registered texts, the `PACKAGE_COMMIT` files and the
+reports are checksummed or kept as written, so they still give the numbers from before. `COMMITS.tsv` lists the old
+and the new number of every commit, and each old number that is cited has a tag `orig-<old number>` on the commit
+with the same content, for example `git checkout orig-86e3696`. The freeze-check scripts compare the checked-out
+commit with `PACKAGE_COMMIT` and therefore stop on the new numbers; they belong to analyses that were run once and
+are not meant to be run again.
+
+| Analysis | Commit as cited in the frozen files | Version |
 |---|---|---|
 | G1b | none: the estimator is the frozen script `frozen/partB/P1_03_estimators.py` | |
-| G2 | `7b665ca` | 0.1 dev |
-| G3a, G3b | `100c199` | 0.2 dev |
-| Stage 1, stage 2 | `9819182` | 0.3.0.dev0 |
-| Survey (amendment 07) and all analyses of Phase 4 | `86e3696` | 0.5.0.dev0 |
+| G2 | `7b665ca` (tag `orig-7b665ca`) | 0.1 dev |
+| G3a, G3b | `100c199` (tag `orig-100c199`) | 0.2 dev |
+| Stage 1, stage 2 | `9819182` (tag `orig-9819182`) | 0.3.0.dev0 |
+| Survey (amendment 07) and all analyses of Phase 4 | `86e3696` (tag `orig-86e3696`) | 0.5.0.dev0 |
 
 Version 0.5 gives the same numbers as commit `9819182` for the registered per-run analysis
 (`tables/P3/P3_06_release_check.tsv`), and so does version 1.0 (`tables/P4/v1check/P4_09_release_check.tsv`).

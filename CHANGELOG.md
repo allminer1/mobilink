@@ -3,6 +3,8 @@
 ## 1.0.0 (unreleased)
 
 Changes since commit 86e3696 (0.5.0.dev0), the version used for the survey of 241 public runs (amendment 07).
+Commit numbers in this file are those cited in the registered files; each has a tag `orig-<number>`, and
+`benchmark/COMMITS.tsv` gives the present numbers (see `benchmark/README.md`, "Commit numbers").
 
 - New command `mobilink meta` (module `mobilink.meta`): one estimate per group of runs, with a delete-one-cluster
   jackknife interval, the effective number of clusters, and contrasts between groups (Welch on the jackknife standard

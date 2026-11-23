@@ -1,0 +1,36 @@
+old_commit	new_commit	subject
+fef4fbb102249e21307dc483a786ac39b111854c	8e409f18fcd1a7db5ab31a3ac37a4905c36ed304	P1 step 1.8: package skeleton
+0f26dccc1ddd0f9f9d362a3131b24933939d626e	ea88b6b56ad0f4318059a4efde6a6db42d28ae69	P1 step 1.9: data model, DIAMOND parsing and feature calling
+6bd50e90be0bd6085fca37aa4f7a64d24a3dbd3a	c8b813d94ec707703904180239848a8ab265b594	P1 step 1.10: net linked estimator (port of frozen amendment 02 Part B)
+8acbeace01a86a2b7cbb51f1aa511152cc481ac9	f16d3f4df3edde5b2e9ddc26bf4a9ff65cfcc644	P1 step 1.11: analytic exposure null and conditional co-occurrence test
+349d47f47691ccb187033e2ec78fc4bf0742454e	5633bb4d646459c75bfe321e21d12bcce2333f7f	P1 step 1.12: stratified and binned nulls, CMH, FDR, equivalence tests
+3e296e1c438539da7e1275119de8bf0d66f457b6	6bc72ae1a76823380a46959492088d86a1b56b7b	P1 step 1.13: simulator in the package (linkstat simulate)
+fe078080e69fe4f70a215a772189dd1a68f66c11	76edb1f36d1d683a32b7fd4e88b1670866832842	P1 step 1.14: power and design (linkstat power)
+1eab1dd7944747f5c5503b6770e06df04cee1c6e	e1c01b99a4f4345c3acc445652d8d98a5d130b67	Excluded-volume correction for the read-level nulls (option; default unchanged)
+36b15aaafa52732f8492118f0b4420f93d7692cf	b2224875f6bb28c05ff97bb665eeed657ddb2b80	simulate: genome_length and abundance_sigma options
+7ff6f020d2838ae7020a231687291f121ed6af5c	cfcecd3ceef15fd214f8da16effa5cf0cbb4cb5c	Excluded volume: gap-based exposure; source genome in simulated reads
+7b665ca7bc62e8553b927556367f6fdbffa0128d	4721e71b8474ad1c9ab5c182d0cabe345ce25068	nulls.analytic.cooccurrence_test_ev: the N0-ev null of amendment 03
+27b0b194aeee3f2ab18e273cae20e4b72fa3f632	229656de35a3f30d928e0aec93b3c0a312141848	P1 step 1.16: `linkstat test` (v0.1.0.dev0)
+0cd23d474857adada1a4eb87adbde32c46b596f6	38271d18b9f3c5277a7c2aba17b2a3df54e75b8f	linkstat test: N2-ev primary (G2 failed, amendment 03 Part 3); clustering index of the modelled class
+8f0ff08e9dd58ff80e4a273b6ae984da228e5181	4496866abc25cb093f532bf81a8e29f22ae255f6	P2 development snapshot: unit nulls, locus clusters, cluster-robust test, simulator options
+9ae0d8d129ec78ef19893c55b3f0048dae1a0da6	16af129d41e03fa2b41627858ccc05cc1ba2d031	P2 development: the net linked test (D39), stratified and unit-level simulator truth
+97320e10b3198768559bf950954c4c1932ed00ea	aa066ed37d635623dffba668f71e56b32e3f2987	P2 development snapshot: probe stage of the net linked test
+2c52ff67e3038021381a8f71241754aadf815a81	0469fbbd8eceb6d31b42e6788113139b213c1573	P2: integrated net_linked_test with null-variance clump tests (as tested by feasibility run 6)
+100c199fabe3c7b9a2de1867aad07f093aacc3da	b14eb3a953e645d8131b011b9c9473b322f58ae1	P2 (D45): margin rule for net_w, Monte Carlo mid-p reference, orientation-aware same-molecule clumps
+f3146a4a43652bc68c53f15c058472f0fc0878b3	d43e5246c1908a45b1cef31bccf24949beb450a1	v0.2 dev: `linkstat test` runs the registered net linked test (amendment 04)
+cf0db833352fcb168bb4d77dd086deed97391f52	6ba276dc2af8bf517a42540cdd1436652be7f7a3	v0.2.0.dev0: chimera flags, reporting fixes from the P2 mock and annotation checks
+981918292b414a78bdef3b103c46a05fa61aa91d	3ee68adc5a1168a454d2412c250cb1cb6d790f85	v0.3.0.dev0: same-molecule ratio with its 90% interval, pooled runs, filtered PAF reader
+ad55a4053d2dce29647e19341f41a1595fd23ce2	edeb25fcc6942c8d34e6111110305dc0592f216a	power: the --bases help states the unit (bases)
+f4605a90bd82e68dcca9f8d1266cb764b1e18b24	3eab01689b9b2247e7834d3d7c91fc9b45897b39	test: --molecule-clumps for contigs (loci="molecule")
+a6b44c4e7df5756bd17008e31600811437825a3f	595c4df9c4ca2a5421f6029ba529a5a259787dd5	Rename the package to mobilink (v0.5.0.dev0); test --loci loads only overlaps among class-A carriers
+ba0584337fa2136d1a06d5cb23331e34eea7e113	e502b82a538f06c78f0897ed9c36e79be27b30eb	Release files: README, docs with a worked example, helper tables, CI workflow, Bioconda recipe draft
+017e20f279ec21f0f997f815237890251b9afda6	ed4ef82f03f950d0650dde8ec02803fd754bdea3	Benchmark folder; time and memory section in the guide
+05cdfde211c4e79e9235d3eb1048e369e6b96e16	72e6c71de6e3fb15b7de7a4be73d50ccaf19a56f	nettest: anchor rejection uses a per-molecule mask instead of rebuilding the key list per stratum
+86e3696654bc208a385a8e03ee476c4caab007cd	23bf9cfa79badcd20b3a54e1ee5f818becbe3522	nettest: per-molecule B lookup by sort and split instead of iterating a group-by
+29f8ddc2cd21bd31fadb4aa65de4dfb10db25813	d3f7377129e8597a21fdbb954946062353a7696f	conditional: reduced Hessian and vectorised stratum setup
+6a87df01cbc233558a1cf2b5e1b5cdaf18def322	a386c1357ec44051eaf08eb5bf38661d3b3edc16	chimeras: read the PAF in one pass with bounded memory; order-independent veto
+064ede649a9da0bac2754323dde5bc5320442d68	3844c68f5d3c06ffdc852ab044537c2d488be544	meta command; estimate-only net_w; clear message when no class A call is left
+d3d3c61355508525d33d9d033a409786543eeae3	17a693c88ddd4b31c34f39c2ccdc26d7c6c9a233	Version 1.0.0.dev0: changelog, guide section for meta, new memory figures
+0c86ffd1d5e7cfd2ae8eb1a2ec8760b9c0c81995	bfade6e6ae8a09a7aa1b61bb8cf7c4bd9cf084f9	Docs: run time and memory of version 1.0 on 64 public runs; release check result
+c8e87a948776664fade4f4ff38d0c7ffc89e49fc	77708e32c791f5ed6a4bdb6b601070cf70d9b1c2	Benchmark: Phase 4 (amendment 07, survey of 241 runs, exploratory analyses, version 1.0 checks)
+f8705ae0eef181e17d6dee6492fbdd7c650bec5c	b4497e233886542ff00cee1a8b0d6d57d0b33162	Benchmark README: end the table before the next paragraph
