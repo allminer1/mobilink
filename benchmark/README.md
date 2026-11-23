@@ -57,8 +57,8 @@ Outside the registration (exploratory, reported as such):
 The package was called `linkstat` while these analyses ran. Each frozen folder names the commit it used
 (`frozen/*/PACKAGE_COMMIT`).
 
-**Commit numbers.** On 2026-11-23 the commit messages of this repository were edited (a trailer line was removed from
-each). No file changed, but every commit got a new number. The registered texts, the `PACKAGE_COMMIT` files and the
+**Commit numbers.** On 2026-11-23, before the repository was made public, the author field and the messages of its
+commits were edited. No file changed, but every commit got a new number. The registered texts, the `PACKAGE_COMMIT` files and the
 reports are checksummed or kept as written, so they still give the numbers from before. `COMMITS.tsv` lists the old
 and the new number of every commit, and each old number that is cited has a tag `orig-<old number>` on the commit
 with the same content, for example `git checkout orig-86e3696`. The freeze-check scripts compare the checked-out
@@ -107,4 +107,6 @@ The simulations (G2, G3) need no download except the three read-length profiles 
   by `scripts/P4_07a_their_calls.py`. Download the table from Zenodo to run that script.
 
 The reports and the registered texts were written during the project and are kept as they were. They name decisions
-by number (D1, D2, ...); the decision log is part of the project archive.
+by number (D1, D2, ...); the decision log is part of the project archive. "The user" in these texts is the
+investigator who led the project and took the decisions that the plans reserve for a person (gates, changes to
+registered definitions, anything public).
