@@ -26,6 +26,23 @@ went from 3 to 24 kb.
    It is 0 under chance, and it equals the share of A units that have a B within *w* because of linkage and not by
    chance. The default *w* is 2 kb.
 
+**Where the measure comes from.** In spatial statistics, G is the distribution of the distance from a point to its
+nearest neighbour, F is the same distribution for arbitrary reference positions (the empty-space function), and
+J = (1 − G) / (1 − F) equals 1 when points are placed independently (van Lieshout and Baddeley 1996). The version
+for two types of points compares the distance from a type-A point to the nearest type-B point with the empty-space
+function of B (van Lieshout and Baddeley 1999). The net linked fraction is one minus this cross-type J-function,
+and the Kaplan–Meier estimate under censoring by the edge of the observation window is that of Baddeley and Gill
+(1997). mobilink adapts the construction to genes on sequenced molecules: distances run along a read or contig to
+the far end of the nearest B gene, the reference positions are gene-sized intervals within the same host, units are
+weighted for the selection of whole genes by read length, and the test treats reads of one locus as one observation.
+
+- van Lieshout MNM, Baddeley AJ. A nonparametric measure of spatial interaction in point patterns. Stat Neerl.
+  1996;50:344–61.
+- van Lieshout MNM, Baddeley AJ. Indices of dependence between types in multivariate point patterns. Scand J Stat.
+  1999;26:511–32.
+- Baddeley A, Gill RD. Kaplan–Meier estimators of distance distributions for spatial point processes. Ann Stat.
+  1997;25:263–92.
+
 `net_mol` is built the same way for "a B anywhere on the same molecule". It depends on molecule length and is meant
 for contigs and for tests, not for comparison between datasets.
 
