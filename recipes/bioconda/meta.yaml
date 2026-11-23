@@ -1,25 +1,24 @@
-# Draft for bioconda-recipes/recipes/mobilink/meta.yaml. Not submitted.
-# Before submission: publish the release on PyPI, then fill in the sha256 of the sdist and the GitHub user name
-# (marked FILL below).
+# Recipe for bioconda-recipes/recipes/mobilink/meta.yaml.
+# The sha256 is that of the GitHub archive of the tag; it is filled in when the tag exists.
 {% set name = "mobilink" %}
-{% set version = "0.5.0" %}
+{% set version = "1.0.0" %}
 
 package:
   name: {{ name }}
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: FILL
+  url: https://github.com/allminer1/mobilink/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: FILL_AFTER_TAG
 
 build:
   number: 0
   noarch: python
-  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vvv
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --no-cache-dir -vvv
   entry_points:
     - mobilink = mobilink.cli:main
   run_exports:
-    - {{ pin_subpackage(name, max_pin="x.x") }}
+    - {{ pin_subpackage(name, max_pin="x") }}
 
 requirements:
   host:
@@ -32,17 +31,21 @@ requirements:
     - scipy >=1.10
     - pandas >=2.0
     - click >=8.1
-    - edlib >=1.3
+    - python-edlib >=1.3
 
 test:
   imports:
     - mobilink
+    - mobilink.stats
+    - mobilink.nulls
   commands:
     - mobilink --version
     - mobilink test --help
+    - mobilink meta --help
+    - mobilink chimeras --help
 
 about:
-  home: https://github.com/FILL/mobilink
+  home: https://github.com/allminer1/mobilink
   license: MIT
   license_family: MIT
   license_file: LICENSE
@@ -51,8 +54,9 @@ about:
     mobilink tests whether two gene classes (for example antibiotic resistance genes and mobile genetic elements)
     sit close together on long reads or contigs more often than chance, and estimates the net linked fraction, an
     effect size that does not depend on read length.
-  dev_url: https://github.com/FILL/mobilink
+  dev_url: https://github.com/allminer1/mobilink
+  doc_url: https://github.com/allminer1/mobilink/tree/main/docs
 
 extra:
   recipe-maintainers:
-    - FILL
+    - allminer1

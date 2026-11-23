@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "mobilink"
-version = "1.0.0.dev0"
+version = "1.0.0"
 description = "Chance-corrected, read-length-robust co-localization of gene classes on long reads and contigs"
 readme = "README.md"
 license = "MIT"
@@ -14,7 +14,7 @@ dependencies = ["numpy>=1.24", "scipy>=1.10", "pandas>=2.0", "click>=8.1"]
 classifiers = [
   "Programming Language :: Python :: 3",
   "Topic :: Scientific/Engineering :: Bio-Informatics",
-  "Development Status :: 3 - Alpha",
+  "Development Status :: 5 - Production/Stable",
   "Intended Audience :: Science/Research",
   "Operating System :: POSIX :: Linux",
   "Operating System :: MacOS",

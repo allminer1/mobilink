@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.0 (unreleased)
+## 1.0.0
 
 Changes since commit 86e3696 (0.5.0.dev0), the version used for the survey of 241 public runs (amendment 07).
 Commit numbers in this file are those cited in the registered files; each has a tag `orig-<number>`, and

@@ -6,7 +6,7 @@ measures how strongly they are linked with a value that does not depend on read 
 It was built for antibiotic-resistance genes (ARG), metal-resistance genes (MRG) and mobile genetic elements (MGE) in
 nanopore metagenomes, but it accepts any two classes of features on any molecules.
 
-**Status: release candidate (v1.0.0.dev0).** Not yet on PyPI or Bioconda.
+**Version 1.0.0.**
 
 ## Why
 
@@ -23,13 +23,21 @@ In 14 public runs (9 human gut, 4 livestock, 1 wastewater), cutting the reads to
 
 ## Install
 
+With conda or mamba (Bioconda; available once the recipe has been accepted there):
+
 ```bash
-pip install .            # from a clone of this repository; Python 3.10 or later
+mamba install -c conda-forge -c bioconda mobilink      # or: conda install -c conda-forge -c bioconda mobilink
 mobilink --version
 ```
 
-The only dependencies are numpy, scipy, pandas and click. `mobilink chimeras --reads` also needs edlib
-(`pip install ".[adapters]"`).
+From the source, with pip (Python 3.10 or later):
+
+```bash
+pip install git+https://github.com/allminer1/mobilink@v1.0.0     # or, from a clone: pip install .
+```
+
+The only dependencies are numpy, scipy, pandas and click. `mobilink chimeras --reads` also needs edlib; the conda
+package brings it, and with pip it is `pip install ".[adapters]"`.
 
 ## Five-minute example
 
