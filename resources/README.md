@@ -1,4 +1,7 @@
-# Helper tables for `mobilink prep`
+# Helper tables for `mobilink prep` and `mobilink run`
+
+The two tables are installed with the package (`src/mobilink/data/`), and `mobilink db` copies them into the database
+directory. The two scripts that built them are here.
 
 | File | What it is | Source |
 |---|---|---|
@@ -7,10 +10,10 @@
 | `make_mobility_core.py` | Builds the mobility core from the mobileOG-db metadata table | |
 | `make_mobileog_lookup.py` | Builds the lookup table for `--mobileog-lookup` from the mobileOG-db FASTA file | |
 
-The sequence databases themselves are not included. Download them from their own sites and cite them:
+The sequence databases themselves are not included. `mobilink db` downloads them; cite them:
 
 - CARD (protein homolog model): https://card.mcmaster.ca
-- mobileOG-db (beatrix-1.6): https://mobileogdb.flsi.cloud.vt.edu
+- mobileOG-db (beatrix-1.6): https://mobileogdb.flsi.cloud.vt.edu (archived copy: Zenodo record 13241605)
 - BacMet 2.0 (experimentally confirmed): http://bacmet.biomedicine.gu.se
 
 ## The mobility core

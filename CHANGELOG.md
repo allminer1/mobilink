@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.1.0 (in development, branch `wp3-run`)
+
+The estimator and the test are unchanged from 1.0.0.
+
+- New command `mobilink db`: downloads CARD (current release), BacMet2 EXP and mobileOG-db beatrix-1.6 (archived copy
+  on Zenodo, checksum verified), builds the DIAMOND indexes and writes a manifest with versions, checksums, licences
+  and citations. Local files can be given instead of downloads.
+- New command `mobilink run`: one sample from reads or contigs to the net linked test, with host labels (Kraken2),
+  overlaps (minimap2), chimera flags, a distance curve, a per-gene table (`mobilink.genes.gene_table`), the screen
+  for fixed-length carrier reads (`mobilink.genes.fixed_length_clusters`) and a self-contained HTML report. A stopped
+  run resumes.
+- The BacMet2 class table and the mobility core are installed with the package (moved from `resources/` to
+  `src/mobilink/data/`).
+- `docs/output_columns.md`: `net_w` is described as a share of the sides of A units, as in `docs/method.md`.
+
 ## 1.0.0
 
 Changes since commit 86e3696 (0.5.0.dev0), the version used for the survey of 241 public runs (amendment 07).

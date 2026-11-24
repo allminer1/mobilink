@@ -583,6 +583,84 @@ def chimeras_cmd(paf_path, reads_path, barcodes_path, min_support, min_edge, tmp
                f"({int(t.flag_overlap.sum())} overlap breakpoints, {int(t.flag_adapter.sum())} adapters inside)")
 
 
+@main.command("db")
+@click.option("--out", "out_dir", required=True, type=click.Path(file_okay=False), help="Database directory to build.")
+@click.option("--card", type=click.Path(exists=True, dir_okay=False),
+              help="CARD data archive (.tar.bz2) or protein homolog FASTA on disk (default: download the current "
+                   "release).")
+@click.option("--bacmet", type=click.Path(exists=True, dir_okay=False),
+              help="BacMet2_EXP_database.fasta on disk (default: download).")
+@click.option("--mobileog", type=click.Path(exists=True, dir_okay=False),
+              help="mobileOG-db_beatrix-1.6.All.faa on disk (default: download, 355 MB).")
+@click.option("--threads", default=4, show_default=True, type=int)
+@click.option("--keep-fasta", is_flag=True, help="Keep the downloaded source files in OUT/source.")
+def db_cmd(out_dir, card, bacmet, mobileog, threads, keep_fasta):
+    """Fetch CARD, BacMet2 and mobileOG-db and build the DIAMOND indexes for `mobilink run`.
+
+    Needs DIAMOND on the PATH and about 1 GB of disk. The licence and the citation of each database are printed and
+    written to OUT/mobilink_db.json; CARD is free for academic use only. The Kraken2 index for host labels is not
+    fetched here: download a prebuilt index (for example Standard-16) from the Kraken2 index page and give its
+    directory to `mobilink run --kraken-db`."""
+    from . import dbsetup
+
+    try:
+        info = dbsetup.build(out_dir, card=card, bacmet=bacmet, mobileog=mobileog, threads=threads,
+                             keep_fasta=keep_fasta, log=click.echo)
+    except dbsetup.DbError as e:
+        raise click.ClickException(str(e)) from e
+    for k, v in info["databases"].items():
+        click.echo(f"{k}: version {v['version']}, {v['sequences']:,} sequences. {v['licence']}. Cite: {v['cite']}")
+    click.echo(f"database directory ready: {out_dir}")
+
+
+@main.command("run")
+@click.argument("reads", type=click.Path(exists=True, dir_okay=False))
+@click.option("--db", "db_dir", required=True, type=click.Path(exists=True, file_okay=False),
+              help="Database directory built by `mobilink db`.")
+@click.option("--out", "out_dir", required=True, type=click.Path(file_okay=False), help="Output directory.")
+@click.option("--name", default=None, help="Prefix of the output files (default: from the input file name).")
+@click.option("--kraken-db", type=click.Path(exists=True, file_okay=False),
+              help="Kraken2 index directory for host labels (recommended; without it no host strata are used).")
+@click.option("--contigs", is_flag=True,
+              help="The input is an assembly: no overlap and chimera steps; all units of a contig form one clump.")
+@click.option("--pairs", multiple=True, default=("ARG:MGE", "MRG:MGE", "ARG:MRG"), show_default=True,
+              help="Class pairs A:B to test (repeatable).")
+@click.option("--w", default=2000, show_default=True, type=int, help="Window of the net linked fraction (bp).")
+@click.option("--threads", default=8, show_default=True, type=int)
+@click.option("--n-mc", default=9999, show_default=True, type=int, help="Monte Carlo draws of the null.")
+@click.option("--seed", default=20261114, show_default=True, type=int)
+@click.option("--tmp-dir", type=click.Path(exists=True, file_okay=False),
+              help="Directory for temporary files (default: the system's; give a disk path if /tmp is in memory).")
+@click.option("--drop-hits", is_flag=True, help="Delete the DIAMOND hit tables once the features are built.")
+def run_cmd(reads, db_dir, out_dir, name, kraken_db, contigs, pairs, w, threads, n_mc, seed, tmp_dir, drop_hits):
+    """From reads (FASTA/FASTQ, gzip ok) or contigs to the net linked test, a per-gene table and an HTML report.
+
+    Needs DIAMOND and minimap2 on the PATH, and Kraken2 with --kraken-db. A stopped run resumes: steps whose
+    output exists are skipped. The estimator and the test are those of `mobilink test`."""
+    from . import dbsetup
+    from .pipeline import PipelineError, RunConfig, run
+
+    pair_list = []
+    for p in pairs:
+        a, sep, b = p.partition(":")
+        if not sep or not a or not b:
+            raise click.UsageError(f"pair {p!r} is not of the form A:B")
+        pair_list.append((a, b))
+    cfg = RunConfig(reads=reads, db_dir=db_dir, out_dir=out_dir, name=name, threads=threads, kraken_db=kraken_db,
+                    contigs=contigs, pairs=tuple(pair_list), w=w, n_mc=n_mc, seed=seed, tmp_dir=tmp_dir,
+                    keep_hits=not drop_hits)
+    try:
+        info = run(cfg, log=click.echo)
+    except (PipelineError, dbsetup.DbError) as e:
+        raise click.ClickException(str(e)) from e
+    t = pd.read_csv(cfg.path("test.tsv"), sep="\t")
+    show = ["class_a", "class_b", "net_w", "net_w_lo", "net_w_hi", "net_w_p", "net_w_q", "flags"]
+    click.echo(t[[c for c in show if c in t]].to_string(index=False, float_format=lambda x: f"{x:.4g}"))
+    for fl in info["flags"]:
+        click.echo(f"note: {fl}")
+    click.echo(f"report: {cfg.path('report.html')}")
+
+
 def _sha256(path):
     import hashlib
 

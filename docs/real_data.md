@@ -1,6 +1,7 @@
 # From reads or contigs to a result
 
-These are the commands behind the public-run analyses of the paper, with the tool versions used there: DIAMOND 2.2.8,
+`mobilink run` does all of this in one command (see `one_command.md`). This page gives the single steps, for
+pipelines that need them apart. These are the commands behind the public-run analyses of the paper, with the tool versions used there: DIAMOND 2.2.8,
 Kraken2 with the Standard-16 database (2024-12-28), minimap2 2.27 and seqkit. Other versions should work, but the
 thresholds were validated with these.
 
@@ -16,8 +17,10 @@ diamond makedb --in BacMet2_EXP_database.fasta -d bacmet2_exp                   
 python resources/make_mobileog_lookup.py mobileOG-db_beatrix-1.6.All.faa mobileog_all.lookup.tsv.gz
 ```
 
-`resources/` holds two small tables that `mobilink prep` needs: the BacMet2 class table (which entries are metal
-resistance genes) and the mobility core (which mobileOG-db entries count as MGE). See `resources/README.md`.
+`mobilink db --out mobilink_db` does the same and also downloads the files. Two small tables that `mobilink prep`
+needs come with the package: the BacMet2 class table (which entries are metal resistance genes) and the mobility core
+(which mobileOG-db entries count as MGE). `mobilink db` copies them into the database directory; in the source tree
+they are in `src/mobilink/data/`. See `resources/README.md`.
 
 ## 2. Read lengths
 
@@ -35,9 +38,9 @@ done
 
 mobilink prep --lengths reads.lengths.tsv.gz \
   --card reads.card_homolog.tsv \
-  --bacmet reads.bacmet2_exp.tsv --bacmet-classes resources/bacmet2_exp_classes.tsv \
+  --bacmet reads.bacmet2_exp.tsv --bacmet-classes mobilink_db/bacmet2_exp_classes.tsv \
   --mobileog reads.mobileog_all.tsv --mobileog-lookup mobileog_all.lookup.tsv.gz \
-  --mobility-core resources/mobility_core.tsv.gz \
+  --mobility-core mobilink_db/mobility_core.tsv.gz \
   --rule primary --out-prefix reads
 ```
 

@@ -28,7 +28,7 @@ as an A call, placed on the molecules of the same host; anchors give the chance 
 
 | Column | Meaning |
 |---|---|
-| `net_w` | Net linked fraction within *w*: share of A units with a whole B within *w*, beyond chance. 0 under chance |
+| `net_w` | Net linked fraction within *w*: share of the sides of A units with a whole B within *w*, beyond chance. 0 under chance; a unit with a B on one side only counts one half |
 | `net_w_se`, `net_w_lo`, `net_w_hi` | Standard error and 95% interval (delete-one-host jackknife; bootstrap over molecules without hosts) |
 | `net_w_O`, `net_w_E` | Observed and expected number of sides with a B within *w* |
 | `net_w_V` | Variance of the observed number under chance, with clumps |

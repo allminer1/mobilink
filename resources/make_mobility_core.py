@@ -11,7 +11,7 @@ the core if all of:
   4. its gene family (lower-case name without a trailing _N or -N) is not in the housekeeping list H below.
 
 usage: make_mobility_core.py mobileOG-db-beatrix-1.6-All.csv mobility_core.tsv.gz
-The shipped resources/mobility_core.tsv.gz (109,325 entries) is the output for beatrix-1.6.
+The shipped src/mobilink/data/mobility_core.tsv.gz (109,325 entries) is the output for beatrix-1.6.
 """
 import sys
 

@@ -65,7 +65,15 @@ explains every step and every number.
 
 ## Real data
 
-mobilink needs two tab-separated tables:
+From a FASTQ file (or an assembly) to an HTML report, with DIAMOND, minimap2 and Kraken2 installed:
+
+```bash
+mobilink db --out mobilink_db                                    # once: CARD, BacMet2, mobileOG-db (about 1 GB)
+mobilink run reads.fastq.gz --db mobilink_db --kraken-db k2_standard_16gb --out results --threads 16
+```
+
+`docs/one_command.md` describes the output files and how to read the report. The steps can also be run one by one.
+For that, mobilink needs two tab-separated tables:
 
 - **lengths:** `molecule_id` (or `read_id`), `length`, and optionally a host column;
 - **features:** `molecule_id`, `start`, `end`, `class` (0-based, end exclusive), and optionally `scov` (subject cover
@@ -93,6 +101,8 @@ mobilink test --lengths contigs.lengths.tsv --features contigs.features.tsv --pa
 
 | Command | Purpose |
 |---|---|
+| `mobilink db` | Downloads CARD, BacMet2 and mobileOG-db and builds the DIAMOND indexes |
+| `mobilink run` | One sample from reads or contigs to the test, a per-gene table and an HTML report |
 | `mobilink prep` | Feature table from DIAMOND hits (one call per ORF and database) |
 | `mobilink test` | The net linked test: effect sizes, intervals, p and q values, flags |
 | `mobilink meta` | Estimates for groups of runs (e.g. environments) with a delete-one-project jackknife, and contrasts |
@@ -149,5 +159,6 @@ pytest
 
 ## Licence
 
-MIT; see `LICENSE`. The helper tables in `resources/` are derived from mobileOG-db and BacMet2; see
-`resources/README.md` for their sources.
+MIT; see `LICENSE`. The helper tables in `src/mobilink/data/` are derived from mobileOG-db and BacMet2; see
+`resources/README.md` for their sources. The databases that `mobilink db` downloads keep their own licences (CARD:
+free for academic research only).

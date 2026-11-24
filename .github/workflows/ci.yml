@@ -22,6 +22,13 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
+      - name: Aligners (for the end-to-end test of `mobilink run`)
+        run: |
+          if [ "$RUNNER_OS" = "Linux" ]; then
+            sudo apt-get update -q && sudo apt-get install -y -q diamond-aligner minimap2
+          else
+            brew install diamond minimap2
+          fi
       - name: Install
         run: python -m pip install -e ".[dev,adapters]"
       - name: Lint
