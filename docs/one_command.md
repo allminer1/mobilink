@@ -22,14 +22,14 @@ mamba install -c conda-forge -c bioconda mobilink diamond minimap2 kraken2
 mobilink db --out mobilink_db --threads 8
 ```
 
-This downloads CARD (the current release), BacMet2 (experimentally confirmed) and mobileOG-db beatrix-1.6 (355 MB),
-checks them, and builds the DIAMOND indexes: about 1 GB of disk and a few minutes. The versions, checksums, licences
+This downloads CARD (the current release), BacMet2 (experimentally confirmed), mobileOG-db beatrix-1.6 (355 MB) and
+NCBI UniVec (vector sequences, 2 MB), checks them, and builds the DIAMOND indexes: about 1 GB of disk and a few minutes. The versions, checksums, licences
 and citations are written to `mobilink_db/mobilink_db.json` and repeated in every report.
 
 - **Licences.** CARD is free for academic research; commercial use needs a licence from McMaster University.
   mobileOG-db is CC BY 4.0. Cite the three databases when you publish.
 - **Without internet access.** Download the files elsewhere and give them with `--card` (the CARD data archive or
-  the protein homolog FASTA), `--bacmet` and `--mobileog`.
+  the protein homolog FASTA), `--bacmet`, `--mobileog` and `--univec`.
 - **Host labels.** `mobilink db` does not fetch a Kraken2 index. Download a prebuilt one from the Kraken2 index page
   (the paper used Standard-16, 16 GB) and unpack it; the directory must hold `ktaxonomy.tsv`.
 
@@ -58,7 +58,8 @@ A stopped run resumes where it stopped: a step whose output file exists is skipp
 | `NAME.test_no_chimeras.tsv` | The same without reads flagged as chimeras (reads only) |
 | `NAME.curve.tsv` | Net linked fraction for windows of 0.25 to 10 kb |
 | `NAME.genes.tsv` | One row per gene: calls, calls with a gene of the other class within the window, the commonest neighbour, and for ARG the CARD mechanism and drug class |
-| `NAME.fixed_length.tsv` | Screen for genes whose carrier reads share one read length (reads only) |
+| `NAME.fixed_length.tsv` | Screen for genes whose carrier reads share one read length, with the UniVec check of each flagged gene (reads only) |
+| `NAME.test_no_lab_plasmid.tsv` | The result without the reads of a laboratory plasmid; written only when one is found |
 | `NAME.features.tsv.gz`, `NAME.lengths.tsv.gz`, `NAME.kraken.tsv.gz`, `NAME.ava.paf.gz`, `NAME.chimeras.tsv` | The tables behind the result; they are the inputs of `mobilink test`, `mobilink meta` and `mobilink chimeras` |
 | `NAME.run.json` | Settings, versions, database checksums, input numbers and flags |
 
@@ -72,10 +73,13 @@ A stopped run resumes where it stopped: a step whose output file exists is skipp
 - **Host labels.** Without `--kraken-db`, genes that are common in one abundant host can look linked. With it, the
   report gives the share of molecules without a label. Outside the human gut this share is often above 70%, and the
   host control is then weak.
-- **Fixed-length flag.** If at least 30 reads carry one ARG and a quarter of them have the same length (within 3%)
-  below 20 kb, the report says so. This is the pattern of a small plasmid sequenced whole. In one soil project of
-  the survey it was a laboratory expression plasmid that gave 44% of all linked events of its class. Align a few of
-  the flagged reads to NCBI UniVec before you interpret the ARG results.
+- **Laboratory plasmids.** If at least 30 reads carry one ARG and a quarter of them have the same length (within 3%)
+  below 20 kb, the gene is flagged: this is the pattern of a small plasmid sequenced whole. The four carrier reads
+  nearest that length are then aligned to NCBI UniVec. If at the median at least 35% of the read matches and at least
+  two different vector records match with 300 bp or more, the cluster is called a laboratory plasmid, and the report
+  adds a result table without any read that carries the gene. Use that table. A flagged gene that fails the check is
+  probably a natural small plasmid and stays in. The rule was fixed on the 14 flagged clusters of the survey, where
+  one soil project held an expression plasmid that gave 44% of all linked events of its class.
 - **Chimeras.** The main result keeps all reads, as in the paper. If the table without flagged reads differs
   clearly, report both.
 

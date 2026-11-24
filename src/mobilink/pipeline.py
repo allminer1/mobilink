@@ -9,7 +9,8 @@ Steps (each writes its file through a temporary name and is skipped when the fil
   5. overlaps (reads only)    NAME.ava.paf.gz           minimap2 all-against-all among the molecules with a call
   6. chimera flags (reads)    NAME.chimeras.tsv
   7. test                     NAME.test.tsv             the net linked test; NAME.test_no_chimeras.tsv as sensitivity
-  8. curve, genes, screen     NAME.curve.tsv, NAME.genes.tsv, NAME.fixed_length.tsv
+  8. curve, genes, screen     NAME.curve.tsv, NAME.genes.tsv, NAME.fixed_length.tsv (flagged clusters are checked
+                              against UniVec; a laboratory plasmid gives NAME.test_no_lab_plasmid.tsv)
   9. report                   NAME.report.html, NAME.run.json
 
 The annotation settings are those of the survey in the paper (DIAMOND long-read mode: -F 15 --range-culling --top 10).
@@ -32,7 +33,7 @@ from . import __version__, dbsetup
 from . import databases as dbl
 from .chimeras import chimera_flags, read_sequences
 from .features import RULES, call_features, check_hit_lengths, summarise
-from .genes import fixed_length_clusters, gene_table
+from .genes import fixed_length_clusters, gene_table, pick_reads, vector_rule
 from .hosts import UNRESOLVED, read_taxonomy, strata_for_molecules
 from .io import read_features, read_lengths
 from .io.diamond import read_hits
@@ -220,6 +221,25 @@ def carrier_overlaps(cfg: RunConfig, carriers: set) -> str:
     return out
 
 
+def vector_hits(cfg: RunConfig, univec: str, picks: pd.DataFrame) -> pd.DataFrame:
+    """The picked reads aligned to UniVec (minimap2 map-ont with secondary alignments, as in the survey screen)."""
+    fa = cfg.path("vector_reads.part.fa")
+    want = set(picks.molecule_id)
+    with open(fa, "w") as fo:
+        for rid, seq in read_sequences(cfg.reads):
+            if rid in want:
+                fo.write(f">{rid}\n{seq}\n")
+    cmd = [_exe(cfg.tools["minimap2"]), "-x", "map-ont", "-c", "--secondary=yes", "-N", "30", "-t", str(cfg.threads),
+           univec, fa]
+    with open(cfg.path("vector.log"), "w") as log:
+        r = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=log, text=True, check=False)  # noqa: S603
+    os.remove(fa)
+    if r.returncode != 0:
+        raise PipelineError(f"step 'UniVec check' failed (exit {r.returncode}); log: {cfg.path('vector.log')}")
+    rows = [(f[0], int(f[2]), int(f[3]), f[5], int(f[10])) for f in (ln.split("\t") for ln in r.stdout.splitlines())]
+    return pd.DataFrame(rows, columns=["read_id", "q_start", "q_end", "univec_id", "block"])
+
+
 def curve(lengths, features, pairs, strata, units_d, seed, ws=CURVE_W) -> pd.DataFrame:
     """net_w at a grid of windows (the estimate only): how linkage builds up with distance. 0 is chance at any w."""
     rows = []
@@ -346,20 +366,47 @@ def run(cfg: RunConfig, log=print) -> dict:
         (pd.concat(parts, ignore_index=True) if parts else pd.DataFrame(columns=["class_a", "class_b", "gene"])
          ).to_csv(gp, sep="\t", index=False)
     genes = pd.read_csv(gp, sep="\t")
-    fixed = pd.DataFrame()
+    fixed, clean = pd.DataFrame(), None
     if not cfg.contigs:
-        fixed = fixed_length_clusters(lengths, features, "ARG")
-        fixed.to_csv(cfg.path("fixed_length.tsv"), sep="\t", index=False)
+        fp = cfg.path("fixed_length.tsv")
+        if not os.path.exists(fp):
+            fixed = fixed_length_clusters(lengths, features, "ARG")
+            univec = db["paths"].get("univec")
+            if univec and fixed.flag.any():
+                picks = pick_reads(lengths, features, fixed)
+                fixed = fixed.merge(vector_rule(picks, vector_hits(cfg, univec, picks)), on="gene", how="left")
+            fixed.to_csv(fp, sep="\t", index=False)
+        fixed = pd.read_csv(fp, sep="\t")
+        lab = set()
         for r in fixed[fixed.flag].itertuples():
-            info["flags"].append(
-                f"{r.gene}: {r.carriers} carrier reads, {r.share_near_median:.0%} of them within 3% of "
-                f"{r.median_length / 1000:.2f} kb. This is the pattern of a small plasmid sequenced whole; check "
-                "these reads against a vector database before you interpret ARG results (see the documentation).")
+            head = (f"{r.gene}: {r.carriers} carrier reads, {r.share_near_median:.0%} of them within 3% of "
+                    f"{r.median_length / 1000:.2f} kb, the pattern of a small plasmid sequenced whole. ")
+            if "laboratory_plasmid" not in fixed.columns:
+                info["flags"].append(head + "UniVec is not installed, so the reads were not checked; align a few of "
+                                     "them to a vector database before you interpret ARG results.")
+            elif str(r.laboratory_plasmid).lower() == "true":
+                lab.add(r.gene)
+                info["flags"].append(
+                    head + f"The reads match vector sequences ({r.median_covered:.0%} of the read, "
+                    f"{r.median_sources:g} UniVec records at the median): a laboratory plasmid. The table "
+                    "'without laboratory plasmids' leaves out all reads that carry this gene; use it.")
+            else:
+                info["flags"].append(head + f"The reads do not look like a cloning vector ({r.median_covered:.0%} "
+                                     "of the read matches UniVec): probably a natural small plasmid; kept.")
+        if lab:
+            drop = set(features.molecule_id[(features["class"] == "ARG") & features.gene.isin(lab)])
+            info["laboratory_plasmid"] = dict(genes=sorted(lab), reads_removed=len(drop))
+            vp = cfg.path("test_no_lab_plasmid.tsv")
+            if not os.path.exists(vp):
+                net_test_pairs(lengths, features, list(cfg.pairs), exclude=drop, oe=False, **kw).to_csv(
+                    vp, sep="\t", index=False)
+            clean = pd.read_csv(vp, sep="\t")
 
     info["finished"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
     info["files"] = sorted(f for f in os.listdir(cfg.out_dir) if f.startswith(cfg.name + ".") and ".part" not in f)
     log("[9/9] report")
-    write_report(cfg.path("report.html"), cfg.name, info, test, sens, cv, genes, fixed, w=cfg.w, contigs=cfg.contigs)
+    write_report(cfg.path("report.html"), cfg.name, info, test, sens, cv, genes, fixed, w=cfg.w, contigs=cfg.contigs,
+                 clean=clean)
     with open(cfg.path("run.json"), "w") as fh:
         json.dump(info, fh, indent=2, default=str)
     return info

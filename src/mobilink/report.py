@@ -155,7 +155,8 @@ def curve_svg(cv: pd.DataFrame, w: int) -> str:
     return "".join(out) + f'<div class="legend">{"".join(legend)}</div>'
 
 
-def write_report(path, name, info, test, sens, cv, genes, fixed, w: int = 2000, contigs: bool = False) -> None:
+def write_report(path, name, info, test, sens, cv, genes, fixed, w: int = 2000, contigs: bool = False,
+                 clean=None) -> None:
     e = html.escape
     kind = "contigs" if contigs else "reads"
     inp, calls = info.get("input", {}), info.get("calls", {})
@@ -184,6 +185,15 @@ def write_report(path, name, info, test, sens, cv, genes, fixed, w: int = 2000, 
                  "what the gene densities give by chance. A unit with such a gene on one flank only counts one "
                  "half. The value is 0 under chance and does not depend on read length. Compare it between samples; "
                  "do not compare the raw share of reads that carry both.</p>")
+    if clean is not None and not clean.empty:
+        lp = info.get("laboratory_plasmid", {})
+        rows = [[f"{r['class_a']}–{r['class_b']}", _f(r.get("net_w")),
+                 f"{_f(r.get('net_w_lo'))} to {_f(r.get('net_w_hi'))}", _p(r.get("net_w_p")),
+                 _n(r.get("excluded_molecules"))] for _, r in clean.iterrows()]
+        parts.append("<h2>Without laboratory plasmids</h2>" + _table(
+            ["Pair", "Net linked", "95% interval", "p", "Reads removed"], rows, num=(1, 2, 3, 4)))
+        parts.append(f"<p class='mute'>All reads that carry {e(', '.join(lp.get('genes', [])))} were removed, because "
+                     "its carrier reads match cloning-vector sequences. Report these values, not the ones above.</p>")
     if sens is not None and not sens.empty:
         rows = [[f"{r['class_a']}–{r['class_b']}", _f(r.get("net_w")),
                  f"{_f(r.get('net_w_lo'))} to {_f(r.get('net_w_hi'))}", _p(r.get("net_w_p")),
@@ -236,10 +246,14 @@ def write_report(path, name, info, test, sens, cv, genes, fixed, w: int = 2000, 
                      "table is in the genes file.</p>")
 
     if fixed is not None and not fixed.empty and fixed.flag.any():
+        checked = "laboratory_plasmid" in fixed.columns
         rows = [[r.gene, _n(r.carriers), f"{r.median_length / 1000:.2f} kb", f"{100 * r.share_near_median:.0f}%"]
-                for r in fixed[fixed.flag].itertuples()]
+                + ([f"{100 * r.median_covered:.0f}%", f"{r.median_sources:g}",
+                    "laboratory plasmid" if str(r.laboratory_plasmid).lower() == "true" else "not a vector"]
+                   if checked else []) for r in fixed[fixed.flag].itertuples()]
         parts.append("<h2>Genes on reads of one fixed length</h2>" + _table(
-            ["Gene", "Carrier reads", "Median read length", "Within 3% of the median"], rows, num=(1, 2, 3)))
+            ["Gene", "Carrier reads", "Median read length", "Within 3% of the median"]
+            + (["Read matching UniVec", "UniVec records", "Verdict"] if checked else []), rows, num=(1, 2, 3, 4, 5)))
 
     parts.append("<h2>Method and sources</h2><p>Genes were called with DIAMOND blastx (long-read mode) against "
                  "CARD (ARG, identity at least 80%), BacMet2 experimentally confirmed (MRG, at least 80%) and the "

@@ -45,6 +45,7 @@ SOURCES = {
         cite="Brown et al. 2022, Appl Environ Microbiol 88:e00991-22",
     ),
 }
+UNIVEC_URL = "https://ftp.ncbi.nlm.nih.gov/pub/UniVec/UniVec"
 
 
 class DbError(RuntimeError):
@@ -140,9 +141,12 @@ def makedb(fasta: str, out_prefix: str, threads: int, diamond: str = "diamond") 
 
 
 def build(out_dir: str, card: str | None = None, bacmet: str | None = None, mobileog: str | None = None,
-          threads: int = 4, keep_fasta: bool = False, diamond: str = "diamond", log=print) -> dict:
+          threads: int = 4, keep_fasta: bool = False, diamond: str = "diamond", log=print,
+          univec: str | bool = True) -> dict:
     """Build the database directory. card: a CARD data archive (.tar.bz2) or the protein homolog FASTA; bacmet and
-    mobileog: FASTA files. A source that is None is downloaded."""
+    mobileog: FASTA files. A source that is None is downloaded. univec: True downloads NCBI UniVec (vector
+    sequences, for the check of fixed-length clusters; a failed download is a warning), a path copies that file,
+    False leaves it out."""
     os.makedirs(out_dir, exist_ok=True)
     dv = tool_version(diamond)
     info = dict(mobilink=__version__, created=datetime.now(timezone.utc).isoformat(timespec="seconds"), diamond=dv,
@@ -206,6 +210,20 @@ def build(out_dir: str, card: str | None = None, bacmet: str | None = None, mobi
                                          sequences=n, fasta_md5=m, note=note,
                                          licence=SOURCES["mobileog"]["licence"], cite=SOURCES["mobileog"]["cite"])
     info["tables"].update(mobileog_lookup="mobileog_all.lookup.tsv.gz", mobility_core="mobility_core.tsv.gz")
+
+    if univec:
+        log("NCBI UniVec (vector sequences)")
+        dest = os.path.join(out_dir, "UniVec.fa")
+        try:
+            if univec is True:
+                fetch(UNIVEC_URL, dest, log)
+            else:
+                shutil.copyfile(univec, dest)
+            info["tables"]["univec"] = "UniVec.fa"
+            info["univec"] = dict(source=UNIVEC_URL if univec is True else univec, sequences=count_fasta(dest),
+                                  md5=md5sum(dest), licence="public domain (NCBI)")
+        except DbError as e:
+            log(f"  warning: UniVec not installed ({e}); fixed-length clusters will be flagged but not checked")
 
     if not keep_fasta:
         shutil.rmtree(work, ignore_errors=True)

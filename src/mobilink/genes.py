@@ -103,3 +103,45 @@ def fixed_length_clusters(lengths: pd.DataFrame, features: pd.DataFrame, cls: st
         share = float((np.abs(g.length - med) <= tol * med).mean())
         rows.append((gene, len(g), med, share, bool(med < max_median and share >= min_share)))
     return pd.DataFrame(rows, columns=cols).sort_values("share_near_median", ascending=False).reset_index(drop=True)
+
+
+def pick_reads(lengths: pd.DataFrame, features: pd.DataFrame, fixed: pd.DataFrame, cls: str = "ARG",
+               n: int = 4) -> pd.DataFrame:
+    """For each flagged gene of the fixed-length screen, the n carrier reads nearest the median carrier length."""
+    cols = ["gene", "molecule_id", "length"]
+    if fixed is None or fixed.empty or not fixed.flag.any():
+        return pd.DataFrame(columns=cols)
+    ln = pd.Series(lengths.length.to_numpy(), index=lengths.molecule_id.to_numpy())
+    f = features[features["class"] == cls]
+    out = []
+    for r in fixed[fixed.flag].itertuples():
+        c = f.loc[f.gene == r.gene, ["gene", "molecule_id"]].drop_duplicates()
+        c["length"] = ln.reindex(c.molecule_id.to_numpy()).to_numpy()
+        c["d"] = (c.length - r.median_length).abs()
+        out.append(c.sort_values(["d", "molecule_id"]).head(n)[cols])
+    return pd.concat(out, ignore_index=True)
+
+
+def vector_rule(picks: pd.DataFrame, hits: pd.DataFrame, min_share: float = 0.35, min_sources: float = 2,
+                min_block: int = 300) -> pd.DataFrame:
+    """Is a fixed-length cluster a laboratory plasmid? Rule fixed on the 14 flagged clusters of the survey: over the
+    picked reads of a gene, the median share of the read that aligns to NCBI UniVec is at least min_share and the
+    median number of different UniVec records with an alignment block of at least min_block is at least min_sources
+    (a natural small plasmid matches at most one record, over a small part). picks: gene, molecule_id, length;
+    hits: read_id, q_start, q_end, univec_id, block (minimap2 against UniVec)."""
+    cols = ["gene", "reads_checked", "median_covered", "median_sources", "laboratory_plasmid"]
+    if picks.empty:
+        return pd.DataFrame(columns=cols)
+    h = hits.assign(src=hits.univec_id.astype(str).str.replace(r"^gnl\|uv\|", "", regex=True).str.split(":").str[0])
+    rows = []
+    for r in picks.itertuples():
+        x = h[h.read_id == r.molecule_id]
+        m = np.zeros(int(r.length), bool)
+        for a, b in zip(x.q_start, x.q_end, strict=True):
+            m[int(a):int(b)] = True
+        rows.append(dict(gene=r.gene, covered=m.mean(), sources=x[x.block >= min_block].src.nunique()))
+    t = pd.DataFrame(rows).groupby("gene", sort=False).agg(
+        reads_checked=("covered", "size"), median_covered=("covered", "median"),
+        median_sources=("sources", "median")).reset_index()
+    t["laboratory_plasmid"] = (t.median_covered >= min_share) & (t.median_sources >= min_sources)
+    return t[cols]

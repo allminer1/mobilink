@@ -14,7 +14,7 @@ from click.testing import CliRunner
 
 from mobilink import dbsetup
 from mobilink.cli import main
-from mobilink.genes import fixed_length_clusters, gene_table
+from mobilink.genes import fixed_length_clusters, gene_table, pick_reads, vector_rule
 from mobilink.pipeline import default_name, kmer_counts, length_stats
 from mobilink.report import verdict, write_report
 
@@ -98,6 +98,21 @@ def test_fixed_length_screen_flags_one_read_length_only():
     assert bool(t.loc["aph", "flag"]) and not bool(t.loc["tetW", "flag"]) and "rare" not in t.index
 
 
+def test_vector_rule_separates_a_cloning_vector_from_a_natural_plasmid():
+    ln = pd.DataFrame({"molecule_id": [f"v{i}" for i in range(40)] + [f"n{i}" for i in range(40)], "length": 6000})
+    f = _features([(f"v{i}", 100, 900, "ARG", "aph", "ARO:1") for i in range(40)]
+                  + [(f"n{i}", 100, 900, "ARG", "qnrB", "ARO:2") for i in range(40)])
+    picks = pick_reads(ln, f, fixed_length_clusters(ln, f))
+    assert picks.groupby("gene").size().to_dict() == {"aph": 4, "qnrB": 4}
+    hits = [(m, 1000, 2600, "gnl|uv|J01749.1:1-4361", 1600) for m in picks.molecule_id[picks.gene == "aph"]]
+    hits += [(m, 3000, 4500, "gnl|uv|X02513.1:1-1500", 1500) for m in picks.molecule_id[picks.gene == "aph"]]
+    hits += [(m, 200, 1100, "gnl|uv|J01749.1:1-4361", 900) for m in picks.molecule_id[picks.gene == "qnrB"]]
+    t = vector_rule(picks, pd.DataFrame(hits, columns=["read_id", "q_start", "q_end", "univec_id", "block"]))
+    t = t.set_index("gene")
+    assert bool(t.loc["aph", "laboratory_plasmid"]) and not bool(t.loc["qnrB", "laboratory_plasmid"])
+    assert abs(t.loc["aph", "median_covered"] - 3100 / 6000) < 1e-9 and t.loc["qnrB", "median_sources"] == 1
+
+
 def test_verdict_wording_follows_estimate_and_p_value():
     base = dict(class_a="ARG", class_b="MGE", net_w_lo=0.05, net_w_hi=0.15)
     assert "are linked: 10.0% of the flanks" in verdict(dict(base, net_w=0.10, net_w_p=0.001), 2000)
@@ -134,7 +149,8 @@ def _dna(p):
 def test_db_and_run_end_to_end(tmp_path):
     g = np.random.default_rng(7)
     core = pd.read_csv(dbsetup.data_file("mobility_core.tsv.gz"), sep="\t", usecols=["sseqid"]).sseqid[:2].tolist()
-    arg = {"gb|T1|ARO:3000001|argA [test]": _protein(g), "gb|T2|ARO:3000002|argB [test]": _protein(g)}
+    arg = {"gb|T1|ARO:3000001|argA [test]": _protein(g), "gb|T2|ARO:3000002|argB [test]": _protein(g),
+           "gb|T3|ARO:3000003|argC [test]": _protein(g)}
     mrg = {"BAC0003|acn|tr|O53166|TEST": _protein(g), "BAC0004|acr3|tr|B5LX01|TEST": _protein(g)}
     mge = {core[0]: _protein(g), core[1]: _protein(g),
            "mobileOG_999999999|foo|X1|phage|NA|Multiple|Manual": _protein(g)}
@@ -156,9 +172,20 @@ def test_db_and_run_end_to_end(tmp_path):
             st = int(g.integers(0, len(s) - ln))
             r = s[st:st + ln]
             fo.write(f">r{k}\n{r if k % 2 else r.translate(COMP)[::-1]}\n")
+        # a laboratory plasmid: argC next to two vector segments, sequenced whole 60 times (the gene sits more than
+        # 1 kb from the read ends; nearer units are left out of the estimate by the margin rule)
+        vec = ["".join(g.choice(list("ACGT"), 1500)) for _ in range(2)]
+        plasmid = "".join(g.choice(list("ACGT"), 1300)) + _dna(a[2]) + vec[0] + vec[1] + "".join(
+            g.choice(list("ACGT"), 1100))
+        for k in range(60):
+            r = plasmid[int(g.integers(0, 30)):]
+            fo.write(f">p{k}\n{r if k % 2 else r.translate(COMP)[::-1]}\n")
+    (tmp_path / "uv.fa").write_text(f">gnl|uv|V1.1:1-1500 test vector one\n{vec[0]}\n"
+                                    f">gnl|uv|V2.1:1-1500 test vector two\n{vec[1]}\n")
     run = CliRunner()
     r = run.invoke(main, ["db", "--out", str(tmp_path / "db"), "--card", str(tmp_path / "card.faa"), "--bacmet",
-                          str(tmp_path / "bacmet.faa"), "--mobileog", str(tmp_path / "mog.faa"), "--threads", "2"])
+                          str(tmp_path / "bacmet.faa"), "--mobileog", str(tmp_path / "mog.faa"), "--univec",
+                          str(tmp_path / "uv.fa"), "--threads", "2"])
     assert r.exit_code == 0, r.output
     args = ["run", str(reads), "--db", str(tmp_path / "db"), "--out", str(tmp_path / "out"), "--name", "toy",
             "--threads", "2", "--n-mc", "199"]
@@ -168,7 +195,15 @@ def test_db_and_run_end_to_end(tmp_path):
     f = pd.read_csv(out / "toy.features.tsv.gz", sep="\t")
     assert {"ARG", "MRG", "MGE", "MGE_other"} <= set(f["class"])
     t = pd.read_csv(out / "toy.test.tsv", sep="\t").set_index(["class_a", "class_b"])
-    assert 0.4 < t.loc[("ARG", "MGE"), "net_w"] < 0.6 and t.loc[("ARG", "MGE"), "net_w_p"] < 0.05
+    assert 0.25 < t.loc[("ARG", "MGE"), "net_w"] < 0.6 and t.loc[("ARG", "MGE"), "net_w_p"] < 0.05
+    fx = pd.read_csv(out / "toy.fixed_length.tsv", sep="\t").set_index("gene")
+    assert bool(fx.loc["argC", "flag"]) and bool(fx.loc["argC", "laboratory_plasmid"])
+    assert not fx.drop(index="argC").flag.any()
+    c = pd.read_csv(out / "toy.test_no_lab_plasmid.tsv", sep="\t").set_index(["class_a", "class_b"])
+    assert c.loc[("ARG", "MGE"), "excluded_molecules"] == 60
+    assert 0.4 < c.loc[("ARG", "MGE"), "net_w"] < 0.6
+    assert c.loc[("ARG", "MGE"), "net_w"] > t.loc[("ARG", "MGE"), "net_w"] + 0.02  # the plasmid diluted the estimate
+    assert "Without laboratory plasmids" in (out / "toy.report.html").read_text()
     assert not t.loc[("MRG", "MGE"), "net_w"] > 0.2
     genes = pd.read_csv(out / "toy.genes.tsv", sep="\t")
     top = genes[(genes.class_a == "ARG") & (genes.class_b == "MGE")].set_index("gene")

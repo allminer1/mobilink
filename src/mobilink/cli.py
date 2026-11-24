@@ -592,9 +592,12 @@ def chimeras_cmd(paf_path, reads_path, barcodes_path, min_support, min_edge, tmp
               help="BacMet2_EXP_database.fasta on disk (default: download).")
 @click.option("--mobileog", type=click.Path(exists=True, dir_okay=False),
               help="mobileOG-db_beatrix-1.6.All.faa on disk (default: download, 355 MB).")
+@click.option("--univec", type=click.Path(exists=True, dir_okay=False),
+              help="NCBI UniVec FASTA on disk (default: download, 3 MB).")
+@click.option("--no-univec", is_flag=True, help="Do not install UniVec (fixed-length clusters are then not checked).")
 @click.option("--threads", default=4, show_default=True, type=int)
 @click.option("--keep-fasta", is_flag=True, help="Keep the downloaded source files in OUT/source.")
-def db_cmd(out_dir, card, bacmet, mobileog, threads, keep_fasta):
+def db_cmd(out_dir, card, bacmet, mobileog, univec, no_univec, threads, keep_fasta):
     """Fetch CARD, BacMet2 and mobileOG-db and build the DIAMOND indexes for `mobilink run`.
 
     Needs DIAMOND on the PATH and about 1 GB of disk. The licence and the citation of each database are printed and
@@ -605,7 +608,7 @@ def db_cmd(out_dir, card, bacmet, mobileog, threads, keep_fasta):
 
     try:
         info = dbsetup.build(out_dir, card=card, bacmet=bacmet, mobileog=mobileog, threads=threads,
-                             keep_fasta=keep_fasta, log=click.echo)
+                             keep_fasta=keep_fasta, log=click.echo, univec=False if no_univec else (univec or True))
     except dbsetup.DbError as e:
         raise click.ClickException(str(e)) from e
     for k, v in info["databases"].items():

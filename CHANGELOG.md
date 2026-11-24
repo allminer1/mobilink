@@ -9,8 +9,9 @@ The estimator and the test are unchanged from 1.0.0.
   and citations. Local files can be given instead of downloads.
 - New command `mobilink run`: one sample from reads or contigs to the net linked test, with host labels (Kraken2),
   overlaps (minimap2), chimera flags, a distance curve, a per-gene table (`mobilink.genes.gene_table`), the screen
-  for fixed-length carrier reads (`mobilink.genes.fixed_length_clusters`) and a self-contained HTML report. A stopped
-  run resumes.
+  for fixed-length carrier reads (`mobilink.genes.fixed_length_clusters`) with a check of each flagged gene against
+  NCBI UniVec (`mobilink.genes.vector_rule`; a laboratory plasmid gives a second result table without its reads),
+  and a self-contained HTML report. A stopped run resumes.
 - The BacMet2 class table and the mobility core are installed with the package (moved from `resources/` to
   `src/mobilink/data/`).
 - `docs/output_columns.md`: `net_w` is described as a share of the sides of A units, as in `docs/method.md`.
