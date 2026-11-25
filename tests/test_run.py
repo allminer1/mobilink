@@ -171,7 +171,7 @@ def test_report_is_one_self_contained_file(tmp_path):
     pw = depth_projection(test, bases=2e9)
     write_report(str(out), "s<1>", info, test, None, cv, pd.DataFrame(), pd.DataFrame(), power=pw)
     h = out.read_text()
-    assert "What this depth can show" in h and "±0.049" in h and "0.028" in h and "reached" in h and "16 Gbp" in h
+    assert "What this depth can show" in h and "±0.050" in h and "0.028" in h and "reached" in h and "16 Gbp" in h
     assert h.count("<circle") == 3
     assert "<svg" in h and "s&lt;1&gt;" in h and "a &lt;note&gt;" in h and "<script" not in h and "http" not in h
 
