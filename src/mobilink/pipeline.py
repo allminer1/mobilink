@@ -43,6 +43,13 @@ from .pairs import net_test_pairs
 from .stats.nettest import net_w_estimate
 
 DIAMOND_FIELDS = "qseqid sseqid pident length qstart qend sstart send slen qlen evalue bitscore".split()
+# Contigs are searched in windows. DIAMOND reports one alignment per reference protein and query by default, so on a
+# long query the second and later copies of a repeated gene (an insertion sequence, for example) are lost: on 21
+# complete genomes searched whole, 28% of the mobility-core calls were missing. Windows of 30 kb every 20 kb; a call
+# is taken from the window whose core (the window without 5 kb at each side) holds its start, so calls of up to 5 kb
+# are whole in the window that keeps them. Reads are searched whole, as in the analyses of the paper: at a length of
+# 12 kb the loss was 0.5% of the calls.
+WINDOW, WINDOW_STEP, WINDOW_MARGIN, WINDOW_SEP = 30_000, 20_000, 5_000, "@@w"
 CURVE_W = (250, 500, 750, 1000, 1500, 2000, 3000, 4000, 5000, 7500, 10000)
 
 
@@ -125,17 +132,74 @@ def length_stats(lens: np.ndarray) -> dict:
                 median_length=int(np.median(s)))
 
 
+def window_fasta(src: str, dst: str) -> int:
+    """Every sequence of src as windows of WINDOW every WINDOW_STEP, named <name>WINDOW_SEP<offset>; returns the
+    number of windows."""
+    n = 0
+    with open(dst + ".part", "w") as fo:
+        for rid, seq in read_sequences(src):
+            o = 0
+            while True:
+                fo.write(f">{rid}{WINDOW_SEP}{o}\n{seq[o:o + WINDOW]}\n")
+                n += 1
+                if o + WINDOW >= len(seq):
+                    break
+                o += WINDOW_STEP
+    os.replace(dst + ".part", dst)
+    return n
+
+
+def lift_hits(src: str, dst: str, lengths: pd.DataFrame) -> None:
+    """Hits on windows -> hits in the coordinates of the whole sequence. A hit is kept from the window whose core
+    holds its start; the core reaches the sequence start in the first window and the sequence end in the last."""
+    ln = pd.Series(lengths.length.to_numpy(), index=lengths.molecule_id.to_numpy())
+    try:
+        chunks = pd.read_csv(src, sep="\t", names=DIAMOND_FIELDS, header=None, chunksize=2_000_000,
+                             dtype={"qseqid": str, "sseqid": str})
+    except pd.errors.EmptyDataError:  # no hit at all
+        chunks = []
+    with gzip.open(dst + ".part", "wt") as fo:
+        for ch in chunks:
+            if ch.empty:
+                continue
+            sp = ch.qseqid.str.rsplit(WINDOW_SEP, n=1, expand=True)
+            ch["qseqid"], off = sp[0], sp[1].astype(np.int64)
+            total = ln.reindex(ch.qseqid.to_numpy()).to_numpy()
+            start = np.minimum(ch.qstart, ch.qend).to_numpy() - 1 + off.to_numpy()
+            lo = np.where(off.to_numpy() > 0, off.to_numpy() + WINDOW_MARGIN, 0)
+            hi = np.where(off.to_numpy() + WINDOW >= total, total + 1, off.to_numpy() + WINDOW - WINDOW_MARGIN)
+            keep = (start >= lo) & (start < hi)
+            ch = ch.loc[keep].copy()
+            ch["qstart"] += off[keep].to_numpy()
+            ch["qend"] += off[keep].to_numpy()
+            ch["qlen"] = total[keep].astype(np.int64)
+            ch.to_csv(fo, sep="\t", header=False, index=False)
+    os.replace(dst + ".part", dst)
+
+
 def diamond_blastx(cfg: RunConfig, tag: str, dmnd: str) -> str:
+    """One DIAMOND search; for contigs on windows, with every alignment of a reference protein kept, and lifted."""
     out = cfg.path(f"{tag}.tsv.gz")
     if os.path.exists(out):
         return out
     tmp = cfg.path(f"{tag}.part.tsv")  # DIAMOND adds .gz
-    cmd = [_exe(cfg.tools["diamond"]), "blastx", "-q", cfg.reads, "-d", dmnd, "-F", "15", "--range-culling", "--top",
+    query = cfg.reads
+    if cfg.contigs:
+        query = cfg.path("windows.part.fa")
+        if not os.path.exists(query):
+            window_fasta(cfg.reads, query)
+    cmd = [_exe(cfg.tools["diamond"]), "blastx", "-q", query, "-d", dmnd, "-F", "15", "--range-culling", "--top",
            "10", "-p", str(cfg.threads), "-f", "6", *DIAMOND_FIELDS, "--compress", "1", "-o", tmp]
+    if cfg.contigs:
+        cmd += ["--max-hsps", "0"]
     if cfg.tmp_dir:
         cmd += ["--tmpdir", cfg.tmp_dir]
     _call(cmd, cfg.path(f"{tag}.diamond.log"), f"DIAMOND against {tag}")
-    os.replace(tmp + ".gz", out)
+    if cfg.contigs:
+        lift_hits(tmp + ".gz", out, read_lengths(cfg.path("lengths.tsv.gz")))
+        os.remove(tmp + ".gz")
+    else:
+        os.replace(tmp + ".gz", out)
     return out
 
 
@@ -288,6 +352,8 @@ def run(cfg: RunConfig, log=print) -> dict:
     for i, (tag, key) in enumerate((("card", "card"), ("bacmet", "bacmet"), ("mobileog", "mobileog"))):
         log(f"[2/9] DIAMOND blastx against {tag} ({i + 1} of 3)")
         hits[tag] = diamond_blastx(cfg, tag, db["paths"][key])
+    if os.path.exists(cfg.path("windows.part.fa")):
+        os.remove(cfg.path("windows.part.fa"))
 
     log("[3/9] features")
     features = build_features(cfg, db, lengths, hits)

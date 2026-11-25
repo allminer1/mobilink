@@ -235,3 +235,22 @@ def test_db_and_run_end_to_end(tmp_path):
     assert r.exit_code == 0, r.output
     r = run.invoke(main, ["run", str(tmp_path / "card.faa"), "--db", str(tmp_path / "nodb"), "--out", str(out)])
     assert r.exit_code != 0
+
+    # contigs are searched in windows: a gene that occurs four times on one contig is called four times, once each
+    # (also the copy in the overlap of two windows), at the right places
+    pos, parts, at = [8_000, 27_000, 66_000, 101_000], [], 0
+    for q in pos:
+        parts.append("".join(g.choice(list("ACGT"), q - at)) + _dna(e[0]))
+        at = q + len(_dna(e[0]))
+    big = "".join(parts) + _dna(a[0]).join("".join(g.choice(list("ACGT"), 9_000)) for _ in range(2))
+    small = "".join(g.choice(list("ACGT"), 2_000)) + _dna(e[1]) + "".join(g.choice(list("ACGT"), 2_000))
+    (tmp_path / "contigs.fa").write_text(f">big one\n{big}\n>small\n{small}\n")
+    r = run.invoke(main, ["run", str(tmp_path / "contigs.fa"), "--contigs", "--db", str(tmp_path / "db"), "--out",
+                          str(tmp_path / "outc"), "--name", "c", "--threads", "2", "--n-mc", "199"])
+    assert r.exit_code == 0, r.output
+    fc = pd.read_csv(tmp_path / "outc" / "c.features.tsv.gz", sep="\t")
+    m4 = fc[(fc.molecule_id == "big") & (fc["class"] == "MGE")].sort_values("start")
+    assert len(m4) == 4 and all(abs(x - y) <= 3 for x, y in zip(m4.start, pos, strict=True))
+    assert len(fc[(fc.molecule_id == "big") & (fc["class"] == "ARG")]) == 1
+    assert len(fc[(fc.molecule_id == "small") & (fc["class"] == "MGE")]) == 1
+    assert not (tmp_path / "outc" / "c.windows.part.fa").exists()

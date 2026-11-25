@@ -45,6 +45,10 @@ For an assembly, add `--contigs` (no overlap and chimera steps; all gene units o
 mobilink run contigs.fa --contigs --db mobilink_db --kraken-db k2_standard_16gb --out results_contigs
 ```
 
+Contigs are searched in windows of 30 kb, because a search program reports one alignment per reference protein and
+query by default and would miss the second copy of a repeated gene, such as an insertion sequence, on a long contig.
+The hit tables of a contig run are in contig coordinates.
+
 A stopped run resumes where it stopped: a step whose output file exists is skipped. To redo a step, delete its file.
 
 ## What you get
