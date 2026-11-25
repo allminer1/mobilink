@@ -4,6 +4,11 @@
 
 The estimator and the test are unchanged from 1.0.0.
 
+- New documentation page `docs/tutorial.md`: one public nanopore sample (the first 150,000 reads of SRR33541077)
+  from the database download to the report, with the expected numbers and a reading of the report. Every command
+  was run as written, with the databases downloaded anew; the gene calls and the result table were identical to
+  those of an earlier run on the same reads.
+
 - New command `mobilink db`: downloads CARD (current release), BacMet2 EXP and mobileOG-db beatrix-1.6 (archived copy
   on Zenodo, checksum verified), builds the DIAMOND indexes and writes a manifest with versions, checksums, licences
   and citations. Local files can be given instead of downloads.

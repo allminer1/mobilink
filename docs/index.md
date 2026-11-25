@@ -10,6 +10,7 @@ metagenomes, and it accepts any two classes of features.
 | You have | Read |
 |---|---|
 | A FASTQ file or an assembly, and you want a result | [One command, from reads to a report](one_command.md) |
+| A first run on public reads, with the expected numbers | [Tutorial on a public sample](tutorial.md) |
 | Gene calls of your own, or other feature classes | [Step by step on real data](real_data.md) |
 | No data yet | [Worked example with simulated reads](worked_example.md) |
 | A result table to interpret | [The output table](output_columns.md) |

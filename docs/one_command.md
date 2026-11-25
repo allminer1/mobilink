@@ -23,7 +23,8 @@ mobilink db --out mobilink_db --threads 8
 ```
 
 This downloads CARD (the current release), BacMet2 (experimentally confirmed), mobileOG-db beatrix-1.6 (355 MB) and
-NCBI UniVec (vector sequences, 2 MB), checks them, and builds the DIAMOND indexes: about 1 GB of disk and a few minutes. The versions, checksums, licences
+NCBI UniVec (vector sequences, 2 MB), checks them, and builds the DIAMOND indexes: 0.4 GB of disk when it has finished (twice that while it runs). The time is that of the
+downloads; a download that is cut is taken up again where it stopped. The versions, checksums, licences
 and citations are written to `mobilink_db/mobilink_db.json` and repeated in every report.
 
 - **Licences.** CARD is free for academic research; commercial use needs a licence from McMaster University.

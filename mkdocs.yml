@@ -7,6 +7,7 @@ theme:
 nav:
   - Overview: index.md
   - One command, from reads to a report: one_command.md
+  - Tutorial on a public sample: tutorial.md
   - Step by step on real data: real_data.md
   - Worked example with simulated reads: worked_example.md
   - The output table: output_columns.md
