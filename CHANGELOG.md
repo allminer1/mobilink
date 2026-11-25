@@ -18,8 +18,10 @@ The estimator and the test are unchanged from 1.0.0.
   public runs thinned to 1/8 the test variance followed the depth, the delete-one-host interval did not.
 - `mobilink run --contigs` searches contigs in windows of 30 kb (every 20 kb) and keeps every alignment of a
   reference protein. Searched whole, long contigs lost the second and later copies of repeated genes: on 21 complete
-  genomes, 685 mobility-core calls in place of 967. Found with the independent simulation, before any release. Reads
-  are searched whole, as in the analyses of the paper (at 12 kb the loss was 0.5% of the calls).
+  genomes, 685 mobility-core calls in place of 967. Found with the independent simulation, before any release.
+- `mobilink run` keeps every alignment of a reference protein for reads as well (`--max-hsps 0`), so that a second
+  copy of a repeated gene on one read is called. This changes the gene calls slightly against the analyses of the
+  paper; `--one-alignment` restores their calling.
 - Fixed before any release: a built wheel left out the mobility core, because the ignore rule for `*.tsv.gz` also
   applied to `src/mobilink/data/`. Editable installs were not affected, so the tests did not see it; the container
   check did. The continuous integration now checks the wheel.

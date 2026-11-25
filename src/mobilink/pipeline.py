@@ -47,8 +47,9 @@ DIAMOND_FIELDS = "qseqid sseqid pident length qstart qend sstart send slen qlen 
 # long query the second and later copies of a repeated gene (an insertion sequence, for example) are lost: on 21
 # complete genomes searched whole, 28% of the mobility-core calls were missing. Windows of 30 kb every 20 kb; a call
 # is taken from the window whose core (the window without 5 kb at each side) holds its start, so calls of up to 5 kb
-# are whole in the window that keeps them. Reads are searched whole, as in the analyses of the paper: at a length of
-# 12 kb the loss was 0.5% of the calls.
+# are whole in the window that keeps them. Reads are searched whole. Every alignment of a reference protein is kept
+# (--max-hsps 0) for contigs and, since version 1.1, for reads; RunConfig.one_alignment restores the calling of the
+# analyses of the paper for reads (at a length of 12 kb it lost 0.5% of the calls).
 WINDOW, WINDOW_STEP, WINDOW_MARGIN, WINDOW_SEP = 30_000, 20_000, 5_000, "@@w"
 CURVE_W = (250, 500, 750, 1000, 1500, 2000, 3000, 4000, 5000, 7500, 10000)
 
@@ -73,6 +74,7 @@ class RunConfig:
     seed: int = 20261114
     tmp_dir: str | None = None
     keep_hits: bool = True
+    one_alignment: bool = False  # reads: one alignment per reference protein and read, the calling of the paper
     tools: dict = field(default_factory=lambda: dict(diamond="diamond", minimap2="minimap2", kraken2="kraken2"))
 
     def path(self, suffix: str) -> str:
@@ -190,7 +192,7 @@ def diamond_blastx(cfg: RunConfig, tag: str, dmnd: str) -> str:
             window_fasta(cfg.reads, query)
     cmd = [_exe(cfg.tools["diamond"]), "blastx", "-q", query, "-d", dmnd, "-F", "15", "--range-culling", "--top",
            "10", "-p", str(cfg.threads), "-f", "6", *DIAMOND_FIELDS, "--compress", "1", "-o", tmp]
-    if cfg.contigs:
+    if cfg.contigs or not cfg.one_alignment:
         cmd += ["--max-hsps", "0"]
     if cfg.tmp_dir:
         cmd += ["--tmpdir", cfg.tmp_dir]

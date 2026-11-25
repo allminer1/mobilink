@@ -138,6 +138,24 @@ def test_depth_projection_uses_the_test_for_depth_and_the_standard_error_for_the
     assert np.isnan(depth_projection(no_estimate, bases=1e9).halfwidth.iloc[0])  # no half-width without an estimate
 
 
+def test_every_alignment_is_kept_unless_the_calling_of_the_paper_is_asked_for(tmp_path, monkeypatch):
+    from mobilink import pipeline
+
+    seen = []
+
+    def fake_call(cmd, log_path, step, stdout=None):
+        seen.append(cmd)
+        with gzip.open(cmd[cmd.index("-o") + 1] + ".gz", "wt"):
+            pass
+
+    monkeypatch.setattr(pipeline, "_call", fake_call)
+    monkeypatch.setattr(pipeline, "_exe", lambda tool: tool)
+    for name, one in (("a", False), ("b", True)):
+        cfg = pipeline.RunConfig(reads="r.fq", db_dir="db", out_dir=str(tmp_path), name=name, one_alignment=one)
+        pipeline.diamond_blastx(cfg, "card", "card.dmnd")
+    assert seen[0][seen[0].index("--max-hsps") + 1] == "0" and "--max-hsps" not in seen[1]
+
+
 def test_report_is_one_self_contained_file(tmp_path):
     test = pd.DataFrame([dict(class_a="ARG", class_b="MGE", net_w=0.1, net_w_lo=0.05, net_w_hi=0.15, net_w_p=0.001,
                               net_w_q=0.002, units=120, sides_w=150, net_w_O=20, net_w_E=6.5, net_mol=0.2, flags="")])

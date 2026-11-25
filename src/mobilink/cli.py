@@ -635,7 +635,11 @@ def db_cmd(out_dir, card, bacmet, mobileog, univec, no_univec, threads, keep_fas
 @click.option("--tmp-dir", type=click.Path(exists=True, file_okay=False),
               help="Directory for temporary files (default: the system's; give a disk path if /tmp is in memory).")
 @click.option("--drop-hits", is_flag=True, help="Delete the DIAMOND hit tables once the features are built.")
-def run_cmd(reads, db_dir, out_dir, name, kraken_db, contigs, pairs, w, threads, n_mc, seed, tmp_dir, drop_hits):
+@click.option("--one-alignment", is_flag=True,
+              help="Reads: keep one alignment per reference protein and read, as in the analyses of the paper. By "
+                   "default every alignment is kept, so that a second copy of a repeated gene on a read is called.")
+def run_cmd(reads, db_dir, out_dir, name, kraken_db, contigs, pairs, w, threads, n_mc, seed, tmp_dir, drop_hits,
+            one_alignment):
     """From reads (FASTA/FASTQ, gzip ok) or contigs to the net linked test, a per-gene table and an HTML report.
 
     Needs DIAMOND and minimap2 on the PATH, and Kraken2 with --kraken-db. A stopped run resumes: steps whose
@@ -651,7 +655,7 @@ def run_cmd(reads, db_dir, out_dir, name, kraken_db, contigs, pairs, w, threads,
         pair_list.append((a, b))
     cfg = RunConfig(reads=reads, db_dir=db_dir, out_dir=out_dir, name=name, threads=threads, kraken_db=kraken_db,
                     contigs=contigs, pairs=tuple(pair_list), w=w, n_mc=n_mc, seed=seed, tmp_dir=tmp_dir,
-                    keep_hits=not drop_hits)
+                    keep_hits=not drop_hits, one_alignment=one_alignment)
     try:
         info = run(cfg, log=click.echo)
     except (PipelineError, dbsetup.DbError) as e:
