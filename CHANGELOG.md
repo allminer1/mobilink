@@ -23,7 +23,9 @@ The estimator and the test are unchanged from 1.0.0.
   copy of a repeated gene on one read is called. `--one-alignment` restores the calling of the analyses of the
   paper. Measured on the same reads of two public human gut runs (0.4 Gbp each, nanopore and PacBio HiFi): 1.0% and
   0.4% more calls of the mobility core, 0.3% and 0% more ARG calls, and an ARG–MGE net linked fraction that moved
-  from 0.0483 to 0.0485 and from 0.0649 to 0.0667.
+  from 0.0483 to 0.0485 and from 0.0649 to 0.0667. On simulated reads from 21 genomes with resistance plasmids (30
+  paired replicates): 2% more calls of the mobility core and an ARG–MGE net linked fraction that rose from 0.046 to
+  0.059 (truth 0.057) and from 0.091 to 0.108 (truth 0.101).
 - `mobilink db` resumes a download that the server or the line cuts, and checks the size against the size announced.
   Before, a cut download of mobileOG-db (355 MB) was only found by its checksum, and the command had to be started
   again. Found by running the tutorial from the start on a slow line.

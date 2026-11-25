@@ -47,8 +47,13 @@ mobilink run contigs.fa --contigs --db mobilink_db --kraken-db k2_standard_16gb 
 
 Every alignment of a reference protein is kept, so that a second copy of a repeated gene on one read, such as an
 insertion sequence on each side of a resistance gene, is called. The analyses of the paper kept one alignment per
-reference protein and read; `--one-alignment` restores that calling. Contigs are also searched in windows of 30 kb,
-because a long contig can hold many copies. The hit tables of a contig run are in contig coordinates.
+reference protein and read; `--one-alignment` restores that calling. How much this matters depends on the community.
+On the same reads of two human gut runs, keeping every alignment gave 0.4% and 1.0% more mobility-core calls and an
+ARG–MGE net linked fraction higher by 0.0002 and 0.0017. On simulated reads from genomes with resistance plasmids,
+where resistance genes often sit between two copies of one insertion sequence, it gave 2% more calls and an
+estimate higher by about a fifth (0.046 to 0.059 and 0.091 to 0.108), which matched the true value. Contigs are also
+searched in windows of 30 kb, because a long contig can hold many copies. The hit tables of a contig run are in
+contig coordinates.
 
 A stopped run resumes where it stopped: a step whose output file exists is skipped. To redo a step, delete its file.
 
