@@ -50,10 +50,11 @@ Every alignment of a reference protein is kept, so that a second copy of a repea
 insertion sequence on each side of a resistance gene, is called. The analyses of the paper kept one alignment per
 reference protein and read; `--one-alignment` restores that calling. How much this matters depends on the community.
 On the same reads of two human gut runs, keeping every alignment gave 0.4% and 1.0% more mobility-core calls and an
-ARG–MGE net linked fraction higher by 0.0002 and 0.0017. On simulated reads from genomes with resistance plasmids,
-where resistance genes often sit between two copies of one insertion sequence, it gave 2% more calls and an
-estimate higher by about a fifth (0.046 to 0.059 and 0.091 to 0.108), which matched the true value. Contigs are also
-searched in windows of 30 kb, because a long contig can hold many copies. The hit tables of a contig run are in
+ARG–MGE net linked fraction higher by 0.0002 and 0.0017. On 1 Gbp of an activated sludge run it gave 2.2% more
+mobility-core calls and raised the fraction from 0.153 to 0.165. On simulated reads from genomes with resistance
+plasmids, where resistance genes often sit between two copies of one insertion sequence, it gave 0.6% to 2.2% more
+calls and an estimate higher by 0.007 to 0.018 (10% to 26%); in five of six settings the estimate was then within
+0.008 of the true value. Contigs are also searched in windows of 30 kb, because a long contig can hold many copies. The hit tables of a contig run are in
 contig coordinates.
 
 A stopped run resumes where it stopped: a step whose output file exists is skipped. To redo a step, delete its file.
@@ -99,6 +100,11 @@ A stopped run resumes where it stopped: a step whose output file exists is skipp
   adds a result table without any read that carries the gene. Use that table. A flagged gene that fails the check is
   probably a natural small plasmid and stays in. The rule was fixed on the 14 flagged clusters of the survey, where
   one soil project held an expression plasmid that gave 44% of all linked events of its class.
+- **Read accuracy.** A gene is called when the read, with its errors, still matches the reference protein at 80%
+  identity (ARG, MRG) or 60% (MGE). Simulated reads of 93% identity held a third fewer resistance-gene calls
+  than reads of 97% from the same genomes, between 4% and 68% fewer depending on the host genome, and as many
+  mobile-element calls. The genes that remain are a different mix, and the estimates were 0.01 to 0.03 higher than
+  on the reads of 97% identity. Compare samples of similar read accuracy, and treat runs of old chemistries as a group of their own.
 - **Chimeras.** The main result keeps all reads, as in the paper. If the table without flagged reads differs
   clearly, report both.
 

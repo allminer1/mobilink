@@ -7,8 +7,8 @@ The estimator and the test are unchanged from 1.0.0.
 - New documentation page `docs/tutorial.md`: one public nanopore sample (the first 150,000 reads of SRR33541077)
   from the database download to the report, with the expected numbers and a reading of the report. Every command
   was run as written, with the databases downloaded anew; the gene calls and the result table were identical to
-  those of an earlier run on the same reads.
-
+  those of an earlier run on the same reads. The page ends with the same reads assembled with metaFlye and
+  analysed with `--contigs` (599 contigs; ARG–MGE 0.066 from 95 units, against 0.048 from 1,738 units on the reads).
 - New command `mobilink db`: downloads CARD (current release), BacMet2 EXP and mobileOG-db beatrix-1.6 (archived copy
   on Zenodo, checksum verified), builds the DIAMOND indexes and writes a manifest with versions, checksums, licences
   and citations. Local files can be given instead of downloads.
@@ -28,9 +28,12 @@ The estimator and the test are unchanged from 1.0.0.
   copy of a repeated gene on one read is called. `--one-alignment` restores the calling of the analyses of the
   paper. Measured on the same reads of two public human gut runs (0.4 Gbp each, nanopore and PacBio HiFi): 1.0% and
   0.4% more calls of the mobility core, 0.3% and 0% more ARG calls, and an ARG–MGE net linked fraction that moved
-  from 0.0483 to 0.0485 and from 0.0649 to 0.0667. On simulated reads from 21 genomes with resistance plasmids (30
-  paired replicates): 2% more calls of the mobility core and an ARG–MGE net linked fraction that rose from 0.046 to
-  0.059 (truth 0.057) and from 0.091 to 0.108 (truth 0.101).
+  from 0.0483 to 0.0485 and from 0.0649 to 0.0667. On 1 Gbp of an activated sludge run (PacBio HiFi): 2.2% more
+  calls of the mobility core, 3.4% more ARG calls, and 0.153 to 0.165. On simulated reads from 21 genomes with
+  resistance plasmids (76 paired replicates with linkage, six settings): 0.6% to 2.2% more calls of the mobility
+  core and an ARG–MGE net linked fraction higher by 0.007 to 0.018. Five settings were then within 0.008 of the true
+  value; one, reads of 95% identity with the resistance strains enriched, was 0.026 above it.
+- The report gives the size of an input below 0.1 Gbp in Mbp (an assembly of 22 Mbp was shown as "0.02 Gbp").
 - `mobilink db` resumes a download that the server or the line cuts, and checks the size against the size announced.
   Before, a cut download of mobileOG-db (355 MB) was only found by its checksum, and the command had to be started
   again. Found by running the tutorial from the start on a slow line.

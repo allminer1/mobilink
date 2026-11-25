@@ -232,7 +232,8 @@ def write_report(path, name, info, test, sens, cv, genes, fixed, w: int = 2000, 
                      "between hosts. More reads of the same sample narrow it little.</p>")
 
     parts.append("<h2>Input</h2><div class='tiles'>")
-    tiles = [(_n(inp.get("molecules")), kind), (f"{inp.get('bases', 0) / 1e9:.2f} Gbp", "bases"),
+    nb = inp.get("bases", 0)  # an assembly of 22 Mbp is not "0.02 Gbp"
+    tiles = [(_n(inp.get("molecules")), kind), (f"{nb / 1e9:.2f} Gbp" if nb >= 1e8 else f"{nb / 1e6:.1f} Mbp", "bases"),
              (f"{inp.get('n50', 0) / 1000:.1f} kb", "N50")]
     tiles += [(_n(calls.get(c, 0)), f"{c} calls") for c in ("ARG", "MRG", "MGE")]
     if "host_unresolved_share" in info:

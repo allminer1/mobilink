@@ -10,7 +10,7 @@ check your installation: if your numbers match, the installation works.
 | Reads used | The first 150,000 reads: 403,468,987 bases, read N50 4.9 kb |
 | Disk | 16 GB for the Kraken2 index, and 12 GB more for its archive until that is deleted; 0.4 GB for the gene databases, 0.4 GB for the reads, 45 MB of results |
 | Memory | 16 GB (the Kraken2 index is held in memory) |
-| Time of the analysis | 7 minutes with 8 threads |
+| Time of the analysis | 7 minutes with 8 threads (reads); 6 minutes for the optional assembly and 1 minute for its analysis |
 | Time of the downloads | Depends on your connection. Ours took about 50 minutes for the databases and 60 for the reads |
 
 ## 1. Install
@@ -143,7 +143,42 @@ the limit is 0.085, so the test alone could not have shown weak linkage of these
 calls), and efflux genes such as *mdtM* next to a transposase (25 of 30). The shares in these tables are not
 corrected for chance or for read length, so they describe this sample and should not be compared between samples.
 
-## 8. Next steps
+## 8. The same sample as contigs
+
+`mobilink run --contigs` takes an assembly in place of reads. To try it, assemble the same reads with metaFlye
+(`mamba install -c bioconda flye`; 6 minutes with 16 threads and 2 GB of memory here) and run the tool on the
+contigs (1 minute with 8 threads):
+
+```bash
+flye --nano-hq SRR33541077.fastq.gz --meta --threads 16 --out-dir flye
+mobilink run flye/assembly.fasta --contigs --name SRR33541077_flye \
+    --db mobilink_db --kraken-db k2_standard_16gb --out results_contigs --threads 8
+```
+
+Flye 2.9.6 gave 599 contigs with 22.4 Mbp (N50 165 kb, 16 of them circular). Another version of Flye can give a
+slightly different assembly, so expect numbers close to the ones below, not identical ones.
+
+| Pair | Net linked within 2 kb | 95% interval | p | Units | Observed / expected linked units |
+|---|---|---|---|---|---|
+| ARG–MGE | 0.066 | −0.097 to 0.229 | 0.057 | 95 | 16 / 4.7 |
+| MRG–MGE | 0.023 | −0.051 to 0.096 | 0.087 | 120 | 9 / 3.3 |
+| ARG–MRG | 0.002 | −0.008 to 0.011 | 0.274 | 97 | 2 / 1.8 |
+
+Calls: 130 ARG, 196 MRG and 377 MGE.
+
+**Reads and contigs compared.** The estimates agree: 0.048 from the reads and 0.066 from the contigs for ARG–MGE,
+and near zero for ARG–MRG in both. What differs is how much the data can show. The reads held 1,738 ARG units,
+because every read that covers a locus brings its own copy; the assembly holds each locus once, 95 units in all.
+The report therefore says "no linkage shown" for the contigs (p = 0.057), and its section on depth gives 0.15 as
+the smallest net linked fraction that the test would find in this assembly, against 0.04 for the reads. With a
+small sample the reads are the stronger data. Contigs become useful when the assembly is large, or when the
+question needs longer distances than the reads span.
+
+**What the contig mode does differently.** There are no overlap and chimera steps. All gene units of one contig
+count as one clump in the test, which the notes of the report state. The contigs are searched in windows of 30 kb,
+so that every copy of a repeated gene on a long contig is found.
+
+## 9. Next steps
 
 - All output files are listed in [One command, from reads to a report](one_command.md), the columns of the result
   table in [The output table](output_columns.md).
