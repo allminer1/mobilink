@@ -139,3 +139,38 @@ def required_bases(lengths, len_a, lam_a_calls, lam_b_calls, w, target_halfwidth
         return netlinked_halfwidth(nw, net, lam_b_calls, w, deff)
 
     return float(np.exp(optimize.brentq(lambda lg: hw(np.exp(lg)) - target_halfwidth, np.log(1e6), np.log(1e13))))
+
+
+def depth_projection(test: pd.DataFrame, bases: float | None = None, targets=(0.05, 0.02, 0.01), alpha: float = 0.05,
+                     power: float = 0.8) -> pd.DataFrame:
+    """What a finished run can show for each pair, and what more sequence would give, from the test table of the run.
+      halfwidth          z(1 - alpha/2) * net_w_se: the approximate 95% half-width of the interval now;
+      test_sd            |net_w / net_w_z|: the spread of the test statistic under chance, on the scale of the
+                         estimate;
+      detectable_net     (z(1 - alpha/2) + z(power)) * test_sd: the net linked fraction that the two-sided test at level
+                         alpha finds with the given power at this depth (approximate; rough when the test is flagged
+                         for few effective events);
+      gbp_to_detect_<t>  bases * (detectable_net / t)^2 in Gbp, for each target t (only when `bases` is given): the
+                         depth at which a net linked fraction of t becomes detectable, with the same read lengths and
+                         community.
+    The depth columns use the test, not the interval, on purpose. On eight public runs thinned to 1/2, 1/4 and 1/8 of
+    their reads the variance of the test count fell in proportion to the depth (ratio 0.98 to 1.05, quartiles), and
+    the projection from the thinned run to the full one was right within about 20% (quartiles 0.83 to 1.18). The
+    delete-one-host interval did not follow: an 8-fold thinning widened it by a factor of 1.2 at the median, because
+    it carries the differences between hosts, which more reads of the same sample do not remove. So more depth makes
+    weaker linkage detectable but narrows the interval little. Where many reads already cover each locus they count
+    once, and the depth columns are then the least that is needed."""
+    za, zb = stats.norm.ppf(1 - alpha / 2), stats.norm.ppf(power)
+    rows = []
+    for _, r in test.iterrows():
+        se, net, z = (float(r.get(k, np.nan)) for k in ("net_w_se", "net_w", "net_w_z"))
+        sd = abs(net / z) if np.isfinite(net) and np.isfinite(z) and z != 0 and net != 0 else np.nan
+        row = dict(class_a=r["class_a"], class_b=r["class_b"], net_w=net, net_w_se=se,
+                   halfwidth=za * se if np.isfinite(se) and se > 0 else np.nan, test_sd=sd,
+                   detectable_net=(za + zb) * sd)
+        if bases is not None:
+            row["gbp"] = bases / 1e9
+            for t in targets:
+                row[f"gbp_to_detect_{t:g}"] = bases / 1e9 * (row["detectable_net"] / t) ** 2
+        rows.append(row)
+    return pd.DataFrame(rows)

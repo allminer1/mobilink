@@ -16,6 +16,7 @@ from mobilink import dbsetup
 from mobilink.cli import main
 from mobilink.genes import fixed_length_clusters, gene_table, pick_reads, vector_rule
 from mobilink.pipeline import default_name, kmer_counts, length_stats
+from mobilink.power import depth_projection
 from mobilink.report import verdict, write_report
 
 AA = "ACDEFGHIKLMNPQRSTVWY"
@@ -122,6 +123,19 @@ def test_verdict_wording_follows_estimate_and_p_value():
     assert "no estimate" in verdict(dict(base, net_w=np.nan, net_w_p=np.nan, flags="class empty"), 2000)
 
 
+def test_depth_projection_uses_the_test_for_depth_and_the_standard_error_for_the_interval():
+    t = pd.DataFrame([dict(class_a="ARG", class_b="MGE", net_w=0.1, net_w_se=0.02, net_w_z=20.0),
+                      dict(class_a="MRG", class_b="MGE", net_w=np.nan, net_w_se=np.nan, net_w_z=np.nan)])
+    p = depth_projection(t, bases=3e9).set_index("class_a")
+    assert p.loc["ARG", "halfwidth"] == pytest.approx(1.96 * 0.02, rel=1e-3)
+    assert p.loc["ARG", "test_sd"] == pytest.approx(0.005)
+    assert p.loc["ARG", "detectable_net"] == pytest.approx((1.96 + 0.8416) * 0.005, rel=1e-3)
+    assert p.loc["ARG", "gbp_to_detect_0.01"] == pytest.approx(3 * ((1.96 + 0.8416) * 0.005 / 0.01) ** 2, rel=1e-3)
+    assert p.loc["ARG", "gbp_to_detect_0.01"] == pytest.approx(4 * p.loc["ARG", "gbp_to_detect_0.02"])
+    assert np.isnan(p.loc["MRG", "halfwidth"]) and np.isnan(p.loc["MRG", "gbp_to_detect_0.05"])
+    assert "gbp" not in depth_projection(t).columns  # contigs: no depth columns
+
+
 def test_report_is_one_self_contained_file(tmp_path):
     test = pd.DataFrame([dict(class_a="ARG", class_b="MGE", net_w=0.1, net_w_lo=0.05, net_w_hi=0.15, net_w_p=0.001,
                               net_w_q=0.002, units=120, sides_w=150, net_w_O=20, net_w_E=6.5, net_mol=0.2, flags="")])
@@ -130,8 +144,11 @@ def test_report_is_one_self_contained_file(tmp_path):
     info = dict(mobilink="x", finished="2026-11-24T00:00:00", input=dict(molecules=10, bases=5e4, n50=6000),
                 calls=dict(ARG=3), flags=["a <note>"], databases={}, files=["s.test.tsv"])
     out = tmp_path / "r.html"
-    write_report(str(out), "s<1>", info, test, None, cv, pd.DataFrame(), pd.DataFrame())
+    test["net_w_se"], test["net_w_z"] = 0.025, 10.0
+    pw = depth_projection(test, bases=2e9)
+    write_report(str(out), "s<1>", info, test, None, cv, pd.DataFrame(), pd.DataFrame(), power=pw)
     h = out.read_text()
+    assert "What this depth can show" in h and "±0.049" in h and "0.028" in h and "reached" in h and "16 Gbp" in h
     assert h.count("<circle") == 3
     assert "<svg" in h and "s&lt;1&gt;" in h and "a &lt;note&gt;" in h and "<script" not in h and "http" not in h
 
@@ -209,6 +226,8 @@ def test_db_and_run_end_to_end(tmp_path):
     top = genes[(genes.class_a == "ARG") & (genes.class_b == "MGE")].set_index("gene")
     assert top.loc["argA", "share_with_b"] > 0.5
     assert "<svg" in (out / "toy.report.html").read_text()
+    pw = pd.read_csv(out / "toy.power.tsv", sep="\t")
+    assert len(pw) == len(t) and pw["gbp_to_detect_0.05"].notna().any()
     assert json.loads((out / "toy.run.json").read_text())["calls"]["ARG"] > 100
     r = run.invoke(main, args)  # a second call finds every file and only rewrites the report
     assert r.exit_code == 0, r.output

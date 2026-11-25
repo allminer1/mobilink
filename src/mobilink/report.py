@@ -56,6 +56,13 @@ def _peq(x):
     return f"p {t}" if t.startswith("<") else f"p = {t}"
 
 
+def _gbp(x):
+    """Gbp with two significant digits; a dash when missing."""
+    if x is None or not math.isfinite(x):
+        return "–"
+    return f"{x:.2g} Gbp" if x < 100 else f"{x:,.0f} Gbp"
+
+
 def _n(x):
     try:
         return f"{int(x):,}"
@@ -156,7 +163,7 @@ def curve_svg(cv: pd.DataFrame, w: int) -> str:
 
 
 def write_report(path, name, info, test, sens, cv, genes, fixed, w: int = 2000, contigs: bool = False,
-                 clean=None) -> None:
+                 clean=None, power=None) -> None:
     e = html.escape
     kind = "contigs" if contigs else "reads"
     inp, calls = info.get("input", {}), info.get("calls", {})
@@ -207,6 +214,22 @@ def write_report(path, name, info, test, sens, cv, genes, fixed, w: int = 2000, 
     parts.append("<p class='mute'>Each point is the net linked fraction for one window. A curve that rises and then "
                  "flattens shows the distance over which the two classes travel together. The vertical line is the "
                  f"window of the test. Windows that fewer than {MIN_CURVE_SIDES} flanks reach are not drawn.</p>")
+
+    if power is not None and not power.empty and power[["halfwidth", "detectable_net"]].notna().any().any():
+        tg = [c for c in power.columns if c.startswith("gbp_to_detect_")]
+        rows = [[f"{r['class_a']}–{r['class_b']}", ("±" + _f(r["halfwidth"])) if math.isfinite(r["halfwidth"]) else "–",
+                 _f(r["detectable_net"])]
+                + [("reached" if r[c] <= r["gbp"] else _gbp(r[c])) if math.isfinite(r[c]) else "–" for c in tg]
+                for _, r in power.iterrows()]
+        parts.append("<h2>What this depth can show</h2>" + _table(
+            ["Pair", "95% half-width of the interval", "Smallest net linked fraction the test finds (80% power)"]
+            + [f"Sequence needed to detect {c[14:]}" for c in tg], rows, num=tuple(range(1, 3 + len(tg)))))
+        parts.append("<p class='mute'>The detection limit comes from the spread of the test under chance. "
+                     + ("It falls with the square root of the depth, so the last columns give the depth at which "
+                        "weaker linkage would be found, for the same read lengths and community; where many reads "
+                        "already cover each locus, read them as the least that is needed. " if tg else "")
+                     + "The interval is wider than the detection limit because it also carries the differences "
+                     "between hosts. More reads of the same sample narrow it little.</p>")
 
     parts.append("<h2>Input</h2><div class='tiles'>")
     tiles = [(_n(inp.get("molecules")), kind), (f"{inp.get('bases', 0) / 1e9:.2f} Gbp", "bases"),

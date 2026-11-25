@@ -9,8 +9,9 @@ Steps (each writes its file through a temporary name and is skipped when the fil
   5. overlaps (reads only)    NAME.ava.paf.gz           minimap2 all-against-all among the molecules with a call
   6. chimera flags (reads)    NAME.chimeras.tsv
   7. test                     NAME.test.tsv             the net linked test; NAME.test_no_chimeras.tsv as sensitivity
-  8. curve, genes, screen     NAME.curve.tsv, NAME.genes.tsv, NAME.fixed_length.tsv (flagged clusters are checked
-                              against UniVec; a laboratory plasmid gives NAME.test_no_lab_plasmid.tsv)
+  8. curve, genes, screen     NAME.curve.tsv, NAME.genes.tsv, NAME.power.tsv, NAME.fixed_length.tsv (flagged
+                              clusters are checked against UniVec; a laboratory plasmid gives
+                              NAME.test_no_lab_plasmid.tsv)
   9. report                   NAME.report.html, NAME.run.json
 
 The annotation settings are those of the survey in the paper (DIAMOND long-read mode: -F 15 --range-culling --top 10).
@@ -402,11 +403,15 @@ def run(cfg: RunConfig, log=print) -> dict:
                     vp, sep="\t", index=False)
             clean = pd.read_csv(vp, sep="\t")
 
+    from .power import depth_projection
+    pw = depth_projection(test if clean is None else clean, None if cfg.contigs else info["input"]["bases"])
+    pw.to_csv(cfg.path("power.tsv"), sep="\t", index=False)
+
     info["finished"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
     info["files"] = sorted(f for f in os.listdir(cfg.out_dir) if f.startswith(cfg.name + ".") and ".part" not in f)
     log("[9/9] report")
     write_report(cfg.path("report.html"), cfg.name, info, test, sens, cv, genes, fixed, w=cfg.w, contigs=cfg.contigs,
-                 clean=clean)
+                 clean=clean, power=pw)
     with open(cfg.path("run.json"), "w") as fh:
         json.dump(info, fh, indent=2, default=str)
     return info

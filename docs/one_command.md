@@ -58,6 +58,7 @@ A stopped run resumes where it stopped: a step whose output file exists is skipp
 | `NAME.test_no_chimeras.tsv` | The same without reads flagged as chimeras (reads only) |
 | `NAME.curve.tsv` | Net linked fraction for windows of 0.25 to 10 kb |
 | `NAME.genes.tsv` | One row per gene: calls, calls with a gene of the other class within the window, the commonest neighbour, and for ARG the CARD mechanism and drug class |
+| `NAME.power.tsv` | Per pair: the half-width of the interval, the smallest net linked fraction the test finds with 80% power at this depth, and the sequence needed to detect 0.05, 0.02 and 0.01 (reads only) |
 | `NAME.fixed_length.tsv` | Screen for genes whose carrier reads share one read length, with the UniVec check of each flagged gene (reads only) |
 | `NAME.test_no_lab_plasmid.tsv` | The result without the reads of a laboratory plasmid; written only when one is found |
 | `NAME.features.tsv.gz`, `NAME.lengths.tsv.gz`, `NAME.kraken.tsv.gz`, `NAME.ava.paf.gz`, `NAME.chimeras.tsv` | The tables behind the result; they are the inputs of `mobilink test`, `mobilink meta` and `mobilink chimeras` |
@@ -68,8 +69,15 @@ A stopped run resumes where it stopped: a step whose output file exists is skipp
 - **The net linked fraction** counts the two flanks of each gene unit. It is the share of flanks with a whole gene of
   the other class within the window (2 kb by default), beyond what chance gives. A unit with such a gene on one flank
   only counts one half. Under chance the value is 0 at any read length.
-- **"No linkage shown" is not "no linkage".** Look at the interval. A wide interval means the sample is too shallow
-  for this pair; `mobilink power` says how much sequence is needed.
+- **"No linkage shown" is not "no linkage".** The section "What this depth can show" gives the smallest net linked
+  fraction that the test would have found at this depth, and the sequence needed to find weaker linkage. `mobilink
+  power` does the same from a pilot before sequencing.
+- **The interval and the test answer different questions.** The test asks whether the genes sit closer than random
+  positions in the same hosts; its detection limit falls with the square root of the depth. The interval comes from
+  leaving out one host at a time, so it also carries the differences between hosts. On eight public runs thinned
+  to one eighth of their reads the interval widened only 1.2-fold at the median, while the detection limit followed
+  the depth. More reads of one sample therefore make weaker linkage detectable, but narrow the interval little. A
+  result with a small p value and an interval that includes 0 means: linked in some hosts, not shown for all.
 - **Host labels.** Without `--kraken-db`, genes that are common in one abundant host can look linked. With it, the
   report gives the share of molecules without a label. Outside the human gut this share is often above 70%, and the
   host control is then weak.

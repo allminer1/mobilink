@@ -12,6 +12,10 @@ The estimator and the test are unchanged from 1.0.0.
   for fixed-length carrier reads (`mobilink.genes.fixed_length_clusters`) with a check of each flagged gene against
   NCBI UniVec (`mobilink.genes.vector_rule`; a laboratory plasmid gives a second result table without its reads),
   and a self-contained HTML report. A stopped run resumes.
+- The report and `NAME.power.tsv` say what the depth of the run can show (`mobilink.power.depth_projection`): the
+  half-width of the interval, the smallest net linked fraction the test finds with 80% power, and the sequence
+  needed to detect weaker linkage. The depth columns use the spread of the test and not the interval: on eight
+  public runs thinned to 1/8 the test variance followed the depth, the delete-one-host interval did not.
 - The BacMet2 class table and the mobility core are installed with the package (moved from `resources/` to
   `src/mobilink/data/`).
 - `docs/output_columns.md`: `net_w` is described as a share of the sides of A units, as in `docs/method.md`.
