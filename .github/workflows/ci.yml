@@ -57,6 +57,10 @@ jobs:
       - run: python -m pip install build twine
       - run: python -m build
       - run: twine check dist/*
+      - name: The wheel holds the packaged tables
+        run: |
+          python -m zipfile -l dist/*.whl | grep -q "mobilink/data/mobility_core.tsv.gz"
+          python -m zipfile -l dist/*.whl | grep -q "mobilink/data/bacmet2_exp_classes.tsv"
 
   container:
     runs-on: ubuntu-latest

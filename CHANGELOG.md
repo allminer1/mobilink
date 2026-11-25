@@ -16,6 +16,9 @@ The estimator and the test are unchanged from 1.0.0.
   half-width of the interval, the smallest net linked fraction the test finds with 80% power, and the sequence
   needed to detect weaker linkage. The depth columns use the spread of the test and not the interval: on eight
   public runs thinned to 1/8 the test variance followed the depth, the delete-one-host interval did not.
+- Fixed before any release: a built wheel left out the mobility core, because the ignore rule for `*.tsv.gz` also
+  applied to `src/mobilink/data/`. Editable installs were not affected, so the tests did not see it; the container
+  check did. The continuous integration now checks the wheel.
 - A `Dockerfile` (mobilink with DIAMOND, minimap2 and Kraken2; built and checked in the continuous integration) and
   a documentation site configuration (`mkdocs.yml`, `docs/index.md`).
 - The BacMet2 class table and the mobility core are installed with the package (moved from `resources/` to
