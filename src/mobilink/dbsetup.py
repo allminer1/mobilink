@@ -12,11 +12,13 @@ from __future__ import annotations
 
 import gzip
 import hashlib
+import http.client
 import json
 import os
 import shutil
 import subprocess
 import tarfile
+import time
 import urllib.request
 from datetime import datetime, timezone
 from importlib import resources
@@ -65,17 +67,53 @@ def md5sum(path) -> str:
     return h.hexdigest()
 
 
-def fetch(url: str, dest: str, log=print) -> None:
-    """Download to dest (through dest.part, so an interrupted download is never taken for a file)."""
-    req = urllib.request.Request(url, headers={"User-Agent": f"mobilink/{__version__}"})
+def fetch(url: str, dest: str, log=print, tries: int = 6, pause: float = 5.0) -> None:
+    """Download to dest (through dest.part, so an interrupted download is never taken for a file).
+
+    The size is checked against the Content-Length of the server. A connection that closes early is resumed from the
+    bytes already received (HTTP Range) for as long as each request brings new bytes; it is given up after `tries`
+    requests in a row without any. On a slow line a server can cut a large file several times without an error, and
+    the file would only fail its checksum later.
+    """
+    part = dest + ".part"
+    if os.path.exists(part):
+        os.remove(part)
     log(f"  fetching {url}")
-    try:
-        with urllib.request.urlopen(req, timeout=120) as r, open(dest + ".part", "wb") as fo:  # noqa: S310
-            shutil.copyfileobj(r, fo, 1 << 20)
-    except OSError as e:
-        raise DbError(f"download failed: {url} ({e}). Download the file by hand and give it to `mobilink db` "
-                      "with the matching --card, --bacmet or --mobileog option.") from e
-    os.replace(dest + ".part", dest)
+    total, err, idle = None, None, 0
+    while idle < tries:
+        have = before = os.path.getsize(part) if os.path.exists(part) else 0
+        headers = {"User-Agent": f"mobilink/{__version__}"}
+        if have:
+            headers["Range"] = f"bytes={have}-"
+        err = None
+        try:
+            with urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=120) as r:  # noqa: S310
+                if have and r.status != 206:  # the server does not resume: start again
+                    have = 0
+                length = r.headers.get("Content-Length")
+                if length is not None:
+                    total = have + int(length)
+                with open(part, "ab" if have else "wb") as fo:
+                    shutil.copyfileobj(r, fo, 1 << 20)
+        except (OSError, http.client.HTTPException) as e:
+            err = e
+        got = os.path.getsize(part) if os.path.exists(part) else 0
+        if err is None and (total is None or got == total):
+            os.replace(part, dest)
+            return
+        if total is not None and got > total:
+            os.remove(part)
+            got = 0
+        idle = 0 if got > before else idle + 1
+        if idle < tries:
+            log(f"  the download stopped after {got:,} bytes" + (f" of {total:,}" if total else "")
+                + (f" ({err})" if err else "") + "; trying again")
+            time.sleep(pause)
+    if os.path.exists(part):
+        os.remove(part)
+    raise DbError(f"download failed: {url} ({err or 'the connection closed before the end of the file'}). Download the "
+                  "file by hand and give it to `mobilink db` with the matching --card, --bacmet, --mobileog or "
+                  "--univec option.")
 
 
 def card_from_archive(archive: str, out_dir: str) -> tuple[str, str | None, str]:

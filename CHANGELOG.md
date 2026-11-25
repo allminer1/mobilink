@@ -20,8 +20,16 @@ The estimator and the test are unchanged from 1.0.0.
   reference protein. Searched whole, long contigs lost the second and later copies of repeated genes: on 21 complete
   genomes, 685 mobility-core calls in place of 967. Found with the independent simulation, before any release.
 - `mobilink run` keeps every alignment of a reference protein for reads as well (`--max-hsps 0`), so that a second
-  copy of a repeated gene on one read is called. This changes the gene calls slightly against the analyses of the
-  paper; `--one-alignment` restores their calling.
+  copy of a repeated gene on one read is called. `--one-alignment` restores the calling of the analyses of the
+  paper. Measured on the same reads of two public human gut runs (0.4 Gbp each, nanopore and PacBio HiFi): 1.0% and
+  0.4% more calls of the mobility core, 0.3% and 0% more ARG calls, and an ARG–MGE net linked fraction that moved
+  from 0.0483 to 0.0485 and from 0.0649 to 0.0667.
+- `mobilink db` resumes a download that the server or the line cuts, and checks the size against the size announced.
+  Before, a cut download of mobileOG-db (355 MB) was only found by its checksum, and the command had to be started
+  again. Found by running the tutorial from the start on a slow line.
+- The depth table (`NAME.power.tsv`, report section "What this depth can show") gives the half-width of the interval
+  that the result table reports. Before any release it used 1.96 standard errors, which is narrower than the reported
+  interval when few hosts carry the genes.
 - Fixed before any release: a built wheel left out the mobility core, because the ignore rule for `*.tsv.gz` also
   applied to `src/mobilink/data/`. Editable installs were not affected, so the tests did not see it; the container
   check did. The continuous integration now checks the wheel.

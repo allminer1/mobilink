@@ -144,7 +144,8 @@ def required_bases(lengths, len_a, lam_a_calls, lam_b_calls, w, target_halfwidth
 def depth_projection(test: pd.DataFrame, bases: float | None = None, targets=(0.05, 0.02, 0.01), alpha: float = 0.05,
                      power: float = 0.8) -> pd.DataFrame:
     """What a finished run can show for each pair, and what more sequence would give, from the test table of the run.
-      halfwidth          z(1 - alpha/2) * net_w_se: the approximate 95% half-width of the interval now;
+      halfwidth          half the width of the 95% interval of the test table, (net_w_hi - net_w_lo) / 2; when the
+                         table has no interval, z(1 - alpha/2) * net_w_se;
       test_sd            |net_w / net_w_z|: the spread of the test statistic under chance, on the scale of the
                          estimate;
       detectable_net     (z(1 - alpha/2) + z(power)) * test_sd: the net linked fraction that the two-sided test at level
@@ -165,8 +166,14 @@ def depth_projection(test: pd.DataFrame, bases: float | None = None, targets=(0.
     for _, r in test.iterrows():
         se, net, z = (float(r.get(k, np.nan)) for k in ("net_w_se", "net_w", "net_w_z"))
         sd = abs(net / z) if np.isfinite(net) and np.isfinite(z) and z != 0 and net != 0 else np.nan
-        row = dict(class_a=r["class_a"], class_b=r["class_b"], net_w=net, net_w_se=se,
-                   halfwidth=za * se if np.isfinite(se) and se > 0 and np.isfinite(net) else np.nan, test_sd=sd,
+        lo, hi = (float(r.get(k, np.nan)) for k in ("net_w_lo", "net_w_hi"))
+        if not np.isfinite(net):
+            hw = np.nan
+        elif np.isfinite(lo) and np.isfinite(hi):  # the interval as reported: with few hosts it is wider than z * se
+            hw = (hi - lo) / 2
+        else:
+            hw = za * se if np.isfinite(se) and se > 0 else np.nan
+        row = dict(class_a=r["class_a"], class_b=r["class_b"], net_w=net, net_w_se=se, halfwidth=hw, test_sd=sd,
                    detectable_net=(za + zb) * sd)
         if bases is not None:
             row["gbp"] = bases / 1e9

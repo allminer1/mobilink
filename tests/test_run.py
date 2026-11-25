@@ -136,6 +136,9 @@ def test_depth_projection_uses_the_test_for_depth_and_the_standard_error_for_the
     assert "gbp" not in depth_projection(t).columns  # contigs: no depth columns
     no_estimate = pd.DataFrame([dict(class_a="ARG", class_b="MRG", net_w=np.nan, net_w_se=0.0003, net_w_z=np.nan)])
     assert np.isnan(depth_projection(no_estimate, bases=1e9).halfwidth.iloc[0])  # no half-width without an estimate
+    wide = pd.DataFrame([dict(class_a="ARG", class_b="MGE", net_w=0.05, net_w_se=0.014, net_w_z=3.4, net_w_lo=-0.04,
+                              net_w_hi=0.14)])
+    assert depth_projection(wide).halfwidth.iloc[0] == pytest.approx(0.09)  # the reported interval, not 1.96 * se
 
 
 def test_every_alignment_is_kept_unless_the_calling_of_the_paper_is_asked_for(tmp_path, monkeypatch):
@@ -183,6 +186,51 @@ def _dna(p):
 
 @pytest.mark.skipif(shutil.which("diamond") is None or shutil.which("minimap2") is None,
                     reason="needs DIAMOND and minimap2 on the PATH")
+def test_fetch_resumes_a_download_that_is_cut(tmp_path):
+    """A server that closes the connection halfway: the download is resumed and the whole file arrives."""
+    import threading
+    from http.server import BaseHTTPRequestHandler, HTTPServer
+
+    body, seen = bytes(range(256)) * 400, []
+
+    class H(BaseHTTPRequestHandler):
+        def do_GET(self):  # noqa: N802
+            rng = self.headers.get("Range")
+            seen.append(rng)
+            start = int(rng.split("=")[1].rstrip("-")) if rng else 0
+            self.send_response(206 if rng else 200)
+            self.send_header("Content-Length", str(len(body) - start))
+            self.end_headers()
+            self.wfile.write(body[start:] if rng else body[: len(body) // 2])  # the first answer is cut
+
+        def log_message(self, *a):
+            pass
+
+    srv = HTTPServer(("127.0.0.1", 0), H)
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    try:
+        url, dest, log = f"http://127.0.0.1:{srv.server_port}/f", tmp_path / "f", []
+        dbsetup.fetch(url, str(dest), log.append, pause=0)
+        assert dest.read_bytes() == body and seen == [None, f"bytes={len(body) // 2}-"]
+        assert any("trying again" in x for x in log) and not (tmp_path / "f.part").exists()
+        body_full, body = body, body[:10]  # a server that never sends the whole file: an error, and no file is left
+        seen.clear()
+
+        class Cut(H):
+            def do_GET(self):  # noqa: N802
+                self.send_response(200)
+                self.send_header("Content-Length", str(len(body_full)))
+                self.end_headers()
+                self.wfile.write(body)
+
+        srv.RequestHandlerClass = Cut
+        with pytest.raises(dbsetup.DbError, match="download failed"):
+            dbsetup.fetch(url, str(tmp_path / "g"), lambda m: None, tries=2, pause=0)
+        assert not (tmp_path / "g").exists() and not (tmp_path / "g.part").exists()
+    finally:
+        srv.shutdown()
+
+
 def test_db_and_run_end_to_end(tmp_path):
     g = np.random.default_rng(7)
     core = pd.read_csv(dbsetup.data_file("mobility_core.tsv.gz"), sep="\t", usecols=["sseqid"]).sseqid[:2].tolist()
