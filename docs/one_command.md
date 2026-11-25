@@ -50,8 +50,9 @@ Every alignment of a reference protein is kept, so that a second copy of a repea
 insertion sequence on each side of a resistance gene, is called. The analyses of the paper kept one alignment per
 reference protein and read; `--one-alignment` restores that calling. How much this matters depends on the community.
 On the same reads of two human gut runs, keeping every alignment gave 0.4% and 1.0% more mobility-core calls and an
-ARG–MGE net linked fraction higher by 0.0002 and 0.0017. On 1 Gbp of an activated sludge run it gave 2.2% more
-mobility-core calls and raised the fraction from 0.153 to 0.165. On simulated reads from genomes with resistance
+ARG–MGE net linked fraction higher by 0.0002 and 0.0017. On 1 Gbp of a wastewater run it gave 1.3% more calls and a
+fraction higher by 0.0004; on 1 Gbp of an activated sludge run 2.2% more calls and a fraction of 0.165 in place of
+0.153. On simulated reads from genomes with resistance
 plasmids, where resistance genes often sit between two copies of one insertion sequence, it gave 0.6% to 2.2% more
 calls and an estimate higher by 0.007 to 0.018 (10% to 26%); in five of six settings the estimate was then within
 0.008 of the true value. Contigs are also searched in windows of 30 kb, because a long contig can hold many copies. The hit tables of a contig run are in

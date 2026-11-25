@@ -28,8 +28,9 @@ The estimator and the test are unchanged from 1.0.0.
   copy of a repeated gene on one read is called. `--one-alignment` restores the calling of the analyses of the
   paper. Measured on the same reads of two public human gut runs (0.4 Gbp each, nanopore and PacBio HiFi): 1.0% and
   0.4% more calls of the mobility core, 0.3% and 0% more ARG calls, and an ARG–MGE net linked fraction that moved
-  from 0.0483 to 0.0485 and from 0.0649 to 0.0667. On 1 Gbp of an activated sludge run (PacBio HiFi): 2.2% more
-  calls of the mobility core, 3.4% more ARG calls, and 0.153 to 0.165. On simulated reads from 21 genomes with
+  from 0.0483 to 0.0485 and from 0.0649 to 0.0667. On 1 Gbp of a wastewater run (nanopore): 1.3% more calls of the
+  mobility core and 0.0578 to 0.0582. On 1 Gbp of an activated sludge run (PacBio HiFi): 2.2% more calls of the
+  mobility core, 3.4% more ARG calls, and 0.153 to 0.165. On simulated reads from 21 genomes with
   resistance plasmids (76 paired replicates with linkage, six settings): 0.6% to 2.2% more calls of the mobility
   core and an ARG–MGE net linked fraction higher by 0.007 to 0.018. Five settings were then within 0.008 of the true
   value; one, reads of 95% identity with the resistance strains enriched, was 0.026 above it.
