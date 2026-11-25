@@ -134,6 +134,8 @@ def test_depth_projection_uses_the_test_for_depth_and_the_standard_error_for_the
     assert p.loc["ARG", "gbp_to_detect_0.01"] == pytest.approx(4 * p.loc["ARG", "gbp_to_detect_0.02"])
     assert np.isnan(p.loc["MRG", "halfwidth"]) and np.isnan(p.loc["MRG", "gbp_to_detect_0.05"])
     assert "gbp" not in depth_projection(t).columns  # contigs: no depth columns
+    no_estimate = pd.DataFrame([dict(class_a="ARG", class_b="MRG", net_w=np.nan, net_w_se=0.0003, net_w_z=np.nan)])
+    assert np.isnan(depth_projection(no_estimate, bases=1e9).halfwidth.iloc[0])  # no half-width without an estimate
 
 
 def test_report_is_one_self_contained_file(tmp_path):

@@ -166,7 +166,7 @@ def depth_projection(test: pd.DataFrame, bases: float | None = None, targets=(0.
         se, net, z = (float(r.get(k, np.nan)) for k in ("net_w_se", "net_w", "net_w_z"))
         sd = abs(net / z) if np.isfinite(net) and np.isfinite(z) and z != 0 and net != 0 else np.nan
         row = dict(class_a=r["class_a"], class_b=r["class_b"], net_w=net, net_w_se=se,
-                   halfwidth=za * se if np.isfinite(se) and se > 0 else np.nan, test_sd=sd,
+                   halfwidth=za * se if np.isfinite(se) and se > 0 and np.isfinite(net) else np.nan, test_sd=sd,
                    detectable_net=(za + zb) * sd)
         if bases is not None:
             row["gbp"] = bases / 1e9
