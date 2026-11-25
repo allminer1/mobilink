@@ -1,0 +1,13 @@
+site_name: mobilink
+site_description: Chance-corrected linkage of gene classes on long reads and contigs, free of read length
+repo_url: https://github.com/allminer1/mobilink
+docs_dir: docs
+theme:
+  name: readthedocs
+nav:
+  - Overview: index.md
+  - One command, from reads to a report: one_command.md
+  - Step by step on real data: real_data.md
+  - Worked example with simulated reads: worked_example.md
+  - The output table: output_columns.md
+  - Method: method.md

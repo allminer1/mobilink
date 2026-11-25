@@ -2,7 +2,7 @@ name: tests
 
 on:
   push:
-    branches: [main]
+    branches: [main, wp3-run]
   pull_request:
 
 jobs:
@@ -57,3 +57,24 @@ jobs:
       - run: python -m pip install build twine
       - run: python -m build
       - run: twine check dist/*
+
+  container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the image
+        run: docker build -t mobilink .
+      - name: The programs answer
+        run: docker run --rm mobilink bash -c "mobilink --version && diamond version && minimap2 --version && kraken2 --version | head -n 1"
+      - name: The packaged tables are in the image
+        run: docker run --rm mobilink python -c "from mobilink.dbsetup import data_file; import os; assert os.path.getsize(data_file('mobility_core.tsv.gz')) > 0"
+
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install "mkdocs>=1.6,<2"
+      - run: mkdocs build --strict

@@ -13,8 +13,9 @@ nanopore metagenomes, but it accepts any two classes of features on any molecule
 The usual measure is the share of ARG-carrying reads that also carry an MGE. That share grows with read length even
 when the genes are placed at random, so it cannot be compared between studies. mobilink replaces it with two things:
 
-- **The net linked fraction**, an effect size. It is the share of A genes that have a B gene within a distance *w*
-  (default 2 kb), beyond what chance placement gives. It is 0 under chance and stays the same when reads get shorter.
+- **The net linked fraction**, an effect size. Each A gene unit has two flanks; the value is the share of flanks
+  with a whole B gene within a distance *w* (default 2 kb), beyond what chance placement gives. It is 0 under chance
+  and stays the same when reads get shorter.
 - **A test against chance** that keeps the A genes where they are, respects the host of each read, and counts reads
   covering the same genomic locus as one observation.
 
